@@ -39,16 +39,17 @@ class _LoginWithGoogleWidgetState extends State<LoginWithGoogleWidget> {
 
   Future<AuthResponse> _googleSignIn() async {
     const webClientId =
-        '908648840097-9hul2hhkr9h7e7i6rtcl5pevpdneprfh.apps.googleusercontent.com';
+        '908964141678-i47g1shqat155lh1cg403ggi5t1d18i5.apps.googleusercontent.com';
 
     const iosClientId =
-        '908648840097-8gktce1mbh6f6akms87vtovbep1obfv3.apps.googleusercontent.com';
+        '908964141678-qgk9i8a6jbk1cbl6itge83i1j68u2ods.apps.googleusercontent.com';
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: iosClientId,
       serverClientId: webClientId,
     );
     final googleUser = await googleSignIn.signIn();
+
     final googleAuth = await googleUser!.authentication;
     final accessToken = googleAuth.accessToken;
     final idToken = googleAuth.idToken;
