@@ -60,8 +60,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
             gap(value: 56),
             CustomTextFormField(
               controller: _nameController,
-              labelText: AppStrings.email,
-              errorCheckType: ErrorCheckType.email,
+              labelText: AppStrings.name,
             ),
             gap(value: 24),
             CustomTextFormField(
@@ -103,12 +102,12 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                   style: textTheme.bodyMedium,
                   children: [
                     TextSpan(
-                      text: AppStrings.alreadyHaveAnAccount,
+                      text: "${AppStrings.alreadyHaveAnAccount} ",
                       style: textTheme.bodyMedium!
                           .copyWith(color: AppColors.hintTextColor),
                     ),
                     TextSpan(
-                      text: " ${AppStrings.login}",
+                      text: AppStrings.login,
                       style: textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.primaryColor,

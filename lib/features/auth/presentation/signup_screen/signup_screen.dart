@@ -22,7 +22,7 @@ class SignupScreen extends StatelessWidget {
         AppStrings.signUp,
         style: Theme.of(context)
             .textTheme
-            .headlineMedium!
+            .headlineLarge!
             .copyWith(fontWeight: FontWeight.bold),
       ),
     );

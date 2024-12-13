@@ -79,12 +79,12 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   style: textTheme.bodyMedium,
                   children: [
                     TextSpan(
-                      text: AppStrings.dontHaveAnAccount,
+                      text: "${AppStrings.dontHaveAnAccount} ",
                       style: textTheme.bodyMedium!
                           .copyWith(color: AppColors.hintTextColor),
                     ),
                     TextSpan(
-                      text: " ${AppStrings.signUp}",
+                      text: AppStrings.signUp,
                       style: textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.primaryColor,

@@ -44,7 +44,7 @@ class _LoginWithGoogleWidgetState extends State<LoginWithGoogleWidget> {
     const iosClientId =
         '908648840097-8gktce1mbh6f6akms87vtovbep1obfv3.apps.googleusercontent.com';
 
-    final GoogleSignIn googleSignIn = GoogleSignIn( 
+    final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: iosClientId,
       serverClientId: webClientId,
     );
@@ -78,7 +78,7 @@ class _LoginWithGoogleWidgetState extends State<LoginWithGoogleWidget> {
         },
         child: Container(
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
