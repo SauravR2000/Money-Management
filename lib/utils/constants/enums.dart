@@ -1,0 +1,4 @@
+enum ErrorCheckType {
+  email,
+  password,
+}
