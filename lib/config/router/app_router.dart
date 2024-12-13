@@ -9,7 +9,8 @@ class AppRouter extends RootStackRouter {
         // of the replaceInRouteName property
         AutoRoute(
           initial: true,
-          page: Onboarding.page,
+          // page: Onboarding.page,
+          page: ForgotPasswordRoute.page,
         ),
       ];
 

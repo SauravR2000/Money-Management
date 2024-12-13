@@ -11,4 +11,26 @@ class AppStrings {
   static String orWith = "Or with";
   static String signupWithGoogle = "Sign Up with Google";
   static String alreadyHaveAnAccount = "Already have an account?";
+  static String verification = "Verification";
+
+  static String enterVerificationCode = "Enter your Verification Code";
+  static String sentVerificationMessageToEmail =
+      "We send verification code to your email";
+  static String checkInbox = " You can check your inbox.";
+  static String sendCodeAgain = "I didn’t received the code? Send again";
+
+  static String dontWorry = "Don’t worry.";
+  static String enterEmail =
+      "Enter your email and we’ll send you a link to reset your password.";
+
+  static String continueString = "Continue";
+
+  static String emailOnTheWay = "Your email is on the way";
+  static String checkEmailAndFollowInstruction =
+      "Check your email and follow the instructions to reset your password";
+  static String backToLogin = "Back to Login";
+
+  static String resetPassword = "Reset Password";
+  static String newPassword = "New Password";
+  static String retypeNewPassword = "Retype new password";
 }
