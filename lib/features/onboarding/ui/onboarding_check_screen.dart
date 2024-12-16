@@ -15,7 +15,7 @@ class OnboardingCheckScreen extends StatelessWidget {
       create: (context) => getIt<OnboardingCubit>()..isLoggedIn(),
       child: BlocBuilder<OnboardingCubit, OnboardingState>(
         builder: (context, state) {
-          switch()
+          // switch()
           return Onboarding();
         },
       ),
