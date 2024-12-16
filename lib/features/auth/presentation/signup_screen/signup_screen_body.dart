@@ -1,8 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:money_management_app/features/auth/bloc/check_box_bloc/check_box_bloc.dart';
-import 'package:money_management_app/features/auth/presentation/login_screen/login_screen.dart';
 import 'package:money_management_app/features/auth/presentation/login_with_google_widget.dart';
 import 'package:money_management_app/features/auth/presentation/signup_screen/signup_screen.dart';
 import 'package:money_management_app/shared_widgets/custom_button.dart';
@@ -115,11 +116,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                          );
+                          context.router.push(const LoginRoute());
                         },
                     )
                   ],

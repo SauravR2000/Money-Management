@@ -9,12 +9,14 @@ class AppRouter extends RootStackRouter {
         // of the replaceInRouteName property
         AutoRoute(
           initial: true,
-          page: Onboarding.page,
+          page: OnboardingRoute.page,
         ),
+        AutoRoute(page: LoginRoute.page),
+        AutoRoute(page: SignupRoute.page),
+        AutoRoute(page: PincodeRoute.page),
+        AutoRoute(page: ConfirmPincodeRoute.page),
       ];
 
   @override
-  List<AutoRouteGuard> get guards => [
-        // optionally add root guards here
-      ];
+  List<AutoRouteGuard> get guards => [];
 }

@@ -1,10 +1,8 @@
-import 'dart:developer';
 import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:money_management_app/features/auth/presentation/signup_screen/signup_screen.dart';
 import 'package:money_management_app/features/data/onboarding_items.dart';
 import 'package:money_management_app/features/onboarding/cubit/onboarding_cubit.dart';
 
@@ -17,8 +15,6 @@ buildCarouselIndicator(
   return BlocBuilder<OnboardingCubit, OnboardingState>(
     bloc: onboardingCubit,
     builder: (context, state) {
-      log("rebuild");
-
       currentPage = onboardingCubit.page;
 
       return Row(
@@ -43,14 +39,14 @@ buildCarouselIndicator(
 }
 
 @RoutePage()
-class Onboarding extends StatefulWidget {
-  const Onboarding({super.key});
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
 
   @override
-  State<Onboarding> createState() => _OnboardingState();
+  State<OnboardingScreen> createState() => _OnboardingState();
 }
 
-class _OnboardingState extends State<Onboarding> {
+class _OnboardingState extends State<OnboardingScreen> {
   final CarouselSliderController carouselSliderController =
       CarouselSliderController();
 
@@ -138,9 +134,7 @@ class _OnboardingState extends State<Onboarding> {
                     child: ElevatedButton(
                       style: Theme.of(context).elevatedButtonTheme.style,
                       onPressed: () {
-                        // context.router.push(const SignupRoute());
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SignupScreen()));
+                        context.router.push(const SignupRoute());
                       },
                       child: const Text('Sign Up'),
                     ),

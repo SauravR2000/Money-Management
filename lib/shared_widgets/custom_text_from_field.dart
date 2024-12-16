@@ -77,9 +77,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             color: AppColors.hintTextColor,
           ),
           hintText: widget.hintText,
-          hintStyle: TextStyle(
-            color: AppColors.primaryColor,
-          ),
+          // hintStyle: TextStyle(
+          //   color: AppColors.primaryColor,
+          // ),
+          hintStyle: Theme.of(context).textTheme.bodyMedium,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
