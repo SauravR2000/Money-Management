@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
+import 'package:money_management_app/features/auth/presentation/forgot_password_screen/email_sent_screen.dart';
+import 'package:money_management_app/features/auth/presentation/reset_password_screen/reset_password_screen.dart';
 import 'package:money_management_app/features/pincode/ui/pincode_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -44,18 +46,16 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    // return MaterialApp.router(
+    //   debugShowCheckedModeBanner: false,
+    //   theme: myTheme,
+    //   routerConfig: _appRouter.config(),
+    // );
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: myTheme,
       routerConfig: _appRouter.config(),
     );
   }
-
-  // Widget build(BuildContext context) {
-  //   return MaterialApp(
-  //     debugShowCheckedModeBanner: false,
-  //     theme: myTheme,
-  //     home: PincodeScreen(),
-  //   );
-  // }
 }

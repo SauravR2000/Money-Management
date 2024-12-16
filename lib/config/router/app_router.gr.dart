@@ -46,6 +46,9 @@ class ConfirmPincodeRoute extends _i7.PageRouteInfo<void> {
 /// [_i2.LoginScreen]
 class LoginRoute extends _i7.PageRouteInfo<void> {
   const LoginRoute({List<_i7.PageRouteInfo>? children})
+/// [_i2.LoginScreen]
+class LoginRoute extends _i7.PageRouteInfo<void> {
+  const LoginRoute({List<_i7.PageRouteInfo>? children})
       : super(
           LoginRoute.name,
           initialChildren: children,
@@ -54,8 +57,10 @@ class LoginRoute extends _i7.PageRouteInfo<void> {
   static const String name = 'LoginRoute';
 
   static _i7.PageInfo page = _i7.PageInfo(
+  static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
+      return const _i2.LoginScreen();
       return const _i2.LoginScreen();
     },
   );
@@ -143,6 +148,7 @@ class PincodeRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'PincodeRoute';
 
+  static _i7.PageInfo page = _i7.PageInfo(
   static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
