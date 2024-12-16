@@ -1,10 +1,8 @@
-import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
-import 'package:money_management_app/features/auth/presentation/forgot_password_screen/email_sent_screen.dart';
-import 'package:money_management_app/features/auth/presentation/reset_password_screen/reset_password_screen.dart';
+import 'package:money_management_app/injection/injection_container.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -21,9 +19,8 @@ void main() async {
     anonKey: dotenv.env['SUPABASE_ANNON_KEY']!,
   );
 
-  //Initialize secure shared pref
-  await EncryptedSharedPreferences.initialize(
-      dotenv.env['SECURE_STORAGE_KEY']!);
+  // Initialize GetIt for DI
+  await configureDependencies();
 
   runApp(const MyApp());
 }
@@ -42,15 +39,15 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp.router(
-    //   debugShowCheckedModeBanner: false,
-    //   theme: myTheme,
-    //   routerConfig: _appRouter.config(),
-    // );
-
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: ResetPasswordScreen(),
+      theme: myTheme,
+      routerConfig: _appRouter.config(),
     );
+
+    // return MaterialApp(
+    //   debugShowCheckedModeBanner: false,
+    //   home: ResetPasswordScreen(),
+    // );
   }
 }

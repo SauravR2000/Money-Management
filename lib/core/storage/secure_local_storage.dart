@@ -1,26 +1,26 @@
-import 'package:encrypt_shared_preferences/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class SecureLocalStorage {
-  static String userId = "userId";
-  static String token = "token";
+  String userId = "userId";
+  String token = "token";
 
-  late EncryptedSharedPreferences sharedPref;
+  late FlutterSecureStorage sharedPref;
 
   SecureLocalStorage() {
-    sharedPref = EncryptedSharedPreferences.getInstance();
+    sharedPref = FlutterSecureStorage();
   }
 
-  String getStringValue({required String key}) {
-    return sharedPref.getString(key) ?? "";
+  Future<String> getStringValue({required String key}) async {
+    return await sharedPref.read(key: key) ?? "";
   }
 
-  void storeStringValue({required String key, required String value}) {
-    sharedPref.setString(key, value);
+  void storeStringValue({required String key, required String value}) async {
+    await sharedPref.write(key: key, value: value);
   }
 
-  void deleteValue({required String key}) {
-    sharedPref.remove(key);
+  void deleteValue({required String key}) async {
+    await sharedPref.delete(key: key);
   }
 }

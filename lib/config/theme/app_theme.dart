@@ -38,5 +38,8 @@ ThemeData appTheme() {
         padding: const EdgeInsets.symmetric(horizontal: 12),
       ),
     ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: Colors.white,
+    ),
   );
 }

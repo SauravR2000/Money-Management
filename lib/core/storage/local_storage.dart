@@ -2,9 +2,9 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @singleton
-class LocalStorage {
-  static String userId = "userId";
-  static String token = "token";
+class LocalStorageSharedPref {
+  String userId = "userId";
+  String token = "token";
 
   Future<SharedPreferences> getSharedPreferenceInstance() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

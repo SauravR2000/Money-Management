@@ -138,9 +138,9 @@ class _OnboardingState extends State<Onboarding> {
                     child: ElevatedButton(
                       style: Theme.of(context).elevatedButtonTheme.style,
                       onPressed: () {
-                        // context.router.push(const SignupRoute());
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SignupScreen()));
+                        context.router.push(const SignupRoute());
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => const SignupScreen()));
                       },
                       child: const Text('Sign Up'),
                     ),
