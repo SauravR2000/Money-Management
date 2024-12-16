@@ -81,7 +81,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void storeUserCredentials(AuthResponse response) {
     log("local storage");
-    _localStorage.storeStringValue(
+    _secureLocalStorage.storeStringValue(
       key: _localStorage.userId,
       value: response.user?.id ?? "",
     );
