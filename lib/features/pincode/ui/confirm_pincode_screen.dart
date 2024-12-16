@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:money_management_app/features/pincode/ui/pin_code_widget.dart';
 
 @RoutePage()
-class PincodeScreen extends StatelessWidget {
-  const PincodeScreen({super.key});
+class ConfirmPincodeScreen extends StatelessWidget {
+  const ConfirmPincodeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return PinCodeWidget(
-        screenTitle: 'Let\'s Setup your PIN',
-        destination: Destination.conformPincode);
+        screenTitle: 'Ok. Re enter your PIN',
+        destination: Destination.dashboard);
   }
 }

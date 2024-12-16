@@ -5,6 +5,8 @@ import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
 import 'package:money_management_app/features/auth/presentation/forgot_password_screen/email_sent_screen.dart';
 import 'package:money_management_app/features/auth/presentation/reset_password_screen/reset_password_screen.dart';
+import 'package:money_management_app/features/pincode/ui/pincode_screen.dart';
+import 'package:money_management_app/injection/injection_container.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -24,6 +26,8 @@ void main() async {
   //Initialize secure shared pref
   await EncryptedSharedPreferences.initialize(
       dotenv.env['SECURE_STORAGE_KEY']!);
+
+  await configureDependencies();
 
   runApp(const MyApp());
 }
@@ -50,7 +54,8 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ResetPasswordScreen(),
+      theme: myTheme,
+      routerConfig: _appRouter.config(),
     );
   }
 }

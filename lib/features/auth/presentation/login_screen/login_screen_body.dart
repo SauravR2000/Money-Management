@@ -1,6 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:money_management_app/features/auth/presentation/signup_screen/signup_screen.dart';
+import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:money_management_app/shared_widgets/custom_button.dart';
 import 'package:money_management_app/shared_widgets/custom_text_from_field.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
@@ -59,7 +60,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             ),
             gap(value: 40),
             CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                // TODO: REMOVE THIS CODE
+                context.router.push(const PincodeRoute());
+              },
               text: AppStrings.login,
             ),
             gap(value: 33),
@@ -92,11 +96,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SignupScreen(),
-                          ));
+                          context.router.push(
+                            const SignupRoute(),
+                          );
                         },
-                    )
+                    ),
                   ],
                 ),
               ),
