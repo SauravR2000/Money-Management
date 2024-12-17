@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/features/auth/bloc/auth_bloc/auth_bloc.dart';
+import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:money_management_app/features/auth/bloc/check_box_bloc/check_box_bloc.dart';
 import 'package:money_management_app/features/auth/presentation/login_screen/login_screen.dart';
 import 'package:money_management_app/features/auth/presentation/login_with_google_widget.dart';

@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
         AppStrings.login,
         style: Theme.of(context)
             .textTheme
-            .headlineMedium!
+            .headlineLarge!
             .copyWith(fontWeight: FontWeight.bold),
       ),
     );

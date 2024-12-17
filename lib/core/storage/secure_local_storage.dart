@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 class SecureLocalStorage {
   String userId = "userId";
   String token = "token";
+  String pinCode = "pinCode";
 
   late FlutterSecureStorage sharedPref;
 

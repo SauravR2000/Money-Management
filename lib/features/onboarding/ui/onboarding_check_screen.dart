@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:money_management_app/features/onboarding/cubit/onboarding_check_cubit/onboarding_check_cubit.dart';
-import 'package:money_management_app/features/onboarding/ui/onboarding.dart';
+import 'package:money_management_app/features/onboarding/ui/onboarding_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 
-@RoutePage()  
+@RoutePage()
 class OnboardingCheckScreen extends StatelessWidget {
   const OnboardingCheckScreen({super.key});
 
@@ -21,13 +21,13 @@ class OnboardingCheckScreen extends StatelessWidget {
               return CircularProgressIndicator();
 
             case GotoOnboardingState():
-              return Onboarding();
+              return OnboardingScreen();
 
             case GotoDashboardState():
               return DashboardScreen();
 
             default:
-              return Onboarding();
+              return OnboardingScreen();
           }
         },
       ),

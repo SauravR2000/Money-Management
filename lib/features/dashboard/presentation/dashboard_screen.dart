@@ -24,7 +24,7 @@ class DashboardScreen extends StatelessWidget {
                 bloc: authBloc,
                 listener: (context, state) {
                   if (state is AuthSuccess) {
-                    context.router.replaceAll([Onboarding()]);
+                    context.router.replaceAll([OnboardingRoute()]);
                   }
                 },
                 child: ElevatedButton(
