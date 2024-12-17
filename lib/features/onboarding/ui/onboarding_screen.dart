@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
