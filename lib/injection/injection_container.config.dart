@@ -11,7 +11,6 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:money_management_app/core/network/auth_service.dart' as _i1005;
-import 'package:money_management_app/core/network/auth_service.dart' as _i1005;
 import 'package:money_management_app/core/storage/local_storage.dart' as _i614;
 import 'package:money_management_app/core/storage/secure_local_storage.dart'
     as _i147;

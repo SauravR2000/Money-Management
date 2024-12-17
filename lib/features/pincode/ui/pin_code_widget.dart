@@ -4,8 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
+import 'package:money_management_app/core/storage/secure_local_storage.dart';
+// import 'package:money_management_app/core/storage/secure_local_storage.dart';
 import 'package:money_management_app/features/pincode/cubit/pincode_cubit.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 
@@ -27,11 +28,13 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
   bool isPinVisible = false;
 
   late PincodeCubit _pincodeCubit;
+  late SecureLocalStorage storage;
 
   @override
   void initState() {
     super.initState();
     _pincodeCubit = getIt<PincodeCubit>();
+    storage = getIt<SecureLocalStorage>();
   }
 
   /// this widget will be use for each digit
@@ -100,7 +103,6 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                                       .white // Filled color for entered digit
                                   : Colors
                                       .transparent, // Background for empty field
-
                               border: Border.all(
                                 color: Colors.white
                                     .withValues(alpha: 0.5), // Border color
@@ -132,29 +134,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                             ),
                             // No text displayed inside the container
                           );
-                        default:
                       }
-
-                      return Container(
-                        margin: const EdgeInsets.all(8.0),
-                        width: 30, // Set a fixed width for circular design
-                        height: 30, // Match height to make it circular
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(20), // Circular shape
-                          color: index < _pincodeCubit.pincodeString.length
-                              ? Colors.white // Filled color for entered digit
-                              : Colors
-                                  .transparent, // Background for empty field
-
-                          border: Border.all(
-                            color: Colors.white
-                                .withValues(alpha: 0.5), // Border color
-                            width: 3.5, // Border thickness
-                          ),
-                        ),
-                        // No text displayed inside the container
-                      );
                     },
                   );
                 },
@@ -210,21 +190,27 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                       onPressed: () {
                         switch (widget.destination) {
                           case Destination.conformPincode:
-                            context.router.push(ConfirmPincodeRoute());
+                            _pincodeCubit.clearAllPincode(widget.destination);
+                            if (_pincodeCubit.pincodeString ==
+                                    storage.pinCode &&
+                                storage.token.isNotEmpty) {
+                              // TODO: Navigate to Dashboard
+                              log('Navigate to dashboard');
+                            } else {
+                              context.router.push(ConfirmPincodeRoute());
+                            }
                             break;
                           case Destination.dashboard:
-                            log("value pincode = ${_pincodeCubit.pincodeString} confirm = ${_pincodeCubit.confirmPincodeString}");
-                            log('Are the strings equal? ${_pincodeCubit.pincodeString == _pincodeCubit.confirmPincodeString}');
-
-                            if (_pincodeCubit.pincodeString ==
+                            if (_pincodeCubit.pincode ==
                                 _pincodeCubit.confirmPincodeString) {
+                              _pincodeCubit.clearAllPincode(widget.destination);
                               context.router.popForced();
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   duration: Duration(milliseconds: 600),
                                   content: Text(
-                                    "Pincode does not match",
+                                    "Invalid Pincode",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -238,23 +224,23 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                               );
                             }
                             break;
-                          default:
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                duration: Duration(milliseconds: 600),
-                                content: Text(
-                                  "Invalid Pincode",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                ),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
+                          // default:
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //     SnackBar(
+                          //       duration: Duration(milliseconds: 600),
+                          //       content: Text(
+                          //         "Invalid Pincode",
+                          //         style: Theme.of(context)
+                          //             .textTheme
+                          //             .bodyMedium!
+                          //             .copyWith(
+                          //               fontWeight: FontWeight.bold,
+                          //               color: Colors.white,
+                          //             ),
+                          //       ),
+                          //       backgroundColor: Colors.red,
+                          //     ),
+                          //   );
                         }
                       },
                       child: const Icon(

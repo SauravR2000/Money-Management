@@ -3,8 +3,9 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class SecureLocalStorage {
-  static String userId = "userId";
-  static String token = "token";
+  String userId = "userId";
+  String token = "token";
+  String pinCode = "pinCode";
 
   late EncryptedSharedPreferences sharedPref;
 
