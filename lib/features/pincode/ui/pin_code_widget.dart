@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
@@ -28,9 +29,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
 
   late PincodeCubit _pincodeCubit;
   late SecureLocalStorage storage;
-
   late String userToken;
-
   late String storedPinCode;
 
   @override
@@ -38,15 +37,12 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
     super.initState();
     _pincodeCubit = getIt<PincodeCubit>();
     storage = getIt<SecureLocalStorage>();
-
-    getUserTokenAndPinCode();
+    getUserTokenAndPincode();
   }
 
-  getUserTokenAndPinCode() async {
+  getUserTokenAndPincode() async {
     userToken = await storage.getStringValue(key: storage.token);
     storedPinCode = await storage.getStringValue(key: storage.pinCode);
-
-    log("stored pincode = $storedPinCode");
   }
 
   /// this widget will be use for each digit
@@ -204,21 +200,16 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
 
                         switch (widget.destination) {
                           case Destination.confirmPincode:
-                            // _pincodeCubit.clearAllPincode(widget.destination);
                             if (_pincodeCubit.pincodeString == storedPinCode &&
                                 userToken.isNotEmpty) {
                               log('Navigate to dashboard');
 
                               context.router.replaceAll([DashboardRoute()]);
-                            } else {
-                              context.router.push(ConfirmPincodeRoute());
-                            }
-                            break;
-                          case Destination.dashboard:
-                            if (_pincodeCubit.pincode ==
-                                _pincodeCubit.confirmPincodeString) {
+                              _pincodeCubit.clearAllPincode(widget.destination);
+                            } else if (storedPinCode.isEmpty &&
+                                userToken.isNotEmpty) {
                               // _pincodeCubit.clearAllPincode(widget.destination);
-                              context.router.replaceAll([DashboardRoute()]);
+                              context.router.push(ConfirmPincodeRoute());
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -238,23 +229,29 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                               );
                             }
                             break;
-                          //   // default:
-                          //   //   ScaffoldMessenger.of(context).showSnackBar(
-                          //   //     SnackBar(
-                          //   //       duration: Duration(milliseconds: 600),
-                          //   //       content: Text(
-                          //   //         "Invalid Pincode",
-                          //   //         style: Theme.of(context)
-                          //   //             .textTheme
-                          //   //             .bodyMedium!
-                          //   //             .copyWith(
-                          //   //               fontWeight: FontWeight.bold,
-                          //   //               color: Colors.white,
-                          //   //             ),
-                          //   //       ),
-                          //   //       backgroundColor: Colors.red,
-                          //   //     ),
-                          //   //   );
+                          case Destination.dashboard:
+                            if (_pincodeCubit.pincode ==
+                                _pincodeCubit.confirmPincodeString) {
+                              context.router.replaceAll([DashboardRoute()]);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  duration: Duration(milliseconds: 600),
+                                  content: Text(
+                                    "Invalid Pincode. Please try again.",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                            break;
                         }
                       },
                       child: const Icon(
