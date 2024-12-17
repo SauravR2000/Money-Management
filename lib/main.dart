@@ -1,4 +1,3 @@
-import 'package:encrypt_shared_preferences/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
@@ -23,10 +22,7 @@ void main() async {
     anonKey: dotenv.env['SUPABASE_ANNON_KEY']!,
   );
 
-  //Initialize secure shared pref
-  await EncryptedSharedPreferences.initialize(
-      dotenv.env['SECURE_STORAGE_KEY']!);
-
+  // Initialize GetIt for DI
   await configureDependencies();
 
   runApp(const MyApp());
@@ -54,8 +50,7 @@ class _MyAppState extends State<MyApp> {
 
     // return MaterialApp(
     //   debugShowCheckedModeBanner: false,
-    //   theme: myTheme,
-    //   routerConfig: _appRouter.config(),
+    //   home: ResetPasswordScreen(),
     // );
   }
 }

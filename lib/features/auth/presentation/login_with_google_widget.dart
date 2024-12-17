@@ -1,11 +1,13 @@
+import 'dart:developer';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:money_management_app/features/dashboard/presentation/dashboard_screen.dart';
-import 'package:money_management_app/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:money_management_app/config/router/app_router.gr.dart';
+import 'package:money_management_app/main.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/utils/constants/colors.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginWithGoogleWidget extends StatefulWidget {
@@ -25,13 +27,16 @@ class _LoginWithGoogleWidgetState extends State<LoginWithGoogleWidget> {
   void _setupAuthListener() {
     supabase.auth.onAuthStateChange.listen((data) {
       final event = data.event;
+      log("supabase event = $event");
       if (event == AuthChangeEvent.signedIn) {
         if (mounted) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const DashboardScreen(),
-            ),
-          );
+          // Navigator.of(context).pushReplacement(
+          //   MaterialPageRoute(
+          //     builder: (context) => const DashboardScreen(),
+          //   ),
+          // );
+
+          context.router.replaceAll([DashboardRoute()]);
         }
       }
     });

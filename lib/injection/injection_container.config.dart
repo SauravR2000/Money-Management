@@ -18,6 +18,10 @@ import 'package:money_management_app/features/auth/bloc/auth_bloc/auth_bloc.dart
     as _i147;
 import 'package:money_management_app/features/auth/bloc/check_box_bloc/check_box_bloc.dart'
     as _i215;
+import 'package:money_management_app/features/onboarding/cubit/onboarding_check_cubit/onboarding_check_cubit.dart'
+    as _i801;
+import 'package:money_management_app/features/onboarding/cubit/onboarding_cubit.dart'
+    as _i798;
 import 'package:money_management_app/features/pincode/cubit/pincode_cubit.dart'
     as _i470;
 
@@ -34,10 +38,17 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1005.AuthService>(() => _i1005.AuthService());
     gh.factory<_i215.CheckBoxBloc>(() => _i215.CheckBoxBloc());
+    gh.factory<_i801.OnboardingCheckCubit>(() => _i801.OnboardingCheckCubit());
+    gh.factory<_i798.OnboardingCubit>(() => _i798.OnboardingCubit());
     gh.singleton<_i147.SecureLocalStorage>(() => _i147.SecureLocalStorage());
-    gh.singleton<_i614.LocalStorage>(() => _i614.LocalStorage());
+    gh.singleton<_i614.LocalStorageSharedPref>(
+        () => _i614.LocalStorageSharedPref());
     gh.singleton<_i470.PincodeCubit>(() => _i470.PincodeCubit());
-    gh.factory<_i147.AuthBloc>(() => _i147.AuthBloc(gh<_i1005.AuthService>()));
+    gh.factory<_i147.AuthBloc>(() => _i147.AuthBloc(
+          gh<_i1005.AuthService>(),
+          gh<_i147.SecureLocalStorage>(),
+          gh<_i614.LocalStorageSharedPref>(),
+        ));
     return this;
   }
 }

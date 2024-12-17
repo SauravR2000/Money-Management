@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:money_management_app/features/data/onboarding_items.dart';
 import 'package:money_management_app/features/onboarding/cubit/onboarding_cubit.dart';
 
@@ -135,6 +138,8 @@ class _OnboardingState extends State<OnboardingScreen> {
                       style: Theme.of(context).elevatedButtonTheme.style,
                       onPressed: () {
                         context.router.push(const SignupRoute());
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => const SignupScreen()));
                       },
                       child: const Text('Sign Up'),
                     ),

@@ -33,4 +33,6 @@ class AppStrings {
   static String resetPassword = "Reset Password";
   static String newPassword = "New Password";
   static String retypeNewPassword = "Retype new password";
+
+  static String signupSuccess = "Signup Successful";
 }

@@ -7,14 +7,11 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         // HomeScreen is generated as HomeRoute because
         // of the replaceInRouteName property
-        AutoRoute(
-          initial: true,
-          page: OnboardingRoute.page,
-        ),
+        AutoRoute(page: OnboardingCheckRoute.page, initial: true),
+        AutoRoute(page: OnboardingRoute.page),
         AutoRoute(page: LoginRoute.page),
         AutoRoute(page: SignupRoute.page),
-        AutoRoute(page: PincodeRoute.page),
-        AutoRoute(page: ConfirmPincodeRoute.page),
+        AutoRoute(page: DashboardRoute.page),
       ];
 
   @override
