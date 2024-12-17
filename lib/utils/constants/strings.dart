@@ -47,4 +47,7 @@ class AppStrings {
   static String description = "Description";
   static String wallet = "Wallet";
   static String addAttachment = "Add attachment";
+
+  static String camera = "Camera";
+  static String image = "Image";
 }

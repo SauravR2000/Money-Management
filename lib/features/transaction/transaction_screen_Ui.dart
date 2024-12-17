@@ -18,6 +18,7 @@ class TransactionScreenUi extends StatelessWidget {
       backgroundColor: color,
       appBar: AppBar(
         backgroundColor: color,
+        centerTitle: true,
         title: Text(
           title,
           style: Theme.of(context)

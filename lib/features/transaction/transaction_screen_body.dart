@@ -1,10 +1,10 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/features/transaction/cubit/drop_down/drop_down_cubit_cubit.dart';
 import 'package:money_management_app/features/transaction/widget/add_attachment.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/borderless_textfield.dart';
+import 'package:money_management_app/shared_widgets/custom_button.dart';
 import 'package:money_management_app/shared_widgets/custom_drop_down.dart';
 import 'package:money_management_app/shared_widgets/custom_text_from_field.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
@@ -88,6 +88,7 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
                   controller: _descriptionController,
                   labelText: AppStrings.description,
                   hintColor: Colors.black,
+                  hintFontSize: 16,
                 ),
                 gap(value: 20),
                 categoryDropdown(
@@ -111,6 +112,14 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
                 // ),
 
                 AddAttachmentWidget(),
+                gap(value: 30),
+                SizedBox(
+                  width: double.maxFinite,
+                  child: CustomButton(
+                    text: AppStrings.continueString,
+                    onPressed: () {},
+                  ),
+                ),
               ],
             ),
           ),

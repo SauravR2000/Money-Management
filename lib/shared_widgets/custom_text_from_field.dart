@@ -16,6 +16,7 @@ class CustomTextFormField extends StatefulWidget {
   final double borderRadius;
   final Color borderColor;
   final Color hintColor;
+  final double hintFontSize;
 
   const CustomTextFormField({
     super.key,
@@ -29,6 +30,7 @@ class CustomTextFormField extends StatefulWidget {
     this.borderRadius = 8.0,
     this.borderColor = AppColors.borderColor,
     this.hintColor = AppColors.hintTextColor,
+    this.hintFontSize = 12,
   });
 
   @override
@@ -79,7 +81,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         fillColor: const Color(0xFFF6FAF9),
         labelText: widget.labelText,
         labelStyle: TextStyle(
-          fontSize: 12,
+          fontSize: widget.hintFontSize,
           color: widget.hintColor,
         ),
         hintText: widget.hintText,
