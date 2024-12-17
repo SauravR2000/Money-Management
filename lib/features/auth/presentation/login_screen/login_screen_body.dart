@@ -123,11 +123,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
       bloc: _authBloc,
       listener: (context, state) {
         if (state is AuthSuccess) {
-          context.router.replaceAll([DashboardRoute()]);
+          context.router.replaceAll([PincodeRoute()]);
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(AppStrings.signupSuccess),
+              content: Text(AppStrings.signinSuccess),
               backgroundColor: Colors.green,
             ),
           );

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
@@ -10,7 +9,7 @@ import 'package:money_management_app/core/storage/secure_local_storage.dart';
 import 'package:money_management_app/features/pincode/cubit/pincode_cubit.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 
-enum Destination { conformPincode, dashboard }
+enum Destination { confirmPincode, dashboard }
 
 @RoutePage()
 class PinCodeWidget extends StatefulWidget {
@@ -30,11 +29,24 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
   late PincodeCubit _pincodeCubit;
   late SecureLocalStorage storage;
 
+  late String userToken;
+
+  late String storedPinCode;
+
   @override
   void initState() {
     super.initState();
     _pincodeCubit = getIt<PincodeCubit>();
     storage = getIt<SecureLocalStorage>();
+
+    getUserTokenAndPinCode();
+  }
+
+  getUserTokenAndPinCode() async {
+    userToken = await storage.getStringValue(key: storage.token);
+    storedPinCode = await storage.getStringValue(key: storage.pinCode);
+
+    log("stored pincode = $storedPinCode");
   }
 
   /// this widget will be use for each digit
@@ -90,7 +102,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                       log("rebuild");
 
                       switch (widget.destination) {
-                        case Destination.conformPincode:
+                        case Destination.confirmPincode:
                           return Container(
                             margin: const EdgeInsets.all(8.0),
                             width: 30, // Set a fixed width for circular design
@@ -188,14 +200,16 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                     padding: const EdgeInsets.only(top: 32),
                     child: TextButton(
                       onPressed: () {
+                        log("stored passkey = $storedPinCode entered pin = ${_pincodeCubit.confirmPincodeString}");
+
                         switch (widget.destination) {
-                          case Destination.conformPincode:
-                            _pincodeCubit.clearAllPincode(widget.destination);
-                            if (_pincodeCubit.pincodeString ==
-                                    storage.pinCode &&
-                                storage.token.isNotEmpty) {
-                              // TODO: Navigate to Dashboard
+                          case Destination.confirmPincode:
+                            // _pincodeCubit.clearAllPincode(widget.destination);
+                            if (_pincodeCubit.pincodeString == storedPinCode &&
+                                userToken.isNotEmpty) {
                               log('Navigate to dashboard');
+
+                              context.router.replaceAll([DashboardRoute()]);
                             } else {
                               context.router.push(ConfirmPincodeRoute());
                             }
@@ -203,8 +217,8 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                           case Destination.dashboard:
                             if (_pincodeCubit.pincode ==
                                 _pincodeCubit.confirmPincodeString) {
-                              _pincodeCubit.clearAllPincode(widget.destination);
-                              context.router.popForced();
+                              // _pincodeCubit.clearAllPincode(widget.destination);
+                              context.router.replaceAll([DashboardRoute()]);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -224,23 +238,23 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                               );
                             }
                             break;
-                          // default:
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //     SnackBar(
-                          //       duration: Duration(milliseconds: 600),
-                          //       content: Text(
-                          //         "Invalid Pincode",
-                          //         style: Theme.of(context)
-                          //             .textTheme
-                          //             .bodyMedium!
-                          //             .copyWith(
-                          //               fontWeight: FontWeight.bold,
-                          //               color: Colors.white,
-                          //             ),
-                          //       ),
-                          //       backgroundColor: Colors.red,
-                          //     ),
-                          //   );
+                          //   // default:
+                          //   //   ScaffoldMessenger.of(context).showSnackBar(
+                          //   //     SnackBar(
+                          //   //       duration: Duration(milliseconds: 600),
+                          //   //       content: Text(
+                          //   //         "Invalid Pincode",
+                          //   //         style: Theme.of(context)
+                          //   //             .textTheme
+                          //   //             .bodyMedium!
+                          //   //             .copyWith(
+                          //   //               fontWeight: FontWeight.bold,
+                          //   //               color: Colors.white,
+                          //   //             ),
+                          //   //       ),
+                          //   //       backgroundColor: Colors.red,
+                          //   //     ),
+                          //   //   );
                         }
                       },
                       child: const Icon(
