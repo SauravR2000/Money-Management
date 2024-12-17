@@ -9,7 +9,8 @@ class PincodeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PinCodeWidget(
-        screenTitle: 'Let\'s Setup your PIN',
-        destination: Destination.conformPincode);
+      screenTitle: 'Let\'s Setup your PIN',
+      destination: Destination.confirmPincode,
+    );
   }
 }

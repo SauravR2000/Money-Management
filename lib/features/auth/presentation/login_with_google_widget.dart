@@ -21,26 +21,26 @@ class _LoginWithGoogleWidgetState extends State<LoginWithGoogleWidget> {
   @override
   void initState() {
     super.initState();
-    _setupAuthListener();
+    // _setupAuthListener();
   }
 
-  void _setupAuthListener() {
-    supabase.auth.onAuthStateChange.listen((data) {
-      final event = data.event;
-      log("supabase event = $event");
-      if (event == AuthChangeEvent.signedIn) {
-        if (mounted) {
-          // Navigator.of(context).pushReplacement(
-          //   MaterialPageRoute(
-          //     builder: (context) => const DashboardScreen(),
-          //   ),
-          // );
+  // void _setupAuthListener() {
+  //   supabase.auth.onAuthStateChange.listen((data) {
+  //     final event = data.event;
+  //     log("supabase event = $event");
+  //     if (event == AuthChangeEvent.signedIn) {
+  //       if (mounted) {
+  //         // Navigator.of(context).pushReplacement(
+  //         //   MaterialPageRoute(
+  //         //     builder: (context) => const DashboardScreen(),
+  //         //   ),
+  //         // );
 
-          context.router.replaceAll([DashboardRoute()]);
-        }
-      }
-    });
-  }
+  //         context.router.replaceAll([DashboardRoute()]);
+  //       }
+  //     }
+  //   });
+  // }
 
   Future<AuthResponse> _googleSignIn() async {
     const webClientId =

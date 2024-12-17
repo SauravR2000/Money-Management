@@ -35,4 +35,5 @@ class AppStrings {
   static String retypeNewPassword = "Retype new password";
 
   static String signupSuccess = "Signup Successful";
+  static String signinSuccess = "Signin Successful";
 }

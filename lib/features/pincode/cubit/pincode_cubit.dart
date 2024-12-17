@@ -23,13 +23,18 @@ class PincodeCubit extends Cubit<PincodeState> {
   void pincodeNumber(int pincodeNumber, Destination destination) {
     log("called pin = $pincodeNumber  destination = $destination");
     switch (destination) {
-      case Destination.conformPincode:
+      case Destination.confirmPincode:
         pincodeString += pincodeNumber.toString();
         pincode = pincodeString;
         emit(PincodeNumberToStringState(number: pincodeString));
         break;
       case Destination.dashboard:
         confirmPincodeString += pincodeNumber.toString();
+
+        storage.storeStringValue(
+          key: storage.pinCode,
+          value: confirmPincodeString,
+        );
 
         emit(PincodeNumberToStringState(number: confirmPincodeString));
         break;
@@ -38,7 +43,7 @@ class PincodeCubit extends Cubit<PincodeState> {
 
   void pincodeBackspace(Destination destination) {
     switch (destination) {
-      case Destination.conformPincode:
+      case Destination.confirmPincode:
         if (pincodeString.isNotEmpty) {
           pincodeString = pincodeString.substring(0, pincodeString.length - 1);
           emit(PincodeWhenBackspacePressedState(enteredPincode: pincodeString));
@@ -57,7 +62,7 @@ class PincodeCubit extends Cubit<PincodeState> {
 
   void clearAllPincode(Destination destination) {
     switch (destination) {
-      case Destination.conformPincode:
+      case Destination.confirmPincode:
         if (pincodeString.isNotEmpty) {
           pincodeString = pincodeString.substring(
               0, pincodeString.length - pincodeString.length);
