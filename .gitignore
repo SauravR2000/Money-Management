@@ -144,9 +144,9 @@ unlinked_spec.ds
 
 
 #generated
-**/**.g.dart
-**/**.freezed.dart
-**/**.config.dart
+**.g.dart
+**.freezed.dart
+**.config.dart
 **.gr.dart
 lib/**/g.files/*.dart
 lib/localization/generated

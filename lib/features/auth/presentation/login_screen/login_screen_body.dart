@@ -123,7 +123,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
       bloc: _authBloc,
       listener: (context, state) {
         if (state is AuthSuccess) {
-          context.router.push(DashboardRoute());
+          context.router.replaceAll([DashboardRoute()]);
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
