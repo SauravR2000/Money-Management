@@ -7,4 +7,5 @@ class AppColors {
   static Color incomeColor = const Color(0xFF00A86B);
   static const Color lightGreyColor = Color(0xFFFCFCFC);
   static const Color borderColor = Color(0xFFF1F1FA);
+  static const Color violetColor = Color(0xFFEEE5FF);
 }
