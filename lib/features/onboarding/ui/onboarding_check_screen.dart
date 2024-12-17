@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:money_management_app/features/onboarding/cubit/onboarding_check_cubit/onboarding_check_cubit.dart';
 import 'package:money_management_app/features/onboarding/ui/onboarding_screen.dart';
+import 'package:money_management_app/features/pincode/ui/pincode_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 
 @RoutePage()
@@ -24,7 +25,7 @@ class OnboardingCheckScreen extends StatelessWidget {
               return OnboardingScreen();
 
             case GotoDashboardState():
-              return DashboardScreen();
+              return PincodeScreen();
 
             default:
               return OnboardingScreen();

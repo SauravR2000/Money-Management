@@ -24,20 +24,25 @@ class PincodeCubit extends Cubit<PincodeState> {
     log("called pin = $pincodeNumber  destination = $destination");
     switch (destination) {
       case Destination.confirmPincode:
-        pincodeString += pincodeNumber.toString();
-        pincode = pincodeString;
-        emit(PincodeNumberToStringState(number: pincodeString));
-        break;
+        if (pincodeString.length < 4) {
+          pincodeString += pincodeNumber.toString();
+          pincode = pincodeString;
+          emit(PincodeNumberToStringState(number: pincodeString));
+          break;
+        }
+
       case Destination.dashboard:
-        confirmPincodeString += pincodeNumber.toString();
+        if (confirmPincodeString.length < 4) {
+          confirmPincodeString += pincodeNumber.toString();
 
-        storage.storeStringValue(
-          key: storage.pinCode,
-          value: confirmPincodeString,
-        );
+          storage.storeStringValue(
+            key: storage.pinCode,
+            value: confirmPincodeString,
+          );
 
-        emit(PincodeNumberToStringState(number: confirmPincodeString));
-        break;
+          emit(PincodeNumberToStringState(number: confirmPincodeString));
+          break;
+        }
     }
   }
 
