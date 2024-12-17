@@ -43,15 +43,14 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      theme: myTheme,
-      routerConfig: _appRouter.config(),
-    );
-
-    // return MaterialApp(
+    // return MaterialApp.router(
     //   debugShowCheckedModeBanner: false,
     //   home: DashboardScreen(),
     // );
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AddExpenseScreen(),
+    );
   }
 }
