@@ -36,4 +36,15 @@ class AppStrings {
 
   static String signupSuccess = "Signup Successful";
   static String signinSuccess = "Signin Successful";
+
+  static String expense = "Expense";
+  static String income = "Income";
+
+  static String howMuch = "How much?";
+  static String rs = "Rs.";
+
+  static String category = "Category";
+  static String description = "Description";
+  static String wallet = "Wallet";
+  static String addAttachment = "Add attachment";
 }

@@ -3,3 +3,8 @@ enum ErrorCheckType {
   password,
   name,
 }
+
+enum TransactionType {
+  expense,
+  income,
+}

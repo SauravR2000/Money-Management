@@ -13,6 +13,9 @@ class CustomTextFormField extends StatefulWidget {
   final bool showError;
   final TextInputType textInputType;
   final ErrorCheckType? errorCheckType;
+  final double borderRadius;
+  final Color borderColor;
+  final Color hintColor;
 
   const CustomTextFormField({
     super.key,
@@ -23,6 +26,9 @@ class CustomTextFormField extends StatefulWidget {
     this.showError = false,
     this.textInputType = TextInputType.text,
     this.errorCheckType,
+    this.borderRadius = 8.0,
+    this.borderColor = AppColors.borderColor,
+    this.hintColor = AppColors.hintTextColor,
   });
 
   @override
@@ -62,7 +68,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final enabledBorderColor = Colors.grey[300]!;
+    final enabledBorderColor = widget.borderColor;
 
     return TextFormField(
       controller: widget.controller,
@@ -74,7 +80,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         labelText: widget.labelText,
         labelStyle: TextStyle(
           fontSize: 12,
-          color: AppColors.hintTextColor,
+          color: widget.hintColor,
         ),
         hintText: widget.hintText,
         hintStyle: TextStyle(
@@ -96,8 +102,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius:
-              BorderRadius.circular(8.0), // Rounded border when enabled
+          borderRadius: BorderRadius.circular(
+              widget.borderRadius), // Rounded border when enabled
           borderSide: BorderSide(
             color: enabledBorderColor,
           ),
