@@ -24,6 +24,8 @@ import 'package:money_management_app/features/onboarding/cubit/onboarding_cubit.
     as _i798;
 import 'package:money_management_app/features/pincode/cubit/pincode_cubit.dart'
     as _i470;
+import 'package:money_management_app/features/transaction/cubit/drop_down/drop_down_cubit_cubit.dart'
+    as _i338;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -40,6 +42,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i215.CheckBoxBloc>(() => _i215.CheckBoxBloc());
     gh.factory<_i801.OnboardingCheckCubit>(() => _i801.OnboardingCheckCubit());
     gh.factory<_i798.OnboardingCubit>(() => _i798.OnboardingCubit());
+    gh.factory<_i338.DropDownCubit>(() => _i338.DropDownCubit());
     gh.singleton<_i147.SecureLocalStorage>(() => _i147.SecureLocalStorage());
     gh.singleton<_i614.LocalStorageSharedPref>(
         () => _i614.LocalStorageSharedPref());
