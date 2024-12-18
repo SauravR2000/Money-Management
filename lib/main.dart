@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
+import 'package:money_management_app/features/onboarding/ui/onboarding_screen.dart';
 import 'package:money_management_app/features/transaction/add_expense/presentation/add_expense_screen.dart';
 import 'package:money_management_app/features/transaction/add_income/presentation/add_income_screen.dart';
 // import 'package:money_management_app/features/auth/presentation/forgot_password_screen/email_sent_screen.dart';
@@ -44,14 +47,16 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp.router(
-    //   debugShowCheckedModeBanner: false,
-    //   home: DashboardScreen(),
-    // );
-
-    return MaterialApp(
+    return MaterialApp.router(
+      theme: appTheme(),
       debugShowCheckedModeBanner: false,
-      home: AddIncomeScreen(),
+      routerConfig: _appRouter.config(),
     );
+
+    // return MaterialApp(
+    //   theme: myTheme,
+    //   debugShowCheckedModeBanner: false,
+    //   home: AddExpenseScreen(),
+    // );
   }
 }

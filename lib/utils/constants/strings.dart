@@ -50,4 +50,10 @@ class AppStrings {
 
   static String camera = "Camera";
   static String image = "Image";
+
+  static String categoryCantBeEmpty = "Category can't be empty";
+  static String amountCantBeEmpty = "Amount can't be empty";
+  static String walletCantBeEmpty = "Wallet can't be empty";
+
+  static String transactionAddedSuccessfully = "Transaction added successfully";
 }
