@@ -8,3 +8,8 @@ enum TransactionType {
   expense,
   income,
 }
+
+enum Destination {
+  confirmPincode,
+  dashboard,
+}

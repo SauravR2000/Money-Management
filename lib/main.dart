@@ -3,10 +3,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
 import 'package:money_management_app/features/dashboard/presentation/dashboard_screen.dart';
-// import 'package:money_management_app/features/auth/presentation/forgot_password_screen/email_sent_screen.dart';
-// import 'package:money_management_app/features/auth/presentation/reset_password_screen/reset_password_screen.dart';
-// import 'package:money_management_app/features/pincode/ui/pincode_screen.dart';
+import 'package:money_management_app/features/transaction/add_expense/presentation/add_expense_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
+import 'package:money_management_app/shared_widgets/Custom%20Floating%20Action%20Button/custom_floating_action_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -43,14 +42,16 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp.router(
+    return MaterialApp.router(
+      theme: myTheme,
+      debugShowCheckedModeBanner: false,
+      routerConfig: _appRouter.config(),
+    );
+
+    // return MaterialApp(
     //   debugShowCheckedModeBanner: false,
+    //   theme: myTheme,
     //   home: DashboardScreen(),
     // );
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AddExpenseScreen(),
-    );
   }
 }
