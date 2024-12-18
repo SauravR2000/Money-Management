@@ -6,11 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:money_management_app/core/storage/secure_local_storage.dart';
-// import 'package:money_management_app/core/storage/secure_local_storage.dart';
 import 'package:money_management_app/features/pincode/cubit/pincode_cubit.dart';
 import 'package:money_management_app/injection/injection_container.dart';
-
-enum Destination { confirmPincode, dashboard }
+import 'package:money_management_app/utils/constants/enums.dart';
 
 @RoutePage()
 class PinCodeWidget extends StatefulWidget {

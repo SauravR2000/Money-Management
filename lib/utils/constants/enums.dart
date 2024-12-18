@@ -9,6 +9,11 @@ enum TransactionType {
   income,
 }
 
+enum Destination {
+  confirmPincode,
+  dashboard,
+}
+
 enum ImageCaptureType {
   camera,
   gallery,
