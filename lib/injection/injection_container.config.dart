@@ -24,10 +24,16 @@ import 'package:money_management_app/features/onboarding/cubit/onboarding_cubit.
     as _i798;
 import 'package:money_management_app/features/pincode/cubit/pincode_cubit.dart'
     as _i470;
+import 'package:money_management_app/features/transaction/bloc/transaction_bloc.dart'
+    as _i794;
 import 'package:money_management_app/features/transaction/cubit/add_attachment/add_attachment_cubit.dart'
     as _i601;
 import 'package:money_management_app/features/transaction/cubit/drop_down/drop_down_cubit_cubit.dart'
     as _i453;
+import 'package:money_management_app/features/transaction/data/repositories/transaction_repository_impl.dart'
+    as _i820;
+import 'package:money_management_app/features/transaction/domain/repositories/transaction_repository.dart'
+    as _i452;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -50,11 +56,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i614.LocalStorageSharedPref>(
         () => _i614.LocalStorageSharedPref());
     gh.singleton<_i470.PincodeCubit>(() => _i470.PincodeCubit());
+    gh.factory<_i452.TransactionRepository>(
+        () => _i820.TransactionRepositoryImpl());
     gh.factory<_i147.AuthBloc>(() => _i147.AuthBloc(
           gh<_i1005.AuthService>(),
           gh<_i147.SecureLocalStorage>(),
           gh<_i614.LocalStorageSharedPref>(),
         ));
+    gh.factory<_i794.TransactionBloc>(
+        () => _i794.TransactionBloc(gh<_i452.TransactionRepository>()));
     return this;
   }
 }

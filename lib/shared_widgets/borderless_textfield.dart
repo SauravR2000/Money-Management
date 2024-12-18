@@ -7,6 +7,7 @@ class BorderlessTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       showCursor: false,
       maxLines: 1, // Restrict to 1 line
       keyboardType: TextInputType.number,

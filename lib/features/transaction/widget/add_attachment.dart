@@ -4,19 +4,20 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/features/transaction/cubit/add_attachment/add_attachment_cubit.dart';
-import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/utils/constants/colors.dart';
 import 'package:money_management_app/utils/constants/enums.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
 
 class AddAttachmentWidget extends StatelessWidget {
-  const AddAttachmentWidget({super.key});
+  final AddAttachmentCubit addAttachmentCubit;
+  const AddAttachmentWidget({
+    super.key,
+    required this.addAttachmentCubit,
+  });
 
   @override
   Widget build(BuildContext context) {
-    AddAttachmentCubit addAttachmentCubit = getIt<AddAttachmentCubit>();
-
     return BlocBuilder<AddAttachmentCubit, AddAttachmentState>(
       bloc: addAttachmentCubit,
       builder: (context, state) {

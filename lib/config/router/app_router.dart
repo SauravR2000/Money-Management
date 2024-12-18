@@ -20,6 +20,7 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(page: PincodeRoute.page),
         AutoRoute(page: ConfirmPincodeRoute.page),
+        AutoRoute(page: AddExpenseRoute.page),
       ];
 
   @override
