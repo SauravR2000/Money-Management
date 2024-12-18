@@ -28,7 +28,7 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
   late DropDownCubit _categoryDropDownCubit;
   late DropDownCubit _walletDropDownCubit;
 
-  final List<String> _dropdownValues = ["g", "Two", "Three", "Four", "Five"];
+  late List<String> _category;
   final List<String> _walletOptions = ["Esewa", "Bank", "Cash", "Fonepay"];
 
   @override
@@ -38,6 +38,55 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
     _descriptionController = TextEditingController();
     _categoryDropDownCubit = getIt<DropDownCubit>();
     _walletDropDownCubit = getIt<DropDownCubit>();
+
+    initializeCategories();
+  }
+
+  initializeCategories() {
+    _category = widget.transactionType == TransactionType.expense
+        ? [
+            "Food & Dining",
+            "Transportation",
+            "Housing",
+            "Utilities",
+            "Insurance",
+            "Healthcare",
+            "Debt Payments",
+            "Entertainment",
+            "Education",
+            "Groceries",
+            "Clothing",
+            "Personal Care",
+            "Savings",
+            "Gifts & Donations",
+            "Travel",
+            "Fitness",
+            "Subscriptions",
+            "Childcare",
+            "Miscellaneous"
+          ]
+        : [
+            "Salary",
+            "Business Income",
+            "Freelance Income",
+            "Investments",
+            "Rental Income",
+            "Dividends",
+            "Interest Income",
+            "Gifts",
+            "Pension",
+            "Grants",
+            "Bonuses",
+            "Royalties",
+            "Capital Gains",
+            "Tax Refunds",
+            "Side Hustles",
+            "Allowance",
+            "Commission",
+            "Savings Withdrawal",
+            "Scholarships",
+            "Other"
+          ];
   }
 
   @override
@@ -80,7 +129,7 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
               children: [
                 categoryDropdown(
                   bloc: _categoryDropDownCubit,
-                  dropdownValues: _dropdownValues,
+                  dropdownValues: _category,
                   hintText: AppStrings.category,
                 ),
                 gap(value: 20),
