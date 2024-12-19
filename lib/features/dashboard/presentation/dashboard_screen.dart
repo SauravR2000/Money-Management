@@ -16,7 +16,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> _pages = [
-    Center(child: HomeScreen()),
+    Center(child: HomeScreen(userImageUrl: '')),
     Center(child: Text("Transaction")),
     Center(child: Text("Budget")),
     Center(child: Text("Profile")),
