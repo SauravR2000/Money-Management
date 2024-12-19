@@ -29,9 +29,6 @@
 //   Map<String, dynamic> toJson() => _$TransactionModelToJson(this);
 // }
 
-
-
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_model.freezed.dart';
@@ -46,6 +43,8 @@ class TransactionModel with _$TransactionModel {
     required String wallet,
     required String attachment,
     required bool isExpense,
+    required double amount,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
   }) = _TransactionModel;
 
   // Factory method to generate an instance from a JSON map

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
+import 'package:money_management_app/features/transaction/data/model/transaction_model.dart';
+import 'package:money_management_app/features/transaction/transaction_detail/transaction_detail_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -39,16 +41,28 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: myTheme,
-      debugShowCheckedModeBanner: false,
-      routerConfig: _appRouter.config(),
-    );
-
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner: false,
+    // return MaterialApp.router(
     //   theme: myTheme,
-    //   home: DashboardScreen(),
+    //   debugShowCheckedModeBanner: false,
+    //   routerConfig: _appRouter.config(),
     // );
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: myTheme,
+      home: TransactionDetailScreen(
+        transactionModel: TransactionModel(
+          userId: "2d90439c-4823-47ce-80e1-75d43afa9320",
+          category: "Salary",
+          description: "salary from december",
+          wallet: "Esewa",
+          attachment:
+              "attachment/2d90439c-4823-47ce-80e1-75d43afa9320/2024-12-19 09:29:59.687964",
+          isExpense: true,
+          amount: 55.0,
+          createdAt: DateTime.now(),
+        ),
+      ),
+    );
   }
 }

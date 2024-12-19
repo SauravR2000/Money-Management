@@ -295,6 +295,8 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
           wallet: _walletDropDownCubit.value ?? "",
           attachment: "",
           isExpense: widget.transactionType == TransactionType.expense,
+          amount: double.parse(_amountController.text),
+          createdAt: DateTime.now(),
         ),
         imageFile: _addAttachmentCubit.image,
       ),
