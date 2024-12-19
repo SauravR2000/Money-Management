@@ -47,6 +47,8 @@ class AppStrings {
   static String description = "Description";
   static String wallet = "Wallet";
   static String addAttachment = "Add attachment";
+  static String attachment = "Attachment";
+  static String type = "Type";
 
   static String camera = "Camera";
   static String image = "Image";
@@ -60,4 +62,8 @@ class AppStrings {
   static String areYouSure = "Are you sure?";
   static String goingBackWillDiscardChanges =
       'Are you sure? Going back will discard any unsaved changes.';
+
+  static String detailTransaction = "Detail Transaction";
+
+  static String noAttachmentFound = "No attachment found";
 }
