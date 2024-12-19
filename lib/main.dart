@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
-import 'package:money_management_app/features/dashboard/presentation/dashboard_screen.dart';
-import 'package:money_management_app/features/transaction/add_expense/presentation/add_expense_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
-import 'package:money_management_app/shared_widgets/Custom%20Floating%20Action%20Button/custom_floating_action_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
