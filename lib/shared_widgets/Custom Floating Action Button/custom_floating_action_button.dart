@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:money_management_app/config/router/app_router.gr.dart';
 
 class CustomFloatingActionButton extends StatefulWidget {
   const CustomFloatingActionButton({super.key});
@@ -75,7 +77,10 @@ class _CustomFloatingActionButtonState extends State<CustomFloatingActionButton>
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    toggleFloatingActionButton();
+                    context.router.push(AddIncomeRoute());
+                  },
                   icon: Image.asset(
                     'assets/images/income.png',
                     fit: BoxFit.contain,
@@ -125,7 +130,10 @@ class _CustomFloatingActionButtonState extends State<CustomFloatingActionButton>
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    toggleFloatingActionButton();
+                    context.router.push(AddExpenseRoute());
+                  },
                   icon: Image.asset(
                     'assets/images/expense.png',
                     fit: BoxFit.contain,
@@ -151,38 +159,7 @@ class _CustomFloatingActionButtonState extends State<CustomFloatingActionButton>
                       splashColor: Colors.white54,
                       splashRadius: 31,
                       onPressed: () {
-                        setState(
-                          () {
-                            if (toggle) {
-                              toggle = !toggle;
-                              _animationController.forward();
-                              Future.delayed(
-                                Duration(milliseconds: 10),
-                                () {
-                                  alignment1 = Alignment(-0.7, -0.9);
-                                },
-                              );
-                              Future.delayed(
-                                Duration(milliseconds: 100),
-                                () {
-                                  alignment2 = Alignment(0.0, -2.2);
-                                },
-                              );
-                              Future.delayed(
-                                Duration(milliseconds: 200),
-                                () {
-                                  alignment3 = Alignment(0.7, -0.9);
-                                },
-                              );
-                            } else {
-                              toggle = !toggle;
-                              _animationController.reverse();
-                              alignment1 = Alignment(0, 0);
-                              alignment2 = Alignment(0, 0);
-                              alignment3 = Alignment(0, 0);
-                            }
-                          },
-                        );
+                        toggleFloatingActionButton();
                       },
                       icon: Icon(
                         Icons.add,
@@ -197,6 +174,41 @@ class _CustomFloatingActionButtonState extends State<CustomFloatingActionButton>
           ],
         ),
       ),
+    );
+  }
+
+  void toggleFloatingActionButton() {
+    setState(
+      () {
+        if (toggle) {
+          toggle = !toggle;
+          _animationController.forward();
+          Future.delayed(
+            Duration(milliseconds: 10),
+            () {
+              alignment1 = Alignment(-0.7, -0.9);
+            },
+          );
+          Future.delayed(
+            Duration(milliseconds: 100),
+            () {
+              alignment2 = Alignment(0.0, -2.2);
+            },
+          );
+          Future.delayed(
+            Duration(milliseconds: 200),
+            () {
+              alignment3 = Alignment(0.7, -0.9);
+            },
+          );
+        } else {
+          toggle = !toggle;
+          _animationController.reverse();
+          alignment1 = Alignment(0, 0);
+          alignment2 = Alignment(0, 0);
+          alignment3 = Alignment(0, 0);
+        }
+      },
     );
   }
 }

@@ -56,4 +56,8 @@ class AppStrings {
   static String walletCantBeEmpty = "Wallet can't be empty";
 
   static String transactionAddedSuccessfully = "Transaction added successfully";
+
+  static String areYouSure = "Are you sure?";
+  static String goingBackWillDiscardChanges =
+      'Are you sure? Going back will discard any unsaved changes.';
 }
