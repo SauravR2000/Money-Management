@@ -42,7 +42,7 @@ class TransactionModel with _$TransactionModel {
     required String description,
     required String wallet,
     required String attachment,
-    required bool isExpense,
+    @JsonKey(name: 'is_expense') required bool isExpense,
     required double amount,
     @JsonKey(name: 'created_at') required DateTime createdAt,
   }) = _TransactionModel;

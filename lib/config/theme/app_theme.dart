@@ -6,6 +6,10 @@ ThemeData appTheme() {
   return ThemeData(
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: Colors.white,
+    appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(
+      color: Colors.white,
+    )),
     textTheme: TextTheme(
       headlineLarge: GoogleFonts.aBeeZee(
         fontSize: 22,
