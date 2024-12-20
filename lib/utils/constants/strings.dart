@@ -52,6 +52,7 @@ class AppStrings {
 
   static String camera = "Camera";
   static String image = "Image";
+  static String document = "Document";
 
   static String categoryCantBeEmpty = "Category can't be empty";
   static String amountCantBeEmpty = "Amount can't be empty";

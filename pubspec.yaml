@@ -31,10 +31,13 @@ dependencies:
   flutter_native_splash: ^2.4.3
   dotted_border: ^2.1.0
   image_picker: ^1.1.2
+  file_picker: ^8.1.6
   json_annotation: ^4.9.0
   freezed: ^2.5.7
   freezed_annotation: ^2.4.4
   intl: ^0.20.1
+  meta: ^1.10.0
+  path: ^1.9.1
 #-----------------DEPENDENCIES
 
 dev_dependencies:
