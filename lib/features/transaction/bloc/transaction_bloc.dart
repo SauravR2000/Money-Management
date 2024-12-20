@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,26 +29,47 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     String attachmentId = "";
 
     try {
-//upload image if selected
-      if (event.imageFile != null) {
-        final imageFile = event.imageFile!;
-        final imageExtension = imageFile.path.split('.').last.toLowerCase();
-        final imageBytes = await imageFile.readAsBytes();
+      bool hasImage = event.imageFile != null;
+      bool hasPdf = event.pdfFile != null;
+      final dateTime = DateTime.now().toIso8601String().replaceAll(':', '-');
+
+      //upload image if selected
+      if (hasImage) {
+        final file = event.imageFile!;
+        final fileExtension = file.path.split('.').last.toLowerCase();
+        final imageBytes = await file.readAsBytes();
         final userId = supabase.auth.currentUser!.id;
-        final dateTime = DateTime.now().toString();
         String response =
             await supabase.storage.from('attachment').uploadBinary(
                   '/$userId/$dateTime',
                   imageBytes,
                   fileOptions: FileOptions(
                     upsert: true,
-                    contentType: 'image/$imageExtension',
+                    contentType: 'image/$fileExtension',
                   ),
                 );
 
         attachmentId = response;
 
         log("upload file response = $response");
+      } else if (hasPdf) {
+        final file = event.pdfFile!;
+        final fileExtension = file.path.split('.').last.toLowerCase();
+        final imageBytes = await file.readAsBytes();
+        final userId = supabase.auth.currentUser!.id;
+
+        String response =
+            await supabase.storage.from('attachment').uploadBinary(
+                  '/$userId/$dateTime.pdf',
+                  imageBytes,
+                  fileOptions: FileOptions(
+                    upsert: true,
+                    contentType: 'application/$fileExtension',
+                  ),
+                );
+
+        attachmentId = response;
+        log("pdf upload file response = $response");
       }
 
       TransactionModel transaction = event.transaction;

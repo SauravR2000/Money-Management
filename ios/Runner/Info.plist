@@ -64,5 +64,15 @@
 		<false/>
 		<key>keychain-access-groups</key>
 		<array/>
+
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app requires access to your photo library to select images and videos.</string>
+
+		<key>NSCameraUsageDescription</key>
+		<string>This app requires access to your camera to capture photos and videos.</string>
+
+		<key>NSMicrophoneUsageDescription</key>
+		<string>This app requires access to your microphone to record audio during video recording.</string>
+
 	</dict>
 </plist>

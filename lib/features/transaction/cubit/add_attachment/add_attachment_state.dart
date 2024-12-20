@@ -7,6 +7,7 @@ final class AddAttachmentInitial extends AddAttachmentState {}
 
 final class SelectedAttachment extends AddAttachmentState {
   final XFile? selectedImage;
+  final File? selectedPdf;
 
-  SelectedAttachment({required this.selectedImage});
+  SelectedAttachment({this.selectedImage, this.selectedPdf});
 }

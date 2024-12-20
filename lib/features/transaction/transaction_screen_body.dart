@@ -299,6 +299,7 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
           createdAt: DateTime.now(),
         ),
         imageFile: _addAttachmentCubit.image,
+        pdfFile: _addAttachmentCubit.pdf,
       ),
     );
   }
