@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/core/storage/secure_local_storage.dart';
 import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/budget_screen.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/home_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/Custom%20Floating%20Action%20Button/custom_floating_action_button.dart';
@@ -20,22 +21,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> _pages = [
     Center(child: HomeScreen(userImageUrl: '')),
     Center(child: Text("Transaction")),
-    Center(child: Text("Budget")),
-    Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Profile"),
-        TextButton(
-          onPressed: () {
-            var secureStorage = getIt<SecureLocalStorage>();
-            secureStorage.deleteValue(key: secureStorage.userId);
-            secureStorage.deleteValue(key: secureStorage.token);
-          },
-          child: Text("logout"),
-        ),
-      ],
-    )),
+    Center(child: BudgetScreen()),
+    Center(child: Text("Profile")),
   ];
 
   late DashboardCubit _dashboardCubit;
