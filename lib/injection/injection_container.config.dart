@@ -24,6 +24,12 @@ import 'package:money_management_app/features/onboarding/cubit/onboarding_cubit.
     as _i798;
 import 'package:money_management_app/features/pincode/cubit/pincode_cubit.dart'
     as _i470;
+import 'package:money_management_app/features/profile/data/repositories/profile_repository_impl.dart'
+    as _i415;
+import 'package:money_management_app/features/profile/domain/repositories/profile_repository.dart'
+    as _i639;
+import 'package:money_management_app/features/profile/presentation/cubit/profile_cubit.dart'
+    as _i903;
 import 'package:money_management_app/features/transaction/bloc/transaction_bloc.dart'
     as _i794;
 import 'package:money_management_app/features/transaction/cubit/add_attachment/add_attachment_cubit.dart'
@@ -56,6 +62,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i614.LocalStorageSharedPref>(
         () => _i614.LocalStorageSharedPref());
     gh.singleton<_i470.PincodeCubit>(() => _i470.PincodeCubit());
+    gh.factory<_i639.ProfileRepository>(() => _i415.ProfileRepositoryImpl());
     gh.factory<_i452.TransactionRepository>(
         () => _i820.TransactionRepositoryImpl());
     gh.factory<_i147.AuthBloc>(() => _i147.AuthBloc(
@@ -65,6 +72,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i794.TransactionBloc>(
         () => _i794.TransactionBloc(gh<_i452.TransactionRepository>()));
+    gh.factory<_i903.ProfileCubit>(
+        () => _i903.ProfileCubit(gh<_i639.ProfileRepository>()));
     return this;
   }
 }
