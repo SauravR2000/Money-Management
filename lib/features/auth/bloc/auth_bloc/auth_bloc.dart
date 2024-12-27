@@ -39,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       apiCall: () => _authservice.signupWithEmailAndPassword(
         email: event.email,
         password: event.password,
+        name: event.userName,
       ),
       onSuccess: (response) {
         log("signup success = $response");
