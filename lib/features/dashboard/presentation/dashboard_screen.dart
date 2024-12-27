@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/core/storage/secure_local_storage.dart';
 import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/budget_screen.dart';
+import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/budget_screen_ui.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/home_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/Custom%20Floating%20Action%20Button/custom_floating_action_button.dart';
@@ -21,7 +22,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> _pages = [
     Center(child: HomeScreen(userImageUrl: '')),
     Center(child: Text("Transaction")),
-    Center(child: BudgetScreen()),
+    Center(child: BudgetScreenUi()),
     Center(child: Text("Profile")),
   ];
 

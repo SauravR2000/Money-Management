@@ -10,6 +10,8 @@ import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/unfocus_screen_widget.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
 
+// List<Map<String, dynamic>> budgetList = <Map<String, dynamic>>[];
+
 class BudgetScreen extends StatefulWidget {
   const BudgetScreen({super.key});
 
@@ -26,8 +28,6 @@ class _BudgetScreenState extends State<BudgetScreen> {
   late List<String> _budgetcategory;
   late BudgetBloc _budgetBloc;
   late DropDownCubit _budgetCategoryDropDownCubit;
-
-  List<Map<String, dynamic>> _budgetList = <Map<String, dynamic>>[];
 
   initializeBudgetCategories() {
     _budgetcategory = [

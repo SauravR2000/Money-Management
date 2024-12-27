@@ -4,7 +4,8 @@ part of 'budget_bloc.dart';
 class BudgetState with _$BudgetState {
   const factory BudgetState.initial() = _Initial;
 
-  const factory BudgetState.dataLoaded(
-      {required double budgetAmount,
-      required String category}) = DataLoadedState;
+  const factory BudgetState.dataLoaded({required List<BudgetModel> budgets}) =
+      DataLoadedState;
+
+  const factory BudgetState.error({required String message}) = ErrorState;
 }
