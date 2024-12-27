@@ -17,8 +17,15 @@ class AuthService {
   Future<AuthResponse> signupWithEmailAndPassword({
     required String email,
     required String password,
+    required String name,
   }) async {
-    return await supabase.auth.signUp(email: email, password: password);
+    return await supabase.auth.signUp(
+      email: email,
+      password: password,
+      data: {
+        'displayName': name,
+      },
+    );
   }
 
   //Signup with email and password
