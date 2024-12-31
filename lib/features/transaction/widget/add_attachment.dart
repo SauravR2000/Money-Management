@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/features/transaction/cubit/add_attachment/add_attachment_cubit.dart';
+import 'package:money_management_app/shared_widgets/attachment_option_widget.dart';
 import 'package:money_management_app/shared_widgets/close_icon_widget.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/utils/constants/colors.dart';
@@ -127,7 +128,7 @@ class AddAttachmentWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              optionUi(
+              attachmentOptionUi(
                 context: context,
                 imageAsset: "assets/images/camera.png",
                 title: AppStrings.camera,
@@ -138,7 +139,7 @@ class AddAttachmentWidget extends StatelessWidget {
                 },
               ),
               gap(value: 15),
-              optionUi(
+              attachmentOptionUi(
                 context: context,
                 imageAsset: "assets/images/gallery.png",
                 title: AppStrings.image,
@@ -149,7 +150,7 @@ class AddAttachmentWidget extends StatelessWidget {
                 },
               ),
               gap(value: 15),
-              optionUi(
+              attachmentOptionUi(
                 context: context,
                 imageAsset: "assets/images/file.png",
                 title: AppStrings.document,
@@ -161,41 +162,6 @@ class AddAttachmentWidget extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget optionUi({
-    required BuildContext context,
-    required String imageAsset,
-    required String title,
-    required void Function() onTap,
-  }) {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-        onTap();
-      },
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: AppColors.violetColor,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(imageAsset),
-            gap(value: 5),
-            Text(
-              title,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.primaryColor),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

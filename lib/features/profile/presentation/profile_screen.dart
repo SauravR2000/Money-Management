@@ -6,11 +6,14 @@ import 'package:money_management_app/dummy_data.dart';
 import 'package:money_management_app/features/auth/bloc/auth_bloc/auth_bloc.dart';
 import 'package:money_management_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:money_management_app/injection/injection_container.dart';
+import 'package:money_management_app/main.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
+import 'package:money_management_app/shared_widgets/profile_image.dart';
 import 'package:money_management_app/shared_widgets/screen_padding.dart';
 import 'package:money_management_app/utils/constants/colors.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
 
+@RoutePage()
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -68,64 +71,54 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Row userDetailUi(BuildContext context) {
-    return Row(
-      children: [
-        profileImage(context),
-        gap(value: 19),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppStrings.userName,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: AppColors.hintTextColor),
-            ),
-            BlocProvider(
-              create: (context) => getIt<ProfileCubit>()..getUser(),
-              child: BlocBuilder<ProfileCubit, ProfileState>(
-                builder: (context, state) {
-                  if (state is UserNameState) {
-                    var userName = state.userName;
+  Widget userDetailUi(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<ProfileCubit>()..getUser(),
+      child: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          if (state is UserNameState) {
+            var userName = state.userName;
+            String userId = supabase.auth.currentUser?.id ?? "";
+            final profileImageUrl =
+                supabase.storage.from('profile_image').getPublicUrl(userId);
 
-                    return Text(
+            return Row(
+              children: [
+                profileImage(context: context, imageUrl: profileImageUrl),
+                gap(value: 19),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.userName,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: AppColors.hintTextColor),
+                    ),
+                    Text(
                       userName,
                       style: Theme.of(context)
                           .textTheme
                           .headlineLarge!
                           .copyWith(fontWeight: FontWeight.w600),
-                    );
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                },
-              ),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-
-  Container profileImage(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: Theme.of(context).primaryColor,
-          width: 2,
-        ),
-      ),
-      child: ClipOval(
-        child: Image.network(
-          dummyImage,
-          fit: BoxFit.cover,
-          width: 80,
-          height: 80,
-        ),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                InkWell(
+                  onTap: () {
+                    context.router.push(EditProfileRoute(
+                        imageUrl: dummyImage, userName: userName));
+                  },
+                  child: Image.asset("assets/images/edit.png"),
+                )
+              ],
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
       ),
     );
   }

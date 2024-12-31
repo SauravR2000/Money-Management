@@ -71,4 +71,10 @@ class AppStrings {
 
   static String userName = "Username";
   static String noNameFound = "No Name Found";
+
+  static String editProfile = "Edit Profile";
+
+  static String update = "Update";
+
+  static String profileUpdated = "Profile updated";
 }
