@@ -7,5 +7,13 @@ class BudgetState with _$BudgetState {
   const factory BudgetState.dataLoaded({required List<BudgetModel> budgets}) =
       DataLoadedState;
 
+  const factory BudgetState.postData({
+    required String month,
+    required int amount,
+    required String category,
+    required String userId,
+    required bool notification,
+  }) = PostDataState;
+
   const factory BudgetState.error({required String message}) = ErrorState;
 }

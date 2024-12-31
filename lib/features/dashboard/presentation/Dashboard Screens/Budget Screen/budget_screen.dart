@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:money_management_app/utils/constants/strings.dart';
 
 // List<Map<String, dynamic>> budgetList = <Map<String, dynamic>>[];
 
+@RoutePage()
 class BudgetScreen extends StatefulWidget {
   const BudgetScreen({super.key});
 
@@ -131,7 +133,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Receive Text',
+                              'Receive Alert',
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineMedium!
@@ -160,7 +162,22 @@ class _BudgetScreenState extends State<BudgetScreen> {
                           },
                         )
                       ],
-                    )
+                    ),
+                    gap(value: 80),
+                    SizedBox(
+                      height: 56,
+                      width: 343,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: Text('Continue'),
+                      ),
+                    ),
                   ],
                 ),
               ),

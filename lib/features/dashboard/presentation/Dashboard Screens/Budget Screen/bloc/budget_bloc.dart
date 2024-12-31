@@ -15,6 +15,7 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
   BudgetBloc() : super(_Initial()) {
     on<BudgetEvent>((event, emit) {});
     on<DataLoadedEvent>(_onDataLoaded);
+    on<PostDataEvent>(_onPostBudgetData);
   }
 
   final budgetList = <BudgetModel>[];
@@ -43,5 +44,14 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
     } else {
       emit(ErrorState(message: "Error Occured"));
     }
+  }
+
+  void _onPostBudgetData(PostDataEvent event, Emitter<BudgetState> emit) async {
+    SecureLocalStorage secureLocalStorage = getIt<SecureLocalStorage>();
+    final String userId =
+        await secureLocalStorage.getStringValue(key: secureLocalStorage.userId);
+
+    
+    
   }
 }
