@@ -1,5 +1,6 @@
 class AppStrings {
   static String login = "Login";
+  static String logout = "Logout";
   static String email = "Email";
   static String password = "Password";
   static String forgotPassword = "Forgot Password?";
@@ -67,4 +68,13 @@ class AppStrings {
   static String detailTransaction = "Detail Transaction";
 
   static String noAttachmentFound = "No attachment found";
+
+  static String userName = "Username";
+  static String noNameFound = "No Name Found";
+
+  static String editProfile = "Edit Profile";
+
+  static String update = "Update";
+
+  static String profileUpdated = "Profile updated";
 }

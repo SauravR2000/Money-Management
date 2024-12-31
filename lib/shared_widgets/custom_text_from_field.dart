@@ -17,6 +17,7 @@ class CustomTextFormField extends StatefulWidget {
   final Color borderColor;
   final Color hintColor;
   final double hintFontSize;
+  final bool readOnly;
 
   const CustomTextFormField({
     super.key,
@@ -31,6 +32,7 @@ class CustomTextFormField extends StatefulWidget {
     this.borderColor = AppColors.borderColor,
     this.hintColor = AppColors.hintTextColor,
     this.hintFontSize = 12,
+    this.readOnly = false,
   });
 
   @override
@@ -76,6 +78,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       controller: widget.controller,
       keyboardType: widget.textInputType,
       obscureText: obscureText,
+      readOnly: widget.readOnly,
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: widget.readOnly ? Colors.grey.shade600 : Colors.black,
+          ),
       decoration: InputDecoration(
         filled: true,
         fillColor: const Color(0xFFF6FAF9),

@@ -16,6 +16,7 @@ class AppRouter extends RootStackRouter {
           children: [
             AutoRoute(page: HomeRoute.page),
             AutoRoute(page: BudgetRouteUi.page),
+            AutoRoute(page: ProfileRoute.page),
           ],
         ),
         AutoRoute(page: BudgetRoute.page),
@@ -23,6 +24,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ConfirmPincodeRoute.page),
         AutoRoute(page: AddExpenseRoute.page),
         AutoRoute(page: AddIncomeRoute.page),
+        AutoRoute(page: EditProfileRoute.page),
       ];
 
   @override

@@ -11,7 +11,6 @@ import 'package:money_management_app/features/transaction/widget/add_attachment.
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/amount_textfield.dart';
 import 'package:money_management_app/shared_widgets/custom_button.dart';
-import 'package:money_management_app/shared_widgets/custom_drop_down.dart';
 import 'package:money_management_app/shared_widgets/custom_snackbar.dart';
 import 'package:money_management_app/shared_widgets/custom_text_from_field.dart';
 import 'package:money_management_app/shared_widgets/dropdown_category.dart';

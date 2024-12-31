@@ -1,9 +1,7 @@
-import 'dart:developer';
-
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
+import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 @RoutePage()
@@ -12,6 +10,7 @@ class HomeScreen extends StatefulWidget {
   final String? incomeAmount;
   final String? expenseAmount;
   final String? totalAmount;
+  final DashboardCubit dashboardCubit;
 
   const HomeScreen({
     super.key,
@@ -19,6 +18,7 @@ class HomeScreen extends StatefulWidget {
     this.incomeAmount,
     this.expenseAmount,
     this.totalAmount,
+    required this.dashboardCubit,
   });
 
   @override
@@ -69,7 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Color.fromARGB(255, 255, 246, 229),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            widget.dashboardCubit.changePage(3);
+          },
           icon: widget.userImageUrl.isNotEmpty
               ? Image.network(widget.userImageUrl)
               : ClipOval(
