@@ -77,4 +77,6 @@ class AppStrings {
   static String update = "Update";
 
   static String profileUpdated = "Profile updated";
+
+  static String somethingWentWrong = "Something went wrong";
 }

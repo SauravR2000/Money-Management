@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:money_management_app/dummy_data.dart';
 import 'package:money_management_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:money_management_app/features/transaction/cubit/add_attachment/add_attachment_cubit.dart';
 import 'package:money_management_app/injection/injection_container.dart';
@@ -18,11 +17,9 @@ import 'package:money_management_app/utils/constants/enums.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
 
 class EditProfileBody extends StatefulWidget {
-  final String imageUrl;
   final String userName;
   const EditProfileBody({
     super.key,
-    required this.imageUrl,
     required this.userName,
   });
 
@@ -36,6 +33,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
 
   late TextEditingController _emailController;
   late TextEditingController _userNameController;
+  late String profileImageUrl;
 
   @override
   void initState() {
@@ -43,8 +41,10 @@ class _EditProfileBodyState extends State<EditProfileBody> {
     _addAttachmentCubit = getIt<AddAttachmentCubit>();
     _profileCubit = getIt<ProfileCubit>();
 
+    String userId = supabase.auth.currentUser?.id ?? "";
+    profileImageUrl =
+        supabase.storage.from('profile_image').getPublicUrl(userId);
     String email = supabase.auth.currentUser?.email ?? "email not found";
- 
     _emailController = TextEditingController(text: email);
     _userNameController = TextEditingController(text: widget.userName);
   }
@@ -138,7 +138,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
               children: [
                 profileImage(
                   context: context,
-                  imageUrl: dummyImage,
+                  imageUrl: profileImageUrl,
                   imageFromFilePath: _addAttachmentCubit.image?.path,
                 ),
                 Positioned(

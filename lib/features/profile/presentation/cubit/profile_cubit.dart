@@ -1,11 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money_management_app/features/global_bloc/global_bloc.dart';
 
 import 'package:money_management_app/features/profile/domain/repositories/profile_repository.dart';
 import 'package:money_management_app/helper/get_file_extension.dart';
+import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -37,6 +41,8 @@ class ProfileCubit extends Cubit<ProfileState> {
             contentType: 'image/$fileExtension',
           ),
         );
+
+    log("image id = $imageId");
 
     return imageId;
   }
@@ -70,6 +76,9 @@ class ProfileCubit extends Cubit<ProfileState> {
           ),
         );
       }
+
+      GlobalBloc globalBloc = getIt<GlobalBloc>();
+      globalBloc.add(UpdateUserDetail(userName: userName, imageId: imageId));
 
       emit(ProfileUpdatedSuccessState());
     } catch (e) {
