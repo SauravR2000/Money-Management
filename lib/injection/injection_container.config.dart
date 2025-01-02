@@ -18,6 +18,8 @@ import 'package:money_management_app/features/auth/bloc/auth_bloc/auth_bloc.dart
     as _i147;
 import 'package:money_management_app/features/auth/bloc/check_box_bloc/check_box_bloc.dart'
     as _i215;
+import 'package:money_management_app/features/global_bloc/global_bloc.dart'
+    as _i251;
 import 'package:money_management_app/features/onboarding/cubit/onboarding_check_cubit/onboarding_check_cubit.dart'
     as _i801;
 import 'package:money_management_app/features/onboarding/cubit/onboarding_cubit.dart'
@@ -74,6 +76,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i794.TransactionBloc(gh<_i452.TransactionRepository>()));
     gh.factory<_i903.ProfileCubit>(
         () => _i903.ProfileCubit(gh<_i639.ProfileRepository>()));
+    gh.singleton<_i251.GlobalBloc>(
+        () => _i251.GlobalBloc(gh<_i639.ProfileRepository>()));
     return this;
   }
 }

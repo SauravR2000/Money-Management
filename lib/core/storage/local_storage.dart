@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalStorageSharedPref {
   String userId = "userId";
   String token = "token";
+  String userName = "userName";
 
   Future<SharedPreferences> getSharedPreferenceInstance() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -5,11 +5,9 @@ import 'package:money_management_app/utils/constants/strings.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatelessWidget {
-  final String imageUrl;
   final String userName;
   const EditProfileScreen({
     super.key,
-    required this.imageUrl,
     required this.userName,
   });
 
@@ -21,7 +19,6 @@ class EditProfileScreen extends StatelessWidget {
         title: Text(AppStrings.editProfile),
       ),
       body: EditProfileBody(
-        imageUrl: imageUrl,
         userName: userName,
       ),
     );
