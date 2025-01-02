@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:money_management_app/features/transaction/data/model/transaction_model.dart';
 import 'package:money_management_app/features/transaction/transaction_detail/transaction_detail_body.dart';
@@ -5,6 +6,7 @@ import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/utils/constants/colors.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
 
+@RoutePage()
 class TransactionDetailScreen extends StatelessWidget {
   final TransactionModel transactionModel;
   const TransactionDetailScreen({

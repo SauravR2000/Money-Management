@@ -9,4 +9,11 @@ class HomeScreenState with _$HomeScreenState {
   const factory HomeScreenState.balanceSuccess(
           {required HomeScreenTransactionModel homeScreenTransactionModel}) =
       BalanceSuccessState;
+
+  const factory HomeScreenState.allTransactionsSuccess(
+          {required List<TransactionModel> transactions}) =
+      AllTransactionsSuccessState;
+
+  const factory HomeScreenState.error({required String errorMessage}) =
+      ErrorState;
 }

@@ -20,6 +20,8 @@ import 'package:money_management_app/features/auth/bloc/check_box_bloc/check_box
     as _i215;
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/cubit/home_screen_cubit.dart'
     as _i673;
+import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/transaction_listing/cubit/transaction_listing_cubit.dart'
+    as _i587;
 import 'package:money_management_app/features/global_bloc/global_bloc.dart'
     as _i251;
 import 'package:money_management_app/features/onboarding/cubit/onboarding_check_cubit/onboarding_check_cubit.dart'
@@ -63,6 +65,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i801.OnboardingCheckCubit>(() => _i801.OnboardingCheckCubit());
     gh.factory<_i798.OnboardingCubit>(() => _i798.OnboardingCubit());
     gh.factory<_i673.HomeScreenCubit>(() => _i673.HomeScreenCubit());
+    gh.factory<_i587.TransactionListingCubit>(
+        () => _i587.TransactionListingCubit());
     gh.singleton<_i147.SecureLocalStorage>(() => _i147.SecureLocalStorage());
     gh.singleton<_i614.LocalStorageSharedPref>(
         () => _i614.LocalStorageSharedPref());

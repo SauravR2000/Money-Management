@@ -6,9 +6,12 @@ import 'package:money_management_app/dummy_data.dart';
 import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/cubit/home_screen_cubit.dart';
 import 'package:money_management_app/features/global_bloc/global_bloc.dart';
+import 'package:money_management_app/features/transaction/data/model/transaction_model.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/profile_image.dart';
+import 'package:money_management_app/shared_widgets/transaction_listing_item.dart';
+import 'package:money_management_app/utils/constants/strings.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 @RoutePage()
@@ -41,16 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
     'December',
   ];
 
-  late HomeScreenCubit homeScreenCubit;
+  late HomeScreenCubit totalTransactionCubit;
+  late HomeScreenCubit allTransactionCubit;
 
   @override
   void initState() {
     super.initState();
     getIt<GlobalBloc>().add(GetUserDetail());
 
-    homeScreenCubit = getIt<HomeScreenCubit>();
+    totalTransactionCubit = getIt<HomeScreenCubit>();
+    allTransactionCubit = getIt<HomeScreenCubit>();
 
-    homeScreenCubit.getAccountBalance();
+    totalTransactionCubit.getAccountBalance();
+    allTransactionCubit.getAllTransactions(limit: 5);
   }
 
   @override
@@ -147,12 +153,50 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.dashboardCubit.changePage(1);
+                    },
                   ),
                 ),
-                Row(children: [])
               ],
             ),
+            gap(value: 15),
+            BlocBuilder<HomeScreenCubit, HomeScreenState>(
+              bloc: allTransactionCubit,
+              builder: (context, state) {
+                if (state is LoadingState) {
+                  return CircularProgressIndicator();
+                } else if (state is AllTransactionsSuccessState) {
+                  List<TransactionModel> transactions = state.transactions;
+
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) => gap(value: 10),
+                    itemCount: transactions.length,
+                    itemBuilder: (context, index) {
+                      TransactionModel transaction = transactions[index];
+
+                      return GestureDetector(
+                        onTap: () {
+                          context.router.push(
+                            TransactionDetailRoute(
+                              transactionModel: transaction,
+                            ),
+                          );
+                        },
+                        child:
+                            TransactionListingItemUi(transaction: transaction),
+                      );
+                    },
+                  );
+                } else {
+                  return Text(AppStrings.somethingWentWrong);
+                }
+              },
+            ),
+
             //for bottom tab padding
             gap(value: 200),
           ],
@@ -186,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget accountBalance(BuildContext context) {
     return BlocBuilder<HomeScreenCubit, HomeScreenState>(
-      bloc: homeScreenCubit,
+      bloc: totalTransactionCubit,
       builder: (context, state) {
         if (state is LoadingState) {
           return Center(
@@ -237,103 +281,116 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          context.router.push(AddIncomeRoute());
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          height: 80,
-                          width: 164,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 0, 168, 107),
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(30),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            context.router.push(AddIncomeRoute());
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            // height: 80,
+                            // width: 164,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 0, 168, 107),
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30),
+                              ),
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/income.png',
-                                height: 40,
-                                width: 40,
-                              ),
-                              SizedBox(width: 10),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Income',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium!
-                                        .copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/images/income.png',
+                                  height: 40,
+                                  width: 40,
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Income',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium!
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                      Text(
+                                        'Rs.$totalIncome',
+                                        maxLines: 3,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge!
+                                            .copyWith(color: Colors.white),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'Rs.$totalIncome',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          context.router.push(AddExpenseRoute());
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          height: 80,
-                          width: 164,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 253, 61, 74),
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/expense.png',
-                                height: 40,
-                                width: 40,
-                              ),
-                              SizedBox(width: 10),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Expense',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium!
-                                        .copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                      gap(value: 10),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            context.router.push(AddExpenseRoute());
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            // height: 80,
+                            // width: 164,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 253, 61, 74),
+                              shape: BoxShape.rectangle,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/images/expense.png',
+                                  height: 40,
+                                  width: 40,
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Expense',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium!
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                      Text(
+                                        'Rs.$totalExpense',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge!
+                                            .copyWith(color: Colors.white),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'Rs.$totalExpense',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

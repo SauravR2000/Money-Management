@@ -23,6 +23,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: AddExpenseRoute.page),
         AutoRoute(page: AddIncomeRoute.page),
         AutoRoute(page: EditProfileRoute.page),
+        AutoRoute(page: TransactionListingRoute.page),
+        AutoRoute(page: TransactionDetailRoute.page),
       ];
 
   @override

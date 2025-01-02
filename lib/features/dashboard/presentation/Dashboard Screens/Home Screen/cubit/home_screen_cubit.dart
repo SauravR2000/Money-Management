@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/data/home_screen_transaction_model.dart';
+import 'package:money_management_app/features/transaction/data/model/transaction_model.dart';
 import 'package:money_management_app/main.dart';
 
 part 'home_screen_state.dart';
@@ -73,5 +74,54 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     }
 
     return amount;
+  }
+
+  void getAllTransactions({
+    int? limit,
+    int? month,
+    int? year,
+  }) async {
+    emit(LoadingState());
+
+//TODO: for testing put current year for now
+    year = DateTime.now().year;
+
+    try {
+      final table = supabase.from("transaction");
+
+      final String? userId = supabase.auth.currentUser?.id;
+
+      var query = table.select('*').eq('user_id', userId ?? "");
+
+      if (month != null && year != null && month != 0) {
+        final startDate = DateTime(year, month, 1);
+        final endDate = DateTime(year, month + 1, 1);
+
+        query = query
+            .gte('created_at', startDate.toIso8601String())
+            .lt('created_at', endDate.toIso8601String());
+      }
+
+      final response = await (limit != null ? query.limit(limit) : query);
+
+      List<Map<String, dynamic>> results =
+          response.cast<Map<String, dynamic>>();
+
+      log("all transaction results = $results");
+
+      if (results.isNotEmpty) {
+        List<TransactionModel> transactions = [];
+
+        for (var transaction in results) {
+          transactions.add(TransactionModel.fromJson(transaction));
+        }
+
+        emit(AllTransactionsSuccessState(transactions: transactions));
+      } else {
+        emit(ErrorState(errorMessage: "No transaction found"));
+      }
+    } catch (e) {
+      emit(ErrorState(errorMessage: e.toString()));
+    }
   }
 }

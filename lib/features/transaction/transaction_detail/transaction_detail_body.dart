@@ -23,7 +23,7 @@ class TransactionDetailBody extends StatefulWidget {
 
 class _TransactionDetailBodyState extends State<TransactionDetailBody> {
   late bool isExpense;
-  late String imageUrl;
+  String? imageUrl;
 
   @override
   void initState() {
@@ -95,12 +95,16 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                         fontWeight: FontWeight.w600),
                   ),
                   gap(value: 10),
-                  widget.transaction.attachment.isEmpty
+                  // widget.transaction.attachment.isEmpty
+                  imageUrl == null
                       ? Text(AppStrings.noAttachmentFound)
                       : SizedBox(
                           height: 500,
                           width: double.maxFinite,
-                          child: Image.network(imageUrl),
+                          child: Image.network(
+                            imageUrl!,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                 ],
               ),
@@ -137,7 +141,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
           ),
           gap(value: 12),
           Text(
-            formatDateTime(createdAt: widget.transaction.createdAt),
+            formatDateTime(dateTime: widget.transaction.createdAt),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                   color: Colors.white,
