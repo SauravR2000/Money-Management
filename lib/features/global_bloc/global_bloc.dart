@@ -29,8 +29,17 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   ) {
     log("prev data = $userName $profileImage");
 
-    userName = event.userName;
-    profileImage = event.imageUrl;
+    log("image id in global bloc = ${event.imageId}");
+
+    if (event.userName != null) userName = event.userName;
+    if (event.imageId != null) {
+      String userId = supabase.auth.currentUser?.id ?? "";
+      String imageUrl =
+          supabase.storage.from('profile_image').getPublicUrl(userId);
+      profileImage = imageUrl;
+
+      log("profile image url ==== $profileImage");
+    }
 
     //for state to refresh
     emit(Initial());
@@ -44,6 +53,8 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     String userId = supabase.auth.currentUser?.id ?? "";
     userName = await _profileRepository.getUserName();
     profileImage = supabase.storage.from('profile_image').getPublicUrl(userId);
+
+    log("get user detail = $profileImage");
 
     emit(UserDetailStateState());
   }

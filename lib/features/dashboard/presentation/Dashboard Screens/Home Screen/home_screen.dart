@@ -1,24 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
+import 'package:money_management_app/dummy_data.dart';
 import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/cubit/home_screen_cubit.dart';
+import 'package:money_management_app/features/global_bloc/global_bloc.dart';
+import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
+import 'package:money_management_app/shared_widgets/profile_image.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
-  final String userImageUrl;
-  final String? incomeAmount;
-  final String? expenseAmount;
-  final String? totalAmount;
   final DashboardCubit dashboardCubit;
 
   const HomeScreen({
     super.key,
-    required this.userImageUrl,
-    this.incomeAmount,
-    this.expenseAmount,
-    this.totalAmount,
     required this.dashboardCubit,
   });
 
@@ -42,6 +40,18 @@ class _HomeScreenState extends State<HomeScreen> {
     'November',
     'December',
   ];
+
+  late HomeScreenCubit homeScreenCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    getIt<GlobalBloc>().add(GetUserDetail());
+
+    homeScreenCubit = getIt<HomeScreenCubit>();
+
+    homeScreenCubit.getAccountBalance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +83,17 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             widget.dashboardCubit.changePage(3);
           },
-          icon: widget.userImageUrl.isNotEmpty
-              ? Image.network(widget.userImageUrl)
-              : ClipOval(
-                  child: Image.asset(
-                    'assets/images/user.webp',
-                  ),
-                ),
+          icon: BlocBuilder<GlobalBloc, GlobalState>(
+            bloc: getIt<GlobalBloc>(),
+            builder: (context, state) {
+              String imageUrl = getIt<GlobalBloc>().profileImage ?? dummyImage;
+
+              return profileImage(
+                context: context,
+                imageUrl: imageUrl,
+              );
+            },
+          ),
         ),
         actions: [
           IconButton(
@@ -170,149 +184,169 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container accountBalance(BuildContext context) {
-    return Container(
-      height: 220,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 255, 246, 229),
-            Color.fromARGB(255, 255, 249, 235)
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          children: [
-            SizedBox(height: 30),
-            Text(
-              'Account Balance',
-              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18,
-                  color: Colors.black54),
+  Widget accountBalance(BuildContext context) {
+    return BlocBuilder<HomeScreenCubit, HomeScreenState>(
+      bloc: homeScreenCubit,
+      builder: (context, state) {
+        if (state is LoadingState) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is BalanceSuccessState) {
+          double totalAmount = state.homeScreenTransactionModel.balance;
+          double totalIncome = state.homeScreenTransactionModel.totalIncome;
+          double totalExpense = state.homeScreenTransactionModel.totalExpense;
+
+          return Container(
+            height: 220,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 255, 246, 229),
+                  Color.fromARGB(255, 255, 249, 235)
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50)),
             ),
-            Text(
-              'Rs.${widget.totalAmount ?? '0'}',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineLarge!
-                  .copyWith(fontSize: 30),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    context.router.push(AddIncomeRoute());
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    height: 80,
-                    width: 164,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 0, 168, 107),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Column(
+                children: [
+                  SizedBox(height: 30),
+                  Text(
+                    'Account Balance',
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
+                        color: Colors.black54),
+                  ),
+                  Text(
+                    'Rs.$totalAmount',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(fontSize: 30),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          context.router.push(AddIncomeRoute());
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          height: 80,
+                          width: 164,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 0, 168, 107),
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/income.png',
+                                height: 40,
+                                width: 40,
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Income',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium!
+                                        .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  Text(
+                                    'Rs.$totalIncome',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/income.png',
-                          height: 40,
-                          width: 40,
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Income',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: () {
+                          context.router.push(AddExpenseRoute());
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          height: 80,
+                          width: 164,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 253, 61, 74),
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/expense.png',
+                                height: 40,
+                                width: 40,
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Expense',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium!
+                                        .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
-                            ),
-                            Text(
-                              'Rs.${widget.incomeAmount ?? '0'}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineLarge!
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    context.router.push(AddExpenseRoute());
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    height: 80,
-                    width: 164,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 253, 61, 74),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/expense.png',
-                          height: 40,
-                          width: 40,
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Expense',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                                  Text(
+                                    'Rs.$totalExpense',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(color: Colors.white),
                                   ),
-                            ),
-                            Text(
-                              'Rs.${widget.expenseAmount ?? '0'}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineLarge!
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return Text("Something went wrong");
+        }
+      },
     );
   }
 }

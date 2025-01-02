@@ -7,7 +7,7 @@ class GlobalEvent with _$GlobalEvent {
   const factory GlobalEvent.getUserDetail() = GetUserDetail;
 
   const factory GlobalEvent.updateUserDetail({
-    required String userName,
-    required String imageUrl,
+     String? userName,
+     String? imageId,
   }) = UpdateUserDetail;
 }

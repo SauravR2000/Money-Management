@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
@@ -39,6 +41,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AppRouter _appRouter = AppRouter();
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(

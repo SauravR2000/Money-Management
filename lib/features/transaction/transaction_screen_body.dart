@@ -9,6 +9,7 @@ import 'package:money_management_app/features/transaction/cubit/drop_down/drop_d
 import 'package:money_management_app/features/transaction/data/model/transaction_model.dart';
 import 'package:money_management_app/features/transaction/widget/add_attachment.dart';
 import 'package:money_management_app/injection/injection_container.dart';
+import 'package:money_management_app/main.dart';
 import 'package:money_management_app/shared_widgets/amount_textfield.dart';
 import 'package:money_management_app/shared_widgets/custom_button.dart';
 import 'package:money_management_app/shared_widgets/custom_snackbar.dart';
@@ -226,9 +227,8 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
       return;
     }
 
-    SecureLocalStorage secureLocalStorage = getIt<SecureLocalStorage>();
-    String userId =
-        await secureLocalStorage.getStringValue(key: secureLocalStorage.userId);
+    // SecureLocalStorage secureLocalStorage = getIt<SecureLocalStorage>();
+    String userId = supabase.auth.currentUser?.id ?? "";
 
     _transactionBloc.add(
       AddTransaction(

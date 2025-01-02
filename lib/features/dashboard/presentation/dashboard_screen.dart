@@ -27,7 +27,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _pages = [
       Center(
         child: HomeScreen(
-          userImageUrl: '',
           dashboardCubit: _dashboardCubit,
         ),
       ),

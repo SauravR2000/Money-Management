@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -40,6 +42,8 @@ class ProfileCubit extends Cubit<ProfileState> {
           ),
         );
 
+    log("image id = $imageId");
+
     return imageId;
   }
 
@@ -74,12 +78,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
 
       GlobalBloc globalBloc = getIt<GlobalBloc>();
-
-      String userId = supabase.auth.currentUser?.id ?? "";
-      String imageUrl =
-          supabase.storage.from('profile_image').getPublicUrl(userId);
-      globalBloc
-          .add(UpdateUserDetail(userName: userName ?? "", imageUrl: imageUrl));
+      globalBloc.add(UpdateUserDetail(userName: userName, imageId: imageId));
 
       emit(ProfileUpdatedSuccessState());
     } catch (e) {

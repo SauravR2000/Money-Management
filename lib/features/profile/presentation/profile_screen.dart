@@ -95,7 +95,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         log("rebuild the profile UI");
         if (state is UserDetailStateState) {
           var userName = globalBloc.userName ?? "";
-          final profileImageUrl = globalBloc.profileImage ?? dummyImage;
+          var profileImageUrl = globalBloc.profileImage ?? dummyImage;
+
+          log("profile image from UI = $profileImageUrl");
 
           return Row(
             children: [
