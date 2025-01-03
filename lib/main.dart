@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
+import 'package:money_management_app/core/services/notification_service.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -11,6 +10,9 @@ final supabase = Supabase.instance.client;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  /// Initialize Notification
+  NotificationService().initNotification();
 
   // Initialize env
   await dotenv.load(fileName: ".env");

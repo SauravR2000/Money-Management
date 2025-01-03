@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
+import 'package:money_management_app/core/services/notification_service.dart';
 import 'package:money_management_app/dummy_data.dart';
 import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/cubit/home_screen_cubit.dart';
@@ -55,6 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
     totalTransactionCubit = getIt<HomeScreenCubit>();
     allTransactionCubit = getIt<HomeScreenCubit>();
 
+    apiCall();
+  }
+
+  apiCall() {
     totalTransactionCubit.getAccountBalance();
     allTransactionCubit.getAllTransactions(limit: 5);
   }
@@ -103,7 +108,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              NotificationService().showScheduleNotification(
+                title: "gg ezz appp",
+                body: "bello hello",
+                schedulesTime: Duration(seconds: 10),
+              );
+            },
             icon: Icon(
               Icons.notifications_rounded,
               color: Theme.of(context).primaryColor,
@@ -112,94 +123,102 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            accountBalance(context),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 10),
-              child: Text(
-                'Spend Frequency',
-                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-            ),
-            SizedBox(height: 15),
-            chart(),
-            gap(value: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 10),
-                  child: Text(
-                    'Recent Transactions',
-                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          apiCall();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              accountBalance(context),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, top: 10),
+                child: Text(
+                  'Spend Frequency',
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20, top: 10),
-                  child: TextButton(
+              ),
+              SizedBox(height: 15),
+              chart(),
+              gap(value: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, top: 10),
                     child: Text(
-                      'See All',
+                      'Recent Transactions',
                       style:
                           Theme.of(context).textTheme.headlineMedium!.copyWith(
-                                color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                     ),
-                    onPressed: () {
-                      widget.dashboardCubit.changePage(1);
-                    },
                   ),
-                ),
-              ],
-            ),
-            gap(value: 15),
-            BlocBuilder<HomeScreenCubit, HomeScreenState>(
-              bloc: allTransactionCubit,
-              builder: (context, state) {
-                if (state is LoadingState) {
-                  return CircularProgressIndicator();
-                } else if (state is AllTransactionsSuccessState) {
-                  List<TransactionModel> transactions = state.transactions;
-
-                  return ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) => gap(value: 10),
-                    itemCount: transactions.length,
-                    itemBuilder: (context, index) {
-                      TransactionModel transaction = transactions[index];
-
-                      return GestureDetector(
-                        onTap: () {
-                          context.router.push(
-                            TransactionDetailRoute(
-                              transactionModel: transaction,
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20, top: 10),
+                    child: TextButton(
+                      child: Text(
+                        'See All',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
                             ),
-                          );
-                        },
-                        child:
-                            TransactionListingItemUi(transaction: transaction),
-                      );
-                    },
-                  );
-                } else {
-                  return Text(AppStrings.somethingWentWrong);
-                }
-              },
-            ),
+                      ),
+                      onPressed: () {
+                        widget.dashboardCubit.changePage(1);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              gap(value: 15),
+              BlocBuilder<HomeScreenCubit, HomeScreenState>(
+                bloc: allTransactionCubit,
+                builder: (context, state) {
+                  if (state is LoadingState) {
+                    return CircularProgressIndicator();
+                  } else if (state is AllTransactionsSuccessState) {
+                    List<TransactionModel> transactions = state.transactions;
 
-            //for bottom tab padding
-            gap(value: 200),
-          ],
+                    return ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => gap(value: 10),
+                      itemCount: transactions.length,
+                      itemBuilder: (context, index) {
+                        TransactionModel transaction = transactions[index];
+
+                        return GestureDetector(
+                          onTap: () {
+                            context.router.push(
+                              TransactionDetailRoute(
+                                transactionModel: transaction,
+                              ),
+                            );
+                          },
+                          child: TransactionListingItemUi(
+                              transaction: transaction),
+                        );
+                      },
+                    );
+                  } else {
+                    return Text(AppStrings.somethingWentWrong);
+                  }
+                },
+              ),
+
+              //for bottom tab padding
+              gap(value: 200),
+            ],
+          ),
         ),
       ),
     );

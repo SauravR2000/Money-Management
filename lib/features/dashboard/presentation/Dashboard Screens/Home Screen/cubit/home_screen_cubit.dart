@@ -60,17 +60,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
     final response = await table.select('*').eq('user_id', userId ?? "");
 
-    log("response = $response");
+    // log("response = $response");
 
     //cast postgresList to List<Map<String ,dynamic>>
     List<Map<String, dynamic>> results = response.cast<Map<String, dynamic>>();
 
-    log("result = $results  result is not empty = ${results.isNotEmpty}");
-
     if (results.isNotEmpty) {
       amount = results[0][columnName];
-
-      log("total $tableName amount = $amount");
     }
 
     return amount;
@@ -81,10 +77,9 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     int? month,
     int? year,
   }) async {
-    emit(LoadingState());
+    year ??= DateTime.now().year;
 
-//TODO: for testing put current year for now
-    year = DateTime.now().year;
+    emit(LoadingState());
 
     try {
       final table = supabase.from("transaction");
@@ -93,7 +88,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
       var query = table.select('*').eq('user_id', userId ?? "");
 
-      if (month != null && year != null && month != 0) {
+      if (month != null && month != 0) {
         final startDate = DateTime(year, month, 1);
         final endDate = DateTime(year, month + 1, 1);
 
@@ -102,12 +97,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
             .lt('created_at', endDate.toIso8601String());
       }
 
-      final response = await (limit != null ? query.limit(limit) : query);
+      final response = await (limit != null ? query.limit(limit) : query)
+          .order('created_at', ascending: false);
 
       List<Map<String, dynamic>> results =
           response.cast<Map<String, dynamic>>();
 
-      log("all transaction results = $results");
+      // log("all transaction results = $results");
 
       if (results.isNotEmpty) {
         List<TransactionModel> transactions = [];

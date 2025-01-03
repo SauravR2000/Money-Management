@@ -102,13 +102,25 @@ class _EditProfileBodyState extends State<EditProfileBody> {
                       text: AppStrings.update,
                       onPressed: () {
                         String enteredText = _userNameController.text;
-
-                        _profileCubit.editProfile(
-                          newProfileImage: _addAttachmentCubit.image,
-                          userName: enteredText == widget.userName
-                              ? null
-                              : enteredText,
-                        );
+                        if (enteredText != widget.userName ||
+                            _addAttachmentCubit.image != null) {
+                          _profileCubit.editProfile(
+                            newProfileImage: _addAttachmentCubit.image,
+                            userName: enteredText == widget.userName
+                                ? null
+                                : enteredText,
+                          );
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: "User detail not edited",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.yellow,
+                            textColor: Colors.black,
+                            fontSize: 16.0,
+                          );
+                        }
                       },
                       isLoading: state is ProfileLoadingState,
                     );
