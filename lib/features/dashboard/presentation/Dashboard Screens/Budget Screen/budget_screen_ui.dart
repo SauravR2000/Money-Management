@@ -11,6 +11,7 @@ import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/month_carousel.dart';
 import 'package:money_management_app/shared_widgets/unfocus_screen_widget.dart';
+import 'package:money_management_app/utils/constants/strings.dart';
 
 List<String> budgetMonths = [
   'January',
@@ -47,6 +48,9 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
   void initState() {
     _budgetBloc = BudgetBloc();
     _budgetMonthCubit = getIt<BudgetMonthCubit>();
+
+    _budgetBloc
+        .add(DataLoadedEvent(month: _budgetMonthCubit.month ?? 'January'));
     _initializedBudgetMonths();
     super.initState();
   }
@@ -70,76 +74,87 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
                     topRight: Radius.circular(35),
                   ),
                 ),
-                child: BlocProvider(
-                  create: (context) => _budgetBloc..add(DataLoadedEvent()),
-                  child: BlocBuilder<BudgetBloc, BudgetState>(
-                    builder: (context, state) {
-                      log("budget state = $state");
-                      log('budget list = ${_budgetBloc.budgetList}');
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _budgetBloc.budgetList.isEmpty
-                                ? Text(
-                                    "You don't have a budget. \n Let's make one so you are in control.",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
+                child: BlocBuilder<BudgetBloc, BudgetState>(
+                  bloc: _budgetBloc,
+                  builder: (context, state) {
+                    log("budget state = $state");
+
+                    switch (state) {
+                      case BudgetLoadingState():
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      case DataLoadedState():
+                        log('budget list = ${_budgetBloc.budgetList}');
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _budgetBloc.budgetList.isEmpty
+                                  ? Text(
+                                      "You don't have a budget. \n Let's make one so you are in control.",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: ListView.builder(
+                                          itemCount:
+                                              _budgetBloc.budgetList.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 8.0),
+                                              child: budgetCards(
+                                                _budgetBloc
+                                                    .budgetList[index].title,
+                                                _budgetBloc
+                                                    .budgetList[index].amount,
+                                              ),
+                                            );
+                                          },
                                         ),
-                                    textAlign: TextAlign.center,
-                                  )
-                                : Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(20),
-                                      child: ListView.builder(
-                                        itemCount:
-                                            _budgetBloc.budgetList.length,
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8.0),
-                                            child: budgetCards(
-                                              _budgetBloc
-                                                  .budgetList[index].title,
-                                              _budgetBloc
-                                                  .budgetList[index].amount,
-                                            ),
-                                          );
-                                        },
                                       ),
                                     ),
-                                  ),
-                            gap(value: 20),
-                            SizedBox(
-                              height: 56,
-                              width: 350,
-                              child: ElevatedButton(
-                                style:
-                                    Theme.of(context).elevatedButtonTheme.style,
-                                onPressed: () {
-                                  context.router.push(BudgetRoute());
-                                },
-                                child: Text(
-                                  'Create a Budget',
+                              gap(value: 20),
+                              SizedBox(
+                                height: 56,
+                                width: 350,
+                                child: ElevatedButton(
                                   style: Theme.of(context)
-                                      .textTheme
-                                      .headlineLarge
-                                      ?.copyWith(
-                                        color: Colors.white,
-                                      ),
+                                      .elevatedButtonTheme
+                                      .style,
+                                  onPressed: () {
+                                    context.router.push(BudgetRoute(
+                                        month: _budgetMonthCubit.month ??
+                                            'January'));
+                                  },
+                                  child: Text(
+                                    'Create a Budget',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                        ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            gap(value: 50)
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                              gap(value: 50)
+                            ],
+                          ),
+                        );
+                      default:
+                        return Text(AppStrings.somethingWentWrong);
+                    }
+                  },
                 ),
               ),
             ),
@@ -159,6 +174,7 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
       },
       builder: (context, state) {
         return monthCarousel(
+          budgetBloc: _budgetBloc,
           bloc: _budgetMonthCubit,
           months: budgetMonths,
           screenContext: context,
@@ -169,44 +185,50 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
 
   Widget budgetCards(
       String categoryTitle, int budgetAmount /*, int remainingAmount*/) {
-    return Card(
-      elevation: 5,
-      shadowColor: Colors.grey,
-      child: SizedBox(
-        width: 343,
-        height: 187,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                categoryTitle,
-                style: GoogleFonts.aBeeZee(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: () {
+        context.router.push(BudgetDetail(
+            category: categoryTitle, amount: budgetAmount.toString()));
+      },
+      child: Card(
+        elevation: 5,
+        shadowColor: Colors.grey,
+        child: SizedBox(
+          width: 343,
+          height: 187,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  categoryTitle,
+                  style: GoogleFonts.aBeeZee(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              gap(value: 20),
-              Text(
-                'Remaining \$' /*${remainingAmount.toString()}*/,
-                style: GoogleFonts.aBeeZee(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                gap(value: 20),
+                Text(
+                  'Remaining \$' /*${remainingAmount.toString()}*/,
+                  style: GoogleFonts.aBeeZee(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              gap(value: 20),
-              Text(
-                budgetAmount.toString(),
-                style: GoogleFonts.aBeeZee(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                gap(value: 20),
+                Text(
+                  budgetAmount.toString(),
+                  style: GoogleFonts.aBeeZee(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

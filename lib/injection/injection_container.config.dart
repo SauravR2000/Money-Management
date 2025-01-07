@@ -64,12 +64,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i601.AddAttachmentCubit>(() => _i601.AddAttachmentCubit());
     gh.factory<_i453.DropDownCubit>(() => _i453.DropDownCubit());
     gh.factory<_i215.CheckBoxBloc>(() => _i215.CheckBoxBloc());
-    gh.factory<_i801.OnboardingCheckCubit>(() => _i801.OnboardingCheckCubit());
-    gh.factory<_i798.OnboardingCubit>(() => _i798.OnboardingCubit());
     gh.factory<_i695.BudgetMonthCubit>(() => _i695.BudgetMonthCubit());
     gh.factory<_i673.HomeScreenCubit>(() => _i673.HomeScreenCubit());
     gh.factory<_i587.TransactionListingCubit>(
         () => _i587.TransactionListingCubit());
+    gh.factory<_i801.OnboardingCheckCubit>(() => _i801.OnboardingCheckCubit());
+    gh.factory<_i798.OnboardingCubit>(() => _i798.OnboardingCubit());
     gh.singleton<_i147.SecureLocalStorage>(() => _i147.SecureLocalStorage());
     gh.singleton<_i614.LocalStorageSharedPref>(
         () => _i614.LocalStorageSharedPref());
