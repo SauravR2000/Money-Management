@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/bloc/budget_bloc.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/budget_screen_ui.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/cubit/budget_month_cubit.dart';
 
 Widget monthCarousel({
+  required BudgetBloc budgetBloc,
   required BudgetMonthCubit bloc,
   required List<String> months,
   required BuildContext screenContext,
@@ -56,7 +58,9 @@ Widget monthCarousel({
                       )
                       .toList(),
                   onPageChanged: (currentIndex) {
-                    bloc.changeMonth(currentIndex.toString());
+                    budgetBloc.add(
+                        DataLoadedEvent(month: budgetMonths[currentIndex]));
+                    bloc.changeMonth(budgetMonths[currentIndex]);
                   },
                 ),
               ),
@@ -65,6 +69,9 @@ Widget monthCarousel({
                   bloc.pageIndex == budgetMonths.length - 1
                       ? null
                       : bloc.nextMonthSlide();
+
+                  budgetBloc.add(
+                      DataLoadedEvent(month: budgetMonths[bloc.pageIndex]));
                 },
                 icon: Icon(
                   Icons.arrow_forward_ios,

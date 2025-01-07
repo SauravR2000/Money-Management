@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/budget_screen_ui.dart';
@@ -9,9 +8,8 @@ part 'budget_month_state.dart';
 
 @injectable
 class BudgetMonthCubit extends Cubit<BudgetMonthState> {
-  String? month;
-
   int pageIndex = 0;
+  String? month;
 
   BudgetMonthCubit() : super(BudgetMonthState.initial());
 

@@ -17,7 +17,11 @@ import 'package:money_management_app/utils/constants/strings.dart';
 
 @RoutePage()
 class BudgetScreen extends StatefulWidget {
-  const BudgetScreen({super.key});
+  final String month;
+  const BudgetScreen({
+    super.key,
+    required this.month,
+  });
 
   @override
   State<BudgetScreen> createState() => _BudgetScreenState();
@@ -208,7 +212,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
                             onPressed: () {
                               _budgetBloc.add(
                                 PostDataEvent(
-                                  month: 'January',
+                                  month: widget.month,
                                   amount: int.parse(_amountController.text),
                                   category:
                                       _budgetCategoryDropDownCubit.value ?? '',

@@ -3,11 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
-<<<<<<< Updated upstream
-import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/budget_screen.dart';
-=======
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/budget_screen_ui.dart';
->>>>>>> Stashed changes
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/home_screen.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/transaction_listing/transaction_listing_screen.dart';
 import 'package:money_management_app/features/profile/presentation/profile_screen.dart';
