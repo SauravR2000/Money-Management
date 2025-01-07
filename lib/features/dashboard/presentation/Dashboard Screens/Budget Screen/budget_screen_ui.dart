@@ -6,8 +6,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/bloc/budget_bloc.dart';
+import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/cubit/budget_month_cubit.dart';
+import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
+import 'package:money_management_app/shared_widgets/month_carousel.dart';
 import 'package:money_management_app/shared_widgets/unfocus_screen_widget.dart';
+
+List<String> budgetMonths = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 @RoutePage()
 class BudgetScreenUi extends StatefulWidget {
@@ -19,10 +37,17 @@ class BudgetScreenUi extends StatefulWidget {
 
 class _BudgetScreenUiState extends State<BudgetScreenUi> {
   late BudgetBloc _budgetBloc;
+  late BudgetMonthCubit _budgetMonthCubit;
+
+  _initializedBudgetMonths() {
+    budgetMonths;
+  }
 
   @override
   void initState() {
     _budgetBloc = BudgetBloc();
+    _budgetMonthCubit = getIt<BudgetMonthCubit>();
+    _initializedBudgetMonths();
     super.initState();
   }
 
@@ -34,10 +59,7 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
         child: Column(
           children: [
             gap(value: 50),
-            Text(
-              'Add calendar here',
-              style: TextStyle(color: Colors.white),
-            ),
+            monthCarouselSlider(),
             gap(value: 16),
             Expanded(
               child: Container(
@@ -124,6 +146,24 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget monthCarouselSlider() {
+    return BlocConsumer<BudgetMonthCubit, BudgetMonthState>(
+      bloc: _budgetMonthCubit,
+      listener: (context, state) {
+        if (state is BudgetMonthSelectedState) {
+          _budgetMonthCubit.changeMonth(state.selectedMonth.toString());
+        }
+      },
+      builder: (context, state) {
+        return monthCarousel(
+          bloc: _budgetMonthCubit,
+          months: budgetMonths,
+          screenContext: context,
+        );
+      },
     );
   }
 

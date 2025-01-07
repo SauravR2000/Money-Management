@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:money_management_app/core/storage/secure_local_storage.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/bloc/budget_bloc.dart';
 import 'package:money_management_app/features/transaction/cubit/drop_down/drop_down_cubit_cubit.dart';
 import 'package:money_management_app/injection/injection_container.dart';
@@ -167,17 +169,60 @@ class _BudgetScreenState extends State<BudgetScreen> {
                     SizedBox(
                       height: 56,
                       width: 343,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: Text('Continue'),
+                      child: BlocConsumer<BudgetBloc, BudgetState>(
+                        bloc: _budgetBloc,
+                        listener: (context, state) {
+                          if (state is PostDataState) {
+                            Fluttertoast.showToast(
+                              msg: 'Budget Added',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
+                          }
+                          if (state is ErrorState) {
+                            if (state is PostDataState) {
+                              Fluttertoast.showToast(
+                                msg: 'Error',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                            }
+                          }
+                        },
+                        builder: (context, state) {
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            onPressed: () {
+                              _budgetBloc.add(
+                                PostDataEvent(
+                                  month: 'January',
+                                  amount: int.parse(_amountController.text),
+                                  category:
+                                      _budgetCategoryDropDownCubit.value ?? '',
+                                  userId: _budgetBloc.getUserId(),
+                                  notification: _lights,
+                                ),
+                              );
+                            },
+                            child: Text('Continue'),
+                          );
+                        },
                       ),
                     ),
+                    // gap(value: 50)
                   ],
                 ),
               ),
