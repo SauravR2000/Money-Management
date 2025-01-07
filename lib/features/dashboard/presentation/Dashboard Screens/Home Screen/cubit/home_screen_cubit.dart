@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -7,8 +5,8 @@ import 'package:money_management_app/features/dashboard/presentation/Dashboard%2
 import 'package:money_management_app/features/transaction/data/model/transaction_model.dart';
 import 'package:money_management_app/main.dart';
 
-part 'home_screen_state.dart';
 part 'home_screen_cubit.freezed.dart';
+part 'home_screen_state.dart';
 
 @injectable
 class HomeScreenCubit extends Cubit<HomeScreenState> {
@@ -25,7 +23,6 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       tableName: 'total_transaction',
       columnName: "total_amount",
     );
-
     double totalIncome = await getGeneralAmountFromDb(
       tableName: "total_income",
       columnName: "amount",
