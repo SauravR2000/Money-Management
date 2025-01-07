@@ -40,6 +40,9 @@ dependencies:
   meta: ^1.10.0
   path: ^1.9.0
   fluttertoast: ^8.2.10
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.10.0
+  permission_handler: ^11.3.1
 #-----------------DEPENDENCIES
 
 dev_dependencies:

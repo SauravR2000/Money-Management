@@ -43,7 +43,7 @@ ThemeData appTheme() {
       ),
     ),
     progressIndicatorTheme: ProgressIndicatorThemeData(
-      color: Colors.white,
+      color: Colors.purple,
     ),
   );
 }

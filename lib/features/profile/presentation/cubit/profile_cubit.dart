@@ -44,6 +44,10 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     log("image id = $imageId");
 
+    var imageUrl = supabase.storage.from('profile_image').getPublicUrl(imageId);
+
+    log("image url = $imageUrl");
+
     return imageId;
   }
 
@@ -77,10 +81,10 @@ class ProfileCubit extends Cubit<ProfileState> {
         );
       }
 
+      emit(ProfileUpdatedSuccessState());
+
       GlobalBloc globalBloc = getIt<GlobalBloc>();
       globalBloc.add(UpdateUserDetail(userName: userName, imageId: imageId));
-
-      emit(ProfileUpdatedSuccessState());
     } catch (e) {
       emit(ProfileErrorState(error: e.toString()));
     }
