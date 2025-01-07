@@ -20,6 +20,8 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
 
   final budgetList = <BudgetModel>[];
 
+  String getUserId() => supabase.auth.currentUser?.id ?? "";
+
   void _onDataLoaded(DataLoadedEvent event, Emitter<BudgetState> emit) async {
     SecureLocalStorage secureLocalStorage = getIt<SecureLocalStorage>();
     final String userId =
@@ -51,7 +53,27 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
     final String userId =
         await secureLocalStorage.getStringValue(key: secureLocalStorage.userId);
 
-    
-    
+    log('user id == $userId');
+
+    if (userId.isNotEmpty) {
+      log('user id not empty');
+      try {
+        log('supabase call');
+        final response = await supabase.from('Budget').insert({
+          'notification_status': event.notification,
+          'month': event.month,
+          'title': event.category,
+          'amount': event.amount,
+          'user_id': userId
+        });
+
+        log('response = $response');
+
+        emit(PostDataState());
+      } catch (e) {
+        log('error = $e');
+        emit(ErrorState(message: e.toString()));
+      }
+    }
   }
 }

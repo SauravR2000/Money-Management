@@ -4,7 +4,13 @@ part of 'budget_bloc.dart';
 class BudgetEvent with _$BudgetEvent {
   const factory BudgetEvent.started() = _Started;
   const factory BudgetEvent.dataLoaded() = DataLoadedEvent;
-  const factory BudgetEvent.postData() = PostDataEvent;
+  const factory BudgetEvent.postData({
+    required String month,
+    required int amount,
+    required String category,
+    required String userId,
+    required bool notification,
+  }) = PostDataEvent;
   const factory BudgetEvent.error() = ErrorEvent;
 }
 
