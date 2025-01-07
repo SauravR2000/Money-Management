@@ -11,6 +11,7 @@ import 'package:money_management_app/features/transaction/data/model/transaction
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/profile_image.dart';
+import 'package:money_management_app/shared_widgets/screen_padding.dart';
 import 'package:money_management_app/shared_widgets/transaction_listing_item.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -209,8 +210,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                     );
+                  } else if (state is ErrorState) {
+                    return screenPadding(child: Text(state.errorMessage));
                   } else {
-                    return Text(AppStrings.somethingWentWrong);
+                    return screenPadding(
+                      child: Text(AppStrings.somethingWentWrong),
+                    );
                   }
                 },
               ),
