@@ -74,6 +74,12 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       }
 
       TransactionModel transaction = event.transaction;
+
+      String? budgetId =
+          await getBudgetId(budgetTitle: event.transaction.category);
+
+      transaction = transaction.copyWith(budgetId: budgetId);
+
       if (attachmentId.isNotEmpty) {
         transaction = transaction.copyWith(attachment: attachmentId);
       }
@@ -92,5 +98,17 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
       emit(TransactionError(errorMessage: e.toString()));
     }
+  }
+
+  Future<String> getBudgetId({required String budgetTitle}) async {
+    final response = await supabase
+        .from('budget')
+        .select('id')
+        .eq('title', budgetTitle)
+        .single();
+
+    log("budget id = ${response['id']}");
+
+    return response['id'];
   }
 }

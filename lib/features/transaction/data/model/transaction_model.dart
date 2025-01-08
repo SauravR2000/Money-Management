@@ -15,6 +15,7 @@ class TransactionModel with _$TransactionModel {
     @JsonKey(name: 'is_expense') required bool isExpense,
     required double amount,
     @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'budget_id') required String? budgetId,
   }) = _TransactionModel;
 
   // Factory method to generate an instance from a JSON map

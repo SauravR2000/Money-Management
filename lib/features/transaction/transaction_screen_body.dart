@@ -240,6 +240,7 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
           isExpense: widget.transactionType == TransactionType.expense,
           amount: double.parse(_amountController.text),
           createdAt: DateTime.now(),
+          budgetId: null,
         ),
         imageFile: _addAttachmentCubit.image,
         pdfFile: _addAttachmentCubit.pdf,
