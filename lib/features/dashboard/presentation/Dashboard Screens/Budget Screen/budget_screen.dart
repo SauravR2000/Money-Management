@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -106,8 +108,10 @@ class _BudgetScreenState extends State<BudgetScreen> {
     return BlocConsumer<BudgetBloc, BudgetState>(
       bloc: _budgetBloc,
       listener: (context, state) {
-        _amountController.text = "";
-        _budgetCategoryDropDownCubit.value = null;
+        if (state is DataLoadedState) {
+          _amountController.text = "";
+          _budgetCategoryDropDownCubit.value = null;
+        }
       },
       builder: (context, state) {
         return Expanded(
@@ -187,17 +191,16 @@ class _BudgetScreenState extends State<BudgetScreen> {
                             );
                           }
                           if (state is ErrorState) {
-                            if (state is PostDataState) {
-                              Fluttertoast.showToast(
-                                msg: 'Error',
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 16.0,
-                              );
-                            }
+                            log("error state heree");
+                            Fluttertoast.showToast(
+                              msg: state.message,
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0,
+                            );
                           }
                         },
                         builder: (context, state) {

@@ -10,6 +10,7 @@ class BudgetModel with _$BudgetModel {
     required String title,
     required int amount,
     required String month,
+    @JsonKey(name: 'remaining_amount') required double remainingAmount,
     @JsonKey(name: 'created_at') required DateTime createdAt,
   }) = _BudgetModel;
 

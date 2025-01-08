@@ -100,15 +100,15 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     }
   }
 
-  Future<String> getBudgetId({required String budgetTitle}) async {
+  Future<String?> getBudgetId({required String budgetTitle}) async {
     final response = await supabase
         .from('budget')
         .select('id')
         .eq('title', budgetTitle)
-        .single();
+        .maybeSingle();
 
-    log("budget id = ${response['id']}");
+    log("budget id = ${response?['id']}");
 
-    return response['id'];
+    return response?['id'];
   }
 }

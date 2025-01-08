@@ -105,7 +105,9 @@ class _CustomFloatingActionButtonState extends State<CustomFloatingActionButton>
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print('object');
+                  },
                   icon: Image.asset(
                     'assets/images/currency_exchange.png',
                     fit: BoxFit.contain,

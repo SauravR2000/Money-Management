@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:money_management_app/core/storage/secure_local_storage.dart';
-import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/cubit/budget_month_cubit.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Budget%20Screen/data/model/budget_model.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/main.dart';
@@ -17,6 +16,7 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
     on<BudgetEvent>((event, emit) {});
     on<DataLoadedEvent>(_onDataLoaded);
     on<PostDataEvent>(_onPostBudgetData);
+    on<DeleteMonthBudgetEvent>(_onDeleteMonthBudget);
   }
 
   List<BudgetModel> budgetList = [];
@@ -33,59 +33,107 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
     log("user id == $userId");
 
     if (userId.isNotEmpty) {
-      final response = await supabase
-          .from('budget')
-          .select('*')
-          .eq('user_id', userId)
-          .eq('month', event.month);
+      try {
+        final stream = supabase
+            .from('budget')
+            .stream(primaryKey: ['id']).eq('user_id', userId);
 
-      log("response for month =${event.month} = $response");
+        await for (var budgetData in stream) {
+          // Filter the data locally by month
+          final filteredData = budgetData.where((budget) {
+            return budget['month'] == event.month;
+          }).toList();
 
-      budgetList = [];
+          budgetList = [];
 
-      if (response.isNotEmpty) {
-        for (var budget in response) {
-          final budgetModel = BudgetModel.fromJson(budget);
-          budgetList.add(budgetModel);
+          if (filteredData.isNotEmpty) {
+            for (var budget in filteredData) {
+              final budgetModel = BudgetModel.fromJson(budget);
+              budgetList.add(budgetModel);
+            }
+          }
+
+          emit(DataLoadedState(budgets: budgetList));
+
+          log("response for month =${event.month} = $filteredData");
+          log("budget list from bloc = $budgetList");
         }
-      } else {
-        budgetList = [];
+      } catch (error) {
+        emit(ErrorState(message: "An error occurred while loading data"));
+        log("Error: $error");
       }
-      log("budget list from bloc = $budgetList");
-
-      // emit(Initial());
-      emit(DataLoadedState(budgets: budgetList));
     } else {
-      emit(ErrorState(message: "Error Occured"));
+      emit(Initial());
+      emit(ErrorState(message: "User ID is empty"));
     }
   }
 
   void _onPostBudgetData(PostDataEvent event, Emitter<BudgetState> emit) async {
-    SecureLocalStorage secureLocalStorage = getIt<SecureLocalStorage>();
-    final String userId =
-        await secureLocalStorage.getStringValue(key: secureLocalStorage.userId);
+    final String userId = supabase.auth.currentUser?.id ?? "";
 
     log('user id == $userId');
 
     if (userId.isNotEmpty) {
       log('user id not empty');
       try {
-        log('supabase call');
-        final response = await supabase.from('budget').insert({
-          'notification_status': event.notification,
-          'month': event.month,
-          'title': event.category,
-          'amount': event.amount,
-          'user_id': userId
-        });
+        final totalTransaction = await supabase
+            .from('total_transaction')
+            .select('total_amount')
+            .eq('user_id', userId)
+            .single();
 
-        log('response = $response');
+        log("amount = ${event.amount}");
+        log("total transaction = ${totalTransaction['total_amount']}");
+        log("condition = ${event.amount < totalTransaction['total_amount']}");
 
-        emit(PostDataState());
+        if (event.amount < totalTransaction['total_amount']) {
+          final response = await supabase.from('budget').insert({
+            'notification_status': event.notification,
+            'month': event.month,
+            'title': event.category,
+            'amount': event.amount,
+            'user_id': userId
+          });
+
+          log('response = $response');
+
+          emit(PostDataState());
+        } else {
+          emit(Initial());
+
+          emit(ErrorState(message: "You don't have enough balance"));
+        }
       } catch (e) {
         log('error = $e');
+        emit(Initial());
+
         emit(ErrorState(message: e.toString()));
       }
+    }
+  }
+
+  void _onDeleteMonthBudget(
+      DeleteMonthBudgetEvent event, Emitter<BudgetState> emit) async {
+    final String userId = supabase.auth.currentUser?.id ?? "";
+
+    if (userId.isNotEmpty) {
+      try {
+        final response = await supabase
+            .from('budget')
+            .delete()
+            .eq('user_id', userId)
+            .eq('id', event.categoryId);
+
+        log('delete response = $response');
+        budgetList = [];
+        log("budget list from bloc = $budgetList");
+        // emit(DeleteBudgetState());
+        emit(DataLoadedState(budgets: budgetList));
+      } catch (e) {
+        emit(ErrorState(message: e.toString()));
+      }
+    } else {
+      emit(ErrorState(message: "User ID is empty"));
     }
   }
 }

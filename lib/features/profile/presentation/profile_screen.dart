@@ -85,85 +85,85 @@ class _ProfileScreenState extends State<ProfileScreen>
                   child: logoutButton(authBloc, context),
                 ),
                 gap(value: 15),
-                SizedBox(
-                  height: 80,
-                  width: MediaQuery.of(context).size.width,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 10,
-                        left: 0,
-                        child: Container(
-                          height: 10,
-                          width: MediaQuery.of(context).size.width / 1.06,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: -6,
-                        left: 0,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AnimatedContainer(
-                              duration: Duration(seconds: 1),
-                              height: 10,
-                              width: animatedContainerWidth,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.white, width: 10),
-                                color: AppColors.primaryColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                animationDone,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    double maxWidthForAnimatedContainer =
-                        MediaQuery.of(context).size.width / 2;
-                    setState(() {
-                      if (animatedContainerWidth == initialProgressValue) {
-                        animatedContainerWidth = maxWidthForAnimatedContainer;
+                // SizedBox(
+                //   height: 80,
+                //   width: MediaQuery.of(context).size.width,
+                //   child: Stack(
+                //     children: [
+                //       Positioned(
+                //         top: 10,
+                //         left: 0,
+                //         child: Container(
+                //           height: 10,
+                //           width: MediaQuery.of(context).size.width / 1.06,
+                //           decoration: BoxDecoration(
+                //             color: Colors.grey,
+                //             borderRadius: BorderRadius.circular(15),
+                //           ),
+                //         ),
+                //       ),
+                //       Positioned(
+                //         top: -6,
+                //         left: 0,
+                //         child: Row(
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             AnimatedContainer(
+                //               duration: Duration(seconds: 1),
+                //               height: 10,
+                //               width: animatedContainerWidth,
+                //               decoration: BoxDecoration(
+                //                 color: Theme.of(context).primaryColor,
+                //                 borderRadius: BorderRadius.circular(15),
+                //               ),
+                //             ),
+                //             Container(
+                //               padding: EdgeInsets.symmetric(horizontal: 10),
+                //               decoration: BoxDecoration(
+                //                 border:
+                //                     Border.all(color: Colors.white, width: 10),
+                //                 color: AppColors.primaryColor,
+                //                 borderRadius: BorderRadius.circular(20),
+                //               ),
+                //               child: Text(
+                //                 animationDone,
+                //                 style: Theme.of(context)
+                //                     .textTheme
+                //                     .bodyMedium!
+                //                     .copyWith(color: Colors.white),
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // TextButton(
+                //   onPressed: () {
+                //     double maxWidthForAnimatedContainer =
+                //         MediaQuery.of(context).size.width / 2;
+                //     setState(() {
+                //       if (animatedContainerWidth == initialProgressValue) {
+                //         animatedContainerWidth = maxWidthForAnimatedContainer;
 
-                        startAnimation(
-                          begin: initialProgressValue,
-                          targetWidth: maxWidthForAnimatedContainer,
-                        );
-                      } else {
-                        animatedContainerWidth = initialProgressValue;
+                //         startAnimation(
+                //           begin: initialProgressValue,
+                //           targetWidth: maxWidthForAnimatedContainer,
+                //         );
+                //       } else {
+                //         animatedContainerWidth = initialProgressValue;
 
-                        startAnimation(
-                          begin: maxWidthForAnimatedContainer,
-                          targetWidth: initialProgressValue,
-                        );
-                      }
-                    });
-                  },
-                  child: Text("animated container"),
-                ),
+                //         startAnimation(
+                //           begin: maxWidthForAnimatedContainer,
+                //           targetWidth: initialProgressValue,
+                //         );
+                //       }
+                //     });
+                //   },
+                //   child: Text("animated container"),
+                // ),
               ],
             ),
           ),
