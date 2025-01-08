@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 bloc: allTransactionCubit,
                 builder: (context, state) {
                   if (state is LoadingState) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else if (state is AllTransactionsSuccessState) {
                     List<TransactionModel> transactions = state.transactions;
 

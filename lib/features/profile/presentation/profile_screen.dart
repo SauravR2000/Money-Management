@@ -22,8 +22,18 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   late GlobalBloc globalBloc;
+
+  // double animatedContainerWidth = 0;
+
+  final double initialProgressValue = 0.0;
+
+  double animatedContainerWidth = 0.0;
+  late AnimationController _controller;
+  late Animation<double> _widthAnimation;
+  String animationDone = "0";
 
   @override
   void initState() {
@@ -32,6 +42,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
     globalBloc = getIt<GlobalBloc>();
 
     globalBloc.add(GetUserDetail());
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+
+    _widthAnimation = Tween<double>(begin: 0, end: 0).animate(_controller)
+      ..addListener(() {
+        setState(() {
+          animationDone = _widthAnimation.value.toStringAsFixed(1);
+        });
+      });
+  }
+
+  void startAnimation({
+    required double targetWidth,
+    required double begin,
+  }) {
+    _widthAnimation = Tween<double>(
+      begin: begin,
+      end: targetWidth,
+    ).animate(_controller);
+
+    _controller.forward(from: 0);
   }
 
   @override
@@ -49,7 +83,87 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: logoutButton(authBloc, context),
-                )
+                ),
+                gap(value: 15),
+                SizedBox(
+                  height: 80,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 10,
+                        left: 0,
+                        child: Container(
+                          height: 10,
+                          width: MediaQuery.of(context).size.width / 1.06,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: -6,
+                        left: 0,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AnimatedContainer(
+                              duration: Duration(seconds: 1),
+                              height: 10,
+                              width: animatedContainerWidth,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.white, width: 10),
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                animationDone,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    double maxWidthForAnimatedContainer =
+                        MediaQuery.of(context).size.width / 2;
+                    setState(() {
+                      if (animatedContainerWidth == initialProgressValue) {
+                        animatedContainerWidth = maxWidthForAnimatedContainer;
+
+                        startAnimation(
+                          begin: initialProgressValue,
+                          targetWidth: maxWidthForAnimatedContainer,
+                        );
+                      } else {
+                        animatedContainerWidth = initialProgressValue;
+
+                        startAnimation(
+                          begin: maxWidthForAnimatedContainer,
+                          targetWidth: initialProgressValue,
+                        );
+                      }
+                    });
+                  },
+                  child: Text("animated container"),
+                ),
               ],
             ),
           ),
