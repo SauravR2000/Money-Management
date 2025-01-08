@@ -34,7 +34,7 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
 
     if (userId.isNotEmpty) {
       final response = await supabase
-          .from('Budget')
+          .from('budget')
           .select('*')
           .eq('user_id', userId)
           .eq('month', event.month);
@@ -71,7 +71,7 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
       log('user id not empty');
       try {
         log('supabase call');
-        final response = await supabase.from('Budget').insert({
+        final response = await supabase.from('budget').insert({
           'notification_status': event.notification,
           'month': event.month,
           'title': event.category,
