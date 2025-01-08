@@ -11,7 +11,7 @@ class BudgetState with _$BudgetState {
 
   const factory BudgetState.postData() = PostDataState;
 
-  const factory BudgetState.getBudgetForIndividualMonths() = MonthlyBudgetState;
+  const factory BudgetState.deleteBudget() = DeleteBudgetState;
 
   const factory BudgetState.error({required String message}) = ErrorState;
 

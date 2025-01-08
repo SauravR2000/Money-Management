@@ -13,9 +13,7 @@ class BudgetEvent with _$BudgetEvent {
     required String userId,
     required bool notification,
   }) = PostDataEvent;
-  const factory BudgetEvent.monthlyBudget({
-    required String month,
-  }) = MonthlyBudgetEvent;
+  const factory BudgetEvent.deleteBudget({required String categoryId}) = DeleteMonthBudgetEvent;
   const factory BudgetEvent.error() = ErrorEvent;
 }
 
