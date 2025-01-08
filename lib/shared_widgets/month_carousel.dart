@@ -42,7 +42,8 @@ Widget monthCarousel({
                 width: 200,
                 child: PageView(
                   controller: carouselController,
-                  children: budgetMonths
+                  physics: NeverScrollableScrollPhysics(),
+                  children: budgetMonths 
                       .map(
                         (item) => Center(
                           child: Text(
