@@ -1,0 +1,2 @@
+/Users/ebpearls/Documents/Flutter Project/Money-Management/android/app/.cxx/RelWithDebInfo/2x4x6a3a/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/ebpearls/Documents/Flutter Project/Money-Management/android/app/.cxx/RelWithDebInfo/2x4x6a3a/armeabi-v7a/CMakeFiles/rebuild_cache.dir

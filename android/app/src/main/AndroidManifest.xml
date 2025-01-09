@@ -5,7 +5,7 @@
         android:maxSdkVersion="33" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <application
-        android:label="money_management_app"
+        android:label="Money Management"
         android:name="${applicationName}"
         android:icon="@mipmap/money_management_app_icon">
         <activity
