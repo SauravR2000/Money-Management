@@ -9,6 +9,7 @@ import 'package:money_management_app/features/dashboard/presentation/Dashboard%2
 import 'package:money_management_app/features/transaction/cubit/drop_down/drop_down_cubit_cubit.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/amount_textfield.dart';
+import 'package:money_management_app/shared_widgets/custom_snackbar.dart';
 import 'package:money_management_app/shared_widgets/dropdown_category.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/unfocus_screen_widget.dart';
@@ -17,18 +18,18 @@ import 'package:money_management_app/utils/constants/strings.dart';
 // List<Map<String, dynamic>> budgetList = <Map<String, dynamic>>[];
 
 @RoutePage()
-class BudgetScreen extends StatefulWidget {
+class AddBudgetScreen extends StatefulWidget {
   final String month;
-  const BudgetScreen({
+  const AddBudgetScreen({
     super.key,
     required this.month,
   });
 
   @override
-  State<BudgetScreen> createState() => _BudgetScreenState();
+  State<AddBudgetScreen> createState() => _AddBudgetScreenState();
 }
 
-class _BudgetScreenState extends State<BudgetScreen> {
+class _AddBudgetScreenState extends State<AddBudgetScreen> {
   bool _lights = false;
 
   final _titleController = TextEditingController();
@@ -189,6 +190,9 @@ class _BudgetScreenState extends State<BudgetScreen> {
                               textColor: Colors.white,
                               fontSize: 16.0,
                             );
+
+                            _amountController.text = "";
+                            _budgetCategoryDropDownCubit.value = null;
                           }
                           if (state is ErrorState) {
                             log("error state heree");
@@ -212,6 +216,24 @@ class _BudgetScreenState extends State<BudgetScreen> {
                               ),
                             ),
                             onPressed: () {
+                              if (_amountController.text.isEmpty) {
+                                log("amoutn = ${_amountController.text}");
+                                customErrorSnackBar(
+                                  context: context,
+                                  errorMessage: AppStrings.amountCantBeEmpty,
+                                );
+                                return;
+                              }
+
+                              if (_budgetCategoryDropDownCubit.value?.isEmpty ??
+                                  true) {
+                                customErrorSnackBar(
+                                  context: context,
+                                  errorMessage: AppStrings.categoryCantBeEmpty,
+                                );
+                                return;
+                              }
+
                               _budgetBloc.add(
                                 PostDataEvent(
                                   month: widget.month,
