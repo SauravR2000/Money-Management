@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +8,7 @@ import 'package:money_management_app/core/services/notification_service.dart';
 import 'package:money_management_app/dummy_data.dart';
 import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/cubit/home_screen_cubit.dart';
+import 'package:money_management_app/features/dashboard/presentation/Dashboard%20Screens/Home%20Screen/data/chart_data_model.dart';
 import 'package:money_management_app/features/global_bloc/global_bloc.dart';
 import 'package:money_management_app/features/transaction/data/model/transaction_model.dart';
 import 'package:money_management_app/injection/injection_container.dart';
@@ -133,17 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               accountBalance(context),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 10),
-                child: Text(
-                  'Spend Frequency',
-                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              SizedBox(height: 15),
-              chart(),
+
               gap(value: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -229,25 +222,90 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SfCartesianChart chart() {
-    return SfCartesianChart(
-      primaryXAxis: CategoryAxis(),
-      // primaryYAxis: NumericAxis(
-      //   minimum: 0,
-      //   maximum: 20,
-      // ),
-      series: <LineSeries<ExpenseData, String>>[
-        LineSeries<ExpenseData, String>(
-            // Bind data source
-            dataSource: <ExpenseData>[
-              ExpenseData('Jan', 35),
-              ExpenseData('Feb', 28),
-              ExpenseData('Mar', 34),
-              ExpenseData('Apr', 32),
-              ExpenseData('May', 40)
-            ],
-            xValueMapper: (ExpenseData sales, _) => sales.year,
-            yValueMapper: (ExpenseData sales, _) => sales.sales)
+  Widget chart({required double income, required double expense}) {
+    List<ChartData> chartData = [
+      ChartData('Income', income, Colors.green),
+      ChartData('Expense', expense, Colors.red),
+    ];
+
+    // return SfCircularChart(
+    //   series: <CircularSeries>[
+    //     PieSeries<ChartData, String>(
+    //       dataSource: chartData,
+    //       xValueMapper: (ChartData data, _) => data.x,
+    //       yValueMapper: (ChartData data, _) => data.y,
+    //       // Radius of pie
+    //       radius: '80%',
+    //       dataLabelSettings: DataLabelSettings(
+    //         isVisible: true, // Show labels
+    //         labelPosition: ChartDataLabelPosition.outside, // Position of labels
+    //         textStyle: TextStyle(
+    //           fontSize: 12,
+    //           color: Colors.black,
+    //           fontWeight: FontWeight.bold,
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    //   // onDataLabelTapped: (onTapArgs) {
+    //   //   log("tapped");
+    //   //   // Show a dialog when the label is tapped
+    //   //   showDialog(
+    //   //     context: context,
+    //   //     builder: (BuildContext context) {
+    //   //       final tappedData = chartData[onTapArgs.pointIndex!];
+    //   //       return AlertDialog(
+    //   //         title: Text('Segment Details'),
+    //   //         content: Column(
+    //   //           mainAxisSize: MainAxisSize.min,
+    //   //           children: [
+    //   //             Text('Category: ${tappedData.x}'),
+    //   //             Text('Value: ${tappedData.y}'),
+    //   //             SizedBox(height: 20),
+    //   //             SfCircularChart(
+    //   //               series: <CircularSeries>[
+    //   //                 DoughnutSeries<ChartData, String>(
+    //   //                   dataSource: [
+    //   //                     tappedData
+    //   //                   ], // Highlight only the tapped segment
+    //   //                   xValueMapper: (ChartData data, _) => data.x,
+    //   //                   yValueMapper: (ChartData data, _) => data.y,
+    //   //                   dataLabelSettings: DataLabelSettings(isVisible: true),
+    //   //                   explodeAll: true,
+    //   //                   explode: true,
+    //   //                   explodeIndex: 1,
+    //   //                 ),
+    //   //               ],
+    //   //             ),
+    //   //           ],
+    //   //         ),
+    //   //         actions: [
+    //   //           TextButton(
+    //   //             onPressed: () => Navigator.of(context).pop(),
+    //   //             child: Text('Close'),
+    //   //           ),
+    //   //         ],
+    //   //       );
+    //   //     },
+    //   //   );
+    //   // },
+    // );
+
+    return SfCircularChart(
+      title: ChartTitle(text: 'Income vs Expense'),
+      legend: Legend(isVisible: true, position: LegendPosition.bottom),
+      series: <CircularSeries>[
+        PieSeries<ChartData, String>(
+          dataSource: chartData,
+          xValueMapper: (ChartData data, _) => data.label,
+          yValueMapper: (ChartData data, _) => data.value,
+          pointColorMapper: (ChartData data, _) => data.color,
+          dataLabelSettings: const DataLabelSettings(
+              isVisible: true,
+              color: Colors.white,
+              labelPosition: ChartDataLabelPosition.outside),
+          explode: true, // Enables exploding on selection
+        ),
       ],
     );
   }
@@ -265,164 +323,184 @@ class _HomeScreenState extends State<HomeScreen> {
           double totalIncome = state.homeScreenTransactionModel.totalIncome;
           double totalExpense = state.homeScreenTransactionModel.totalExpense;
 
-          return Container(
-            height: 220,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 255, 246, 229),
-                  Color.fromARGB(255, 255, 249, 235)
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                children: [
-                  SizedBox(height: 30),
-                  Text(
-                    'Account Balance',
-                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 18,
-                        color: Colors.black54),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 250,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 255, 246, 229),
+                      Color.fromARGB(255, 255, 249, 235)
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
-                  Text(
-                    'Rs.$totalAmount',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineLarge!
-                        .copyWith(fontSize: 30),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            context.router.push(AddIncomeRoute());
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            // height: 80,
-                            // width: 164,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 0, 168, 107),
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
+                      SizedBox(height: 30),
+                      Text(
+                        'Account Balance',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge!
+                            .copyWith(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 18,
+                                color: Colors.black54),
+                      ),
+                      Text(
+                        'Rs.$totalAmount',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge!
+                            .copyWith(fontSize: 30),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                context.router.push(AddIncomeRoute());
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                // height: 80,
+                                // width: 164,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 0, 168, 107),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(30),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/income.png',
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Income',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineMedium!
+                                                .copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                          Text(
+                                            'Rs.$totalIncome',
+                                            maxLines: 3,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge!
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  'assets/images/income.png',
-                                  height: 40,
-                                  width: 40,
+                          ),
+                          gap(value: 10),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                context.router.push(AddExpenseRoute());
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                // height: 80,
+                                // width: 164,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 253, 61, 74),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
                                 ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Income',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium!
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/expense.png',
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Expense',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineMedium!
+                                                .copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                          Text(
+                                            'Rs.$totalExpense',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge!
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        'Rs.$totalIncome',
-                                        maxLines: 3,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                      gap(value: 10),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            context.router.push(AddExpenseRoute());
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            // height: 80,
-                            // width: 164,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 253, 61, 74),
-                              shape: BoxShape.rectangle,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                            ),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  'assets/images/expense.png',
-                                  height: 40,
-                                  width: 40,
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Expense',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium!
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                      Text(
-                                        'Rs.$totalExpense',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      gap(value: 15),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, top: 10),
+                child: Text(
+                  'Spend Frequency',
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+              SizedBox(height: 15),
+              chart(income: totalIncome, expense: totalExpense),
+            ],
           );
         } else {
           return Text("Something went wrong");

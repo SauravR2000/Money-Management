@@ -125,7 +125,9 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
             .eq('id', event.categoryId);
 
         log('delete response = $response');
-        budgetList = [];
+        budgetList.removeWhere(
+          (element) => element.id == event.categoryId,
+        );
         log("budget list from bloc = $budgetList");
         // emit(DeleteBudgetState());
         emit(DataLoadedState(budgets: budgetList));
