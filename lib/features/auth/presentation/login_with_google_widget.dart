@@ -1,5 +1,11 @@
+import 'dart:developer';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:money_management_app/config/router/app_router.gr.dart';
+import 'package:money_management_app/features/auth/bloc/auth_bloc/auth_bloc.dart';
+import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/main.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/utils/constants/colors.dart';
@@ -17,26 +23,26 @@ class _LoginWithGoogleWidgetState extends State<LoginWithGoogleWidget> {
   @override
   void initState() {
     super.initState();
-    // _setupAuthListener();
+    _setupAuthListener();
   }
 
-  // void _setupAuthListener() {
-  //   supabase.auth.onAuthStateChange.listen((data) {
-  //     final event = data.event;
-  //     log("supabase event = $event");
-  //     if (event == AuthChangeEvent.signedIn) {
-  //       if (mounted) {
-  //         // Navigator.of(context).pushReplacement(
-  //         //   MaterialPageRoute(
-  //         //     builder: (context) => const DashboardScreen(),
-  //         //   ),
-  //         // );
+  void _setupAuthListener() {
+    supabase.auth.onAuthStateChange.listen((data) {
+      final event = data.event;
+      log("supabase event = $event");
+      if (event == AuthChangeEvent.signedIn) {
+        if (mounted) {
+          // Navigator.of(context).pushReplacement(
+          //   MaterialPageRoute(
+          //     builder: (context) => const DashboardScreen(),
+          //   ),
+          // );
 
-  //         context.router.replaceAll([DashboardRoute()]);
-  //       }
-  //     }
-  //   });
-  // }
+          context.router.replaceAll([DashboardRoute()]);
+        }
+      }
+    });
+  }
 
   Future<AuthResponse> _googleSignIn() async {
     const webClientId =
@@ -75,8 +81,10 @@ class _LoginWithGoogleWidgetState extends State<LoginWithGoogleWidget> {
 
     return Center(
       child: GestureDetector(
-        onTap: () {
-          _googleSignIn();
+        onTap: () async {
+          var response = await _googleSignIn();
+
+          getIt<AuthBloc>().storeUserCredentials(response);
         },
         child: Container(
           alignment: Alignment.center,

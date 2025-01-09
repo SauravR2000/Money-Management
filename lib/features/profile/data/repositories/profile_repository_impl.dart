@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:injectable/injectable.dart';
 import 'package:money_management_app/features/profile/domain/repositories/profile_repository.dart';
 import 'package:money_management_app/main.dart';
@@ -9,7 +11,10 @@ class ProfileRepositoryImpl extends ProfileRepository {
   Future getUserName() async {
     var userData = await supabase.auth.getUser();
 
+    log("user meta data = ${userData.user?.userMetadata}");
+
     return userData.user?.userMetadata?['displayName'] ??
+        userData.user?.userMetadata?['full_name'] ??
         AppStrings.noNameFound;
   }
 }

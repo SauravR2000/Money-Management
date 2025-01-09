@@ -103,6 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context, state) {
               String imageUrl = getIt<GlobalBloc>().profileImage ?? dummyImage;
 
+              log("image url == $imageUrl");
+
               return profileImage(
                 context: context,
                 imageUrl: imageUrl,
@@ -239,11 +241,13 @@ class _HomeScreenState extends State<HomeScreen> {
           xValueMapper: (ChartData data, _) => data.label,
           yValueMapper: (ChartData data, _) => data.value,
           pointColorMapper: (ChartData data, _) => data.color,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: true,
-            color: Colors.white,
-            labelPosition: ChartDataLabelPosition.outside,
-          ),
+          dataLabelSettings: (income == 0 && expense == 0)
+              ? const DataLabelSettings(isVisible: false) // Hide labels
+              : const DataLabelSettings(
+                  isVisible: true,
+                  color: Colors.white,
+                  labelPosition: ChartDataLabelPosition.outside,
+                ),
           explode: true, // Enables exploding on selection
         ),
       ],

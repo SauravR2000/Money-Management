@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:money_management_app/dummy_data.dart';
 
 Container profileImage({
   required BuildContext context,
@@ -30,6 +31,15 @@ Container profileImage({
               fit: BoxFit.cover,
               width: radius,
               height: radius,
+              errorBuilder: (context, error, stackTrace) {
+                // Display dummy image on error
+                return Image.network(
+                  dummyImage,
+                  fit: BoxFit.cover,
+                  width: radius,
+                  height: radius,
+                );
+              },
             ),
     ),
   );
