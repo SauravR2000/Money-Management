@@ -193,9 +193,10 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
 
                             _amountController.text = "";
                             _budgetCategoryDropDownCubit.value = null;
+                            context.router.popForced();
                           }
                           if (state is ErrorState) {
-                            log("error state heree");
+                            log("error state here");
                             Fluttertoast.showToast(
                               msg: state.message,
                               toastLength: Toast.LENGTH_SHORT,
