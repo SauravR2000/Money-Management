@@ -1,11 +1,17 @@
+import 'dart:developer';
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
+import 'package:money_management_app/features/dashboard/cubit/dashboard_cubit.dart';
 
 class CustomFloatingActionButton extends StatefulWidget {
-  const CustomFloatingActionButton({super.key});
+  final DashboardCubit dashboardCubit;
+  const CustomFloatingActionButton({
+    super.key,
+    required this.dashboardCubit,
+  });
 
   @override
   State<CustomFloatingActionButton> createState() =>
@@ -104,16 +110,23 @@ class _CustomFloatingActionButtonState extends State<CustomFloatingActionButton>
                   color: Color.fromARGB(255, 0, 119, 255),
                   borderRadius: BorderRadius.circular(40),
                 ),
-                child: IconButton(
-                  onPressed: () {
-                    print('object');
-                  },
-                  icon: Image.asset(
-                    'assets/images/currency_exchange.png',
-                    fit: BoxFit.contain,
+                child: Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    onPressed: () {
+                      print("yolog");
+
+                      toggleFloatingActionButton();
+                      widget.dashboardCubit.changePage(1);
+                    },
+                    icon: Image.asset(
+                      'assets/images/currency_exchange.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
+           
             ),
             AnimatedAlign(
               duration: toggle
