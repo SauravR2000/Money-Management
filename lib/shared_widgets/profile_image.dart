@@ -33,8 +33,8 @@ Container profileImage({
               height: radius,
               errorBuilder: (context, error, stackTrace) {
                 // Display dummy image on error
-                return Image.network(
-                  dummyImage,
+                return Image.asset(
+                  "assets/images/profile_place_holder.png",
                   fit: BoxFit.cover,
                   width: radius,
                   height: radius,
