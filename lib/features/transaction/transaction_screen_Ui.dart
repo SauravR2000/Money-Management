@@ -21,6 +21,7 @@ class TransactionScreenUi extends StatelessWidget {
       child: Scaffold(
         backgroundColor: color,
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: color,
           centerTitle: true,
           title: Text(

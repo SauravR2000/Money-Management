@@ -8,7 +8,7 @@ ThemeData appTheme() {
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(
-      color: Colors.white,
+      color: Colors.black,
     )),
     textTheme: TextTheme(
       headlineLarge: GoogleFonts.aBeeZee(

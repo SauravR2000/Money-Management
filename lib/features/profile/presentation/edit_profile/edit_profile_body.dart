@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:money_management_app/dummy_data.dart';
+import 'package:money_management_app/features/global_bloc/global_bloc.dart';
 import 'package:money_management_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:money_management_app/features/transaction/cubit/add_attachment/add_attachment_cubit.dart';
 import 'package:money_management_app/injection/injection_container.dart';
@@ -41,9 +43,8 @@ class _EditProfileBodyState extends State<EditProfileBody> {
     _addAttachmentCubit = getIt<AddAttachmentCubit>();
     _profileCubit = getIt<ProfileCubit>();
 
-    String userId = supabase.auth.currentUser?.id ?? "";
-    profileImageUrl =
-        supabase.storage.from('profile_image').getPublicUrl(userId);
+    // String userId = supabase.auth.currentUser?.id ?? "";
+    profileImageUrl = getIt<GlobalBloc>().profileImage ?? dummyImage;
     String email = supabase.auth.currentUser?.email ?? "email not found";
     _emailController = TextEditingController(text: email);
     _userNameController = TextEditingController(text: widget.userName);

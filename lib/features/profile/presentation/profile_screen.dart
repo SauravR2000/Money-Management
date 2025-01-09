@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      AppStrings.userName,
+                      AppStrings.name,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!

@@ -133,9 +133,13 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
           _walletDropDownCubit.value = null;
           _addAttachmentCubit.image = null;
 
-          customSuccessSnackBar(
-            context: context,
-            errorMessage: AppStrings.transactionAddedSuccessfully,
+          // customSuccessSnackBar(
+          //   context: context,
+          //   errorMessage: AppStrings.transactionAddedSuccessfully,
+          // );
+          showFlutterToast(
+            message: AppStrings.transactionAddedSuccessfully,
+            isError: false,
           );
         }
       },
@@ -203,25 +207,40 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
   void _addTransaction(BuildContext context) async {
     if (_amountController.text.isEmpty) {
       log("amoutn = ${_amountController.text}");
-      customErrorSnackBar(
-        context: context,
-        errorMessage: AppStrings.amountCantBeEmpty,
+      // customErrorSnackBar(
+      //   context: context,
+      //   errorMessage: AppStrings.amountCantBeEmpty,
+      // );
+
+      showFlutterToast(
+        message: AppStrings.amountCantBeEmpty,
+        isError: true,
       );
       return;
     }
 
     if (_categoryDropDownCubit.value?.isEmpty ?? true) {
-      customErrorSnackBar(
-        context: context,
-        errorMessage: AppStrings.categoryCantBeEmpty,
+      // customErrorSnackBar(
+      //   context: context,
+      //   errorMessage: AppStrings.categoryCantBeEmpty,
+      // );
+
+      showFlutterToast(
+        message: AppStrings.categoryCantBeEmpty,
+        isError: true,
       );
       return;
     }
 
     if (_walletDropDownCubit.value?.isEmpty ?? true) {
-      customErrorSnackBar(
-        context: context,
-        errorMessage: AppStrings.walletCantBeEmpty,
+      // customErrorSnackBar(
+      //   context: context,
+      //   errorMessage: AppStrings.walletCantBeEmpty,
+      // );
+
+      showFlutterToast(
+        message: AppStrings.walletCantBeEmpty,
+        isError: true,
       );
       return;
     }
