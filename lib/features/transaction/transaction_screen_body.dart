@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money_management_app/features/transaction/bloc/transaction_bloc.dart';
@@ -141,6 +142,8 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
             message: AppStrings.transactionAddedSuccessfully,
             isError: false,
           );
+
+          context.router.popForced();
         }
       },
       builder: (context, state) {
