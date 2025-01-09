@@ -76,6 +76,23 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
     if (userId.isNotEmpty) {
       log('user id not empty');
       try {
+        // Check if the category already exists for the month
+        final existingBudget = await supabase
+            .from('budget')
+            .select('id')
+            .eq('user_id', userId)
+            .eq('title', event.category)
+            .eq('month', event.month)
+            .maybeSingle();
+
+        if (existingBudget != null) {
+          emit(ErrorState(
+              message:
+                  "Budget for this category already exists for the selected month."));
+          return;
+        }
+
+        // Fetch total transaction
         final totalTransaction = await supabase
             .from('total_transaction')
             .select('total_amount')
@@ -92,23 +109,21 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
             'month': event.month,
             'title': event.category,
             'amount': event.amount,
-            'user_id': userId
+            'user_id': userId,
           });
 
           log('response = $response');
 
           emit(PostDataState());
         } else {
-          emit(Initial());
-
           emit(ErrorState(message: "You don't have enough balance"));
         }
       } catch (e) {
         log('error = $e');
-        emit(Initial());
-
         emit(ErrorState(message: e.toString()));
       }
+    } else {
+      emit(ErrorState(message: "User ID is empty"));
     }
   }
 
@@ -125,9 +140,13 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
             .eq('id', event.categoryId);
 
         log('delete response = $response');
-        budgetList = [];
-        log("budget list from bloc = $budgetList");
-        // emit(DeleteBudgetState());
+
+        // Remove the deleted item from the budgetList
+        budgetList = budgetList
+            .where((budget) => budget.id != event.categoryId)
+            .toList();
+
+        log("Updated budget list from bloc = $budgetList");
         emit(DataLoadedState(budgets: budgetList));
       } catch (e) {
         emit(ErrorState(message: e.toString()));
