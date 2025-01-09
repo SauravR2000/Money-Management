@@ -223,73 +223,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget chart({required double income, required double expense}) {
-    List<ChartData> chartData = [
-      ChartData('Income', income, Colors.green),
-      ChartData('Expense', expense, Colors.red),
-    ];
-
-    // return SfCircularChart(
-    //   series: <CircularSeries>[
-    //     PieSeries<ChartData, String>(
-    //       dataSource: chartData,
-    //       xValueMapper: (ChartData data, _) => data.x,
-    //       yValueMapper: (ChartData data, _) => data.y,
-    //       // Radius of pie
-    //       radius: '80%',
-    //       dataLabelSettings: DataLabelSettings(
-    //         isVisible: true, // Show labels
-    //         labelPosition: ChartDataLabelPosition.outside, // Position of labels
-    //         textStyle: TextStyle(
-    //           fontSize: 12,
-    //           color: Colors.black,
-    //           fontWeight: FontWeight.bold,
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    //   // onDataLabelTapped: (onTapArgs) {
-    //   //   log("tapped");
-    //   //   // Show a dialog when the label is tapped
-    //   //   showDialog(
-    //   //     context: context,
-    //   //     builder: (BuildContext context) {
-    //   //       final tappedData = chartData[onTapArgs.pointIndex!];
-    //   //       return AlertDialog(
-    //   //         title: Text('Segment Details'),
-    //   //         content: Column(
-    //   //           mainAxisSize: MainAxisSize.min,
-    //   //           children: [
-    //   //             Text('Category: ${tappedData.x}'),
-    //   //             Text('Value: ${tappedData.y}'),
-    //   //             SizedBox(height: 20),
-    //   //             SfCircularChart(
-    //   //               series: <CircularSeries>[
-    //   //                 DoughnutSeries<ChartData, String>(
-    //   //                   dataSource: [
-    //   //                     tappedData
-    //   //                   ], // Highlight only the tapped segment
-    //   //                   xValueMapper: (ChartData data, _) => data.x,
-    //   //                   yValueMapper: (ChartData data, _) => data.y,
-    //   //                   dataLabelSettings: DataLabelSettings(isVisible: true),
-    //   //                   explodeAll: true,
-    //   //                   explode: true,
-    //   //                   explodeIndex: 1,
-    //   //                 ),
-    //   //               ],
-    //   //             ),
-    //   //           ],
-    //   //         ),
-    //   //         actions: [
-    //   //           TextButton(
-    //   //             onPressed: () => Navigator.of(context).pop(),
-    //   //             child: Text('Close'),
-    //   //           ),
-    //   //         ],
-    //   //       );
-    //   //     },
-    //   //   );
-    //   // },
-    // );
+    List<ChartData> chartData = (income == 0 && expense == 0)
+        ? [ChartData('No Data', 1, Colors.grey)] // Single grey slice
+        : [
+            ChartData('Income', income, Colors.green),
+            ChartData('Expense', expense, Colors.red),
+          ];
 
     return SfCircularChart(
       title: ChartTitle(text: 'Income vs Expense'),
@@ -301,9 +240,10 @@ class _HomeScreenState extends State<HomeScreen> {
           yValueMapper: (ChartData data, _) => data.value,
           pointColorMapper: (ChartData data, _) => data.color,
           dataLabelSettings: const DataLabelSettings(
-              isVisible: true,
-              color: Colors.white,
-              labelPosition: ChartDataLabelPosition.outside),
+            isVisible: true,
+            color: Colors.white,
+            labelPosition: ChartDataLabelPosition.outside,
+          ),
           explode: true, // Enables exploding on selection
         ),
       ],
