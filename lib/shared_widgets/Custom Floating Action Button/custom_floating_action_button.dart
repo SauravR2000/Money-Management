@@ -94,40 +94,41 @@ class _CustomFloatingActionButtonState extends State<CustomFloatingActionButton>
                 ),
               ),
             ),
-            AnimatedAlign(
-              duration: toggle
-                  ? Duration(milliseconds: 275)
-                  : Duration(milliseconds: 875),
-              alignment: alignment2,
-              curve: toggle ? Curves.easeIn : Curves.elasticOut,
-              child: AnimatedContainer(
-                padding: EdgeInsets.all(6),
-                duration: Duration(milliseconds: 275),
-                curve: toggle ? Curves.easeIn : Curves.easeOut,
-                height: size2,
-                width: size2,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 0, 119, 255),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: IconButton(
-                    onPressed: () {
-                      print("yolog");
+            // AnimatedAlign(
+            //   duration: toggle
+            //       ? Duration(milliseconds: 275)
+            //       : Duration(milliseconds: 875),
+            //   alignment: alignment2,
+            //   curve: toggle ? Curves.easeIn : Curves.elasticOut,
+            //   child: AnimatedContainer(
+            //     padding: EdgeInsets.all(6),
+            //     duration: Duration(milliseconds: 275),
+            //     curve: toggle ? Curves.easeIn : Curves.easeOut,
+            //     height: size2,
+            //     width: size2,
+            //     decoration: BoxDecoration(
+            //       color: Color.fromARGB(255, 0, 119, 255),
+            //       borderRadius: BorderRadius.circular(40),
+            //     ),
+            //     child: Material(
+            //       color: Colors.transparent,
+            //       child: IconButton(
+            //         onPressed: () {
+            //           print("yolog");
 
-                      toggleFloatingActionButton();
-                      widget.dashboardCubit.changePage(1);
-                    },
-                    icon: Image.asset(
-                      'assets/images/currency_exchange.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-              ),
-           
-            ),
+            //           toggleFloatingActionButton();
+            //           widget.dashboardCubit.changePage(1);
+            //         },
+            //         icon: Image.asset(
+            //           'assets/images/currency_exchange.png',
+            //           fit: BoxFit.contain,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+
+            // ),
+
             AnimatedAlign(
               duration: toggle
                   ? Duration(milliseconds: 275)
