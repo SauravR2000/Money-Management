@@ -13,7 +13,7 @@ class TransactionListingItemUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String incomeOrExpenseSymbol = transaction.isExpense ? "-" : "+";
+    // String incomeOrExpenseSymbol = transaction.isExpense ? "-" : "+";
     Color incomeOrExpenseColor =
         transaction.isExpense ? Colors.red : Colors.green;
 
@@ -45,7 +45,7 @@ class TransactionListingItemUi extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "$incomeOrExpenseSymbol ${transaction.amount.toString()}",
+                transaction.amount.toString(),
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium!

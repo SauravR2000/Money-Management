@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/ebpearls/homebrew/Caskroom/flutter/3.24.3/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/ebpearls/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/ebpearls/Documents/Flutter Project/Money-Management/android/app/.cxx/Debug/1h1z6d2u/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/ebpearls/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/ebpearls/Documents/Flutter Project/Money-Management/android/app/.cxx/Debug/1h1z6d2u/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

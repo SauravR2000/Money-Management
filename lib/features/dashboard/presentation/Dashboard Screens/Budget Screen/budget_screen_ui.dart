@@ -194,124 +194,118 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
     double remainingAmount,
     String categoryId,
   ) {
-    return InkWell(
-      onTap: () {
-        context.router.push(BudgetDetail(
-            category: categoryTitle, amount: budgetAmount.toString()));
-      },
-      child: Card(
-        elevation: 5,
-        shadowColor: Colors.grey,
-        child: SizedBox(
-          width: 343,
-          // height: 187,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      child: Text(
-                        categoryTitle,
-                        style: GoogleFonts.aBeeZee(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
+    return Card(
+      elevation: 5,
+      shadowColor: Colors.grey,
+      child: SizedBox(
+        width: 343,
+        // height: 187,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        // Show the AlertDialog
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                  'Are you sure you want to delete this budget?'),
-                              content: Text('This action cannot be undone.'),
-                              actions: [
-                                TextButton(
-                                  child: Text('Cancel'),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // Close the dialog
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('Delete'),
-                                  onPressed: () {
-                                    _budgetBloc.add(
-                                      DeleteMonthBudgetEvent(
-                                        categoryId: categoryId,
-                                      ),
-                                    );
-                                    Navigator.of(context)
-                                        .pop(); // Close the dialog after action
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.delete,
+                    child: Text(
+                      categoryTitle,
+                      style: GoogleFonts.aBeeZee(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
-                  ],
-                ),
-                gap(value: 10),
-                Text(
-                  remainingAmount < 0
-                      ? 'Remaining Rs.0'
-                      : 'Remaining Rs.${remainingAmount.toStringAsFixed(0)}',
-                  style: GoogleFonts.aBeeZee(
-                    fontSize: 24,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                gap(value: 5),
-                CustomProgressIndicator(
-                  height: 10,
-                  width: MediaQuery.of(context).size.width,
-                  progress: (remainingAmount / budgetAmount),
-                ),
-                gap(value: 20),
-                Text(
-                  remainingAmount < 0
-                      ? 'Rs.${(remainingAmount.abs() + budgetAmount).toStringAsFixed(0)} of Rs.${budgetAmount.toString()}'
-                      : 'Rs.${remainingAmount.toString()} of Rs.${budgetAmount.toString()}',
-                  style: GoogleFonts.aBeeZee(
-                    fontSize: 18,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                gap(value: 5),
-                if (remainingAmount < 0) ...{
-                  Text(
-                    'You have exceeded the limit!',
-                    style: GoogleFonts.aBeeZee(
-                      fontSize: 14,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
+                  IconButton(
+                    onPressed: () {
+                      // Show the AlertDialog
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                                'Are you sure you want to delete this budget?'),
+                            content: Text('This action cannot be undone.'),
+                            actions: [
+                              TextButton(
+                                child: Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                              ),
+                              TextButton(
+                                child: Text('Delete'),
+                                onPressed: () {
+                                  _budgetBloc.add(
+                                    DeleteMonthBudgetEvent(
+                                      categoryId: categoryId,
+                                    ),
+                                  );
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog after action
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(
+                      Icons.delete,
                     ),
                   )
-                }
-              ],
-            ),
+                ],
+              ),
+              gap(value: 10),
+              Text(
+                remainingAmount < 0
+                    ? 'Remaining Rs.0'
+                    : 'Remaining Rs.${remainingAmount.toStringAsFixed(0)}',
+                style: GoogleFonts.aBeeZee(
+                  fontSize: 24,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              gap(value: 5),
+              CustomProgressIndicator(
+                height: 10,
+                width: MediaQuery.of(context).size.width,
+                progress: (remainingAmount / budgetAmount),
+              ),
+              gap(value: 20),
+              Text(
+                remainingAmount < 0
+                    ? 'Rs.${(remainingAmount.abs() + budgetAmount).toStringAsFixed(0)} of Rs.${budgetAmount.toString()}'
+                    : 'Rs.${remainingAmount.toString()} of Rs.${budgetAmount.toString()}',
+                style: GoogleFonts.aBeeZee(
+                  fontSize: 18,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              gap(value: 5),
+              if (remainingAmount < 0) ...{
+                Text(
+                  'You have exceeded the limit!',
+                  style: GoogleFonts.aBeeZee(
+                    fontSize: 14,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              }
+            ],
           ),
         ),
       ),
