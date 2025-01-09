@@ -83,7 +83,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
           ),
-          body: _pages[_dashboardCubit.selectedIndex],
+          // body: _pages[_dashboardCubit.selectedIndex],
+          body: IndexedStack(
+            index: _dashboardCubit.selectedIndex,
+            children: _pages,
+          ),
         );
       },
     );

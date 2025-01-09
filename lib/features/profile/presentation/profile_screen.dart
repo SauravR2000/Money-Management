@@ -54,9 +54,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: logoutButton(authBloc, context),
                 ),
                 gap(value: 15),
-                CustomProgressBar(
-                  progressFraction: 1 / 2,
-                ),
+                // CustomProgressBar(
+                //   progressFraction: 1 / 2,
+                // ),
               ],
             ),
           ),
