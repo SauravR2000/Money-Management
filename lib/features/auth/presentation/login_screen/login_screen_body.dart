@@ -126,12 +126,12 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           // context.router.replaceAll([PincodeRoute()]);
           context.router.replaceAll([DashboardRoute()]);
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppStrings.signinSuccess),
-              backgroundColor: Colors.green,
-            ),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text(AppStrings.signinSuccess),
+          //     backgroundColor: Colors.green,
+          //   ),
+          // );
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

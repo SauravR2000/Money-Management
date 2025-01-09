@@ -82,6 +82,7 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           "Budget",
           style: Theme.of(context).textTheme.headlineLarge!.copyWith(
@@ -219,18 +220,28 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
                             onPressed: () {
                               if (_amountController.text.isEmpty) {
                                 log("amoutn = ${_amountController.text}");
-                                customErrorSnackBar(
-                                  context: context,
-                                  errorMessage: AppStrings.amountCantBeEmpty,
+                                // customErrorSnackBar(
+                                //   context: context,
+                                //   errorMessage: AppStrings.amountCantBeEmpty,
+                                // );
+
+                                showFlutterToast(
+                                  message: AppStrings.amountCantBeEmpty,
+                                  isError: true,
                                 );
+
                                 return;
                               }
 
                               if (_budgetCategoryDropDownCubit.value?.isEmpty ??
                                   true) {
-                                customErrorSnackBar(
-                                  context: context,
-                                  errorMessage: AppStrings.categoryCantBeEmpty,
+                                // customErrorSnackBar(
+                                //   context: context,
+                                //   errorMessage: AppStrings.categoryCantBeEmpty,
+                                // );
+                                showFlutterToast(
+                                  message: AppStrings.categoryCantBeEmpty,
+                                  isError: true,
                                 );
                                 return;
                               }

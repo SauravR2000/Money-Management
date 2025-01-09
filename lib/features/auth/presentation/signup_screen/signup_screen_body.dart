@@ -8,6 +8,7 @@ import 'package:money_management_app/features/auth/bloc/check_box_bloc/check_box
 import 'package:money_management_app/features/auth/presentation/login_with_google_widget.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/custom_button.dart';
+import 'package:money_management_app/shared_widgets/custom_snackbar.dart';
 import 'package:money_management_app/shared_widgets/custom_text_from_field.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/screen_padding.dart';
@@ -152,11 +153,16 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
             if (state is AuthSuccess) {
               context.router.popForced();
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(AppStrings.signupSuccess),
-                  backgroundColor: Colors.green,
-                ),
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   SnackBar(
+              //     content: Text(AppStrings.signupSuccess),
+              //     backgroundColor: Colors.green,
+              //   ),
+              // );
+
+              showFlutterToast(
+                message: AppStrings.signupSuccess,
+                isError: false,
               );
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context).showSnackBar(

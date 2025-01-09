@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customErrorSnackBar({
   required BuildContext context,
@@ -22,5 +23,20 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
       content: Text(errorMessage),
       backgroundColor: Colors.green,
     ),
+  );
+}
+
+void showFlutterToast({
+  required String message,
+  required bool isError,
+}) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.CENTER,
+    timeInSecForIosWeb: 1,
+    backgroundColor: isError ? Colors.red : Colors.green,
+    textColor: Colors.white,
+    fontSize: 16.0,
   );
 }
