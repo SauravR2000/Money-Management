@@ -137,7 +137,7 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
                                       .elevatedButtonTheme
                                       .style,
                                   onPressed: () {
-                                    context.router.push(BudgetRoute(
+                                    context.router.push(AddBudgetRoute(
                                         month: _budgetMonthCubit.month ??
                                             'January'));
                                   },
