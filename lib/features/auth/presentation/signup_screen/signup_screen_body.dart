@@ -6,7 +6,6 @@ import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:money_management_app/features/auth/bloc/auth_bloc/auth_bloc.dart';
 import 'package:money_management_app/features/auth/bloc/check_box_bloc/check_box_bloc.dart';
 import 'package:money_management_app/features/auth/presentation/login_with_google_widget.dart';
-import 'package:money_management_app/features/auth/presentation/signup_screen/signup_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/custom_button.dart';
 import 'package:money_management_app/shared_widgets/custom_text_from_field.dart';
@@ -234,9 +233,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const SignupScreen(),
-                      ));
+                      context.router.push(PrivacyPolicyRoute());
                     },
                 )
               ],
