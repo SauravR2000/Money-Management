@@ -48,7 +48,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           backgroundColor: Colors.white,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: CustomFloatingActionButton(),
+          floatingActionButton: CustomFloatingActionButton(
+            dashboardCubit: _dashboardCubit,
+          ),
           bottomNavigationBar: SafeArea(
             bottom: false,
             child: BottomNavigationBar(

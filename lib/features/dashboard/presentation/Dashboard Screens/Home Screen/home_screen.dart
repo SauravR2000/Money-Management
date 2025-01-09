@@ -70,26 +70,26 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: DropdownButton(
-          menuMaxHeight: 300,
-          value: dropDownValue,
-          items: items
-              .map(
-                (String item) => DropdownMenuItem(
-                  value: item,
-                  child:
-                      Text(item, style: Theme.of(context).textTheme.bodyMedium),
-                ),
-              )
-              .toList(),
-          onChanged: (String? value) {
-            setState(
-              () {
-                dropDownValue = value!;
-              },
-            );
-          },
-        ),
+        // title: DropdownButton(
+        //   menuMaxHeight: 300,
+        //   value: dropDownValue,
+        //   items: items
+        //       .map(
+        //         (String item) => DropdownMenuItem(
+        //           value: item,
+        //           child:
+        //               Text(item, style: Theme.of(context).textTheme.bodyMedium),
+        //         ),
+        //       )
+        //       .toList(),
+        //   onChanged: (String? value) {
+        //     setState(
+        //       () {
+        //         dropDownValue = value!;
+        //       },
+        //     );
+        //   },
+        // ),
         backgroundColor: Color.fromARGB(255, 255, 246, 229),
         leading: IconButton(
           onPressed: () {
