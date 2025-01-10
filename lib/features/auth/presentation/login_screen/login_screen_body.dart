@@ -7,6 +7,7 @@ import 'package:money_management_app/features/auth/bloc/auth_bloc/auth_bloc.dart
 import 'package:money_management_app/features/auth/presentation/signup_screen/signup_screen.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/custom_button.dart';
+import 'package:money_management_app/shared_widgets/custom_snackbar.dart';
 import 'package:money_management_app/shared_widgets/custom_text_from_field.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/screen_padding.dart';
@@ -133,11 +134,16 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           //   ),
           // );
         } else if (state is AuthError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error),
-              backgroundColor: Colors.red,
-            ),
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text(state.error),
+          //     backgroundColor: Colors.red,
+          //   ),
+          // );
+
+          showFlutterToast(
+            message: state.error,
+            isError: true,
           );
         }
       },

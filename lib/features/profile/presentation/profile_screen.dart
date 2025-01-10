@@ -51,9 +51,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 gap(value: 40),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: logoutButton(authBloc, context),
+                  child: Column(
+                    children: [
+                      changePassword(context),
+                      gap(value: 15),
+                      logoutButton(authBloc, context),
+                    ],
+                  ),
                 ),
                 gap(value: 15),
+
                 // CustomProgressBar(
                 //   progressFraction: 1 / 2,
                 // ),
@@ -61,6 +68,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  GestureDetector changePassword(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.router.push(ChangePasswordRoute());
+      },
+      child: Row(
+        children: [
+          Image.asset("assets/images/setting_icon.png"),
+          gap(value: 15),
+          Text(
+            AppStrings.changePassword,
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge!
+                .copyWith(fontWeight: FontWeight.bold),
+          )
+        ],
       ),
     );
   }

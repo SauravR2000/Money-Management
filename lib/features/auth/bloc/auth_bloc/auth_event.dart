@@ -26,3 +26,10 @@ class LoginEvent extends AuthEvent {
 }
 
 class LogoutEvent extends AuthEvent {}
+
+class ChangePasswordEvent extends AuthEvent {
+  final String oldPassword;
+  final String newPassword;
+
+  ChangePasswordEvent({required this.oldPassword, required this.newPassword});
+}
