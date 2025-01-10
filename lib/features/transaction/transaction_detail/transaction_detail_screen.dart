@@ -20,6 +20,7 @@ class TransactionDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor:
             isExpense ? AppColors.expenseColor : AppColors.incomeColor,
         centerTitle: true,
@@ -30,13 +31,13 @@ class TransactionDetailScreen extends StatelessWidget {
               .headlineLarge!
               .copyWith(color: Colors.white),
         ),
-        actions: [
-          InkWell(
-            onTap: () {},
-            child: Image.asset("assets/images/trash.png"),
-          ),
-          gap(value: 16),
-        ],
+        // actions: [
+        //   InkWell(
+        //     onTap: () {},
+        //     child: Image.asset("assets/images/trash.png"),
+        //   ),
+        //   gap(value: 16),
+        // ],
       ),
       body: TransactionDetailBody(
         transaction: transactionModel,
