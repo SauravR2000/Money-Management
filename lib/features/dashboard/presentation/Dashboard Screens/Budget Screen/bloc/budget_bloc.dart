@@ -92,18 +92,18 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
           return;
         }
 
+        log("1");
         // Fetch total transaction
         final totalTransaction = await supabase
             .from('total_transaction')
             .select('total_amount')
             .eq('user_id', userId)
-            .single();
+            .maybeSingle();
 
         log("amount = ${event.amount}");
-        log("total transaction = ${totalTransaction['total_amount']}");
-        log("condition = ${event.amount < totalTransaction['total_amount']}");
+        log("total transaction = ${totalTransaction?['total_amount']}");
 
-        if (event.amount < totalTransaction['total_amount']) {
+        if (event.amount < (totalTransaction?['total_amount'] ?? 0)) {
           final response = await supabase.from('budget').insert({
             'notification_status': event.notification,
             'month': event.month,
