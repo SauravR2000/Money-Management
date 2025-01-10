@@ -6,13 +6,14 @@ plugins {
 }
 
 android {
-     defaultConfig {
-        multiDexEnabled true
-    }
     namespace = "com.example.money_management_app"
     // compileSdk = flutter.compileSdkVersion
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+
+    defaultConfig {
+        multiDexEnabled true
+    }
 
     compileOptions {
         coreLibraryDesugaringEnabled true

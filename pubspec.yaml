@@ -43,6 +43,8 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   timezone: ^0.10.0
   permission_handler: ^11.3.1
+  flutter_timezone: ^4.0.0
+  rxdart: ^0.28.0
 #-----------------DEPENDENCIES
 
 dev_dependencies:

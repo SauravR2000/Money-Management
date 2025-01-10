@@ -8,7 +8,7 @@ class BudgetModel with _$BudgetModel {
   const factory BudgetModel({
     required String id,
     required String title,
-    required int amount,
+    required double amount,
     required String month,
     @JsonKey(name: 'remaining_amount') required double remainingAmount,
     @JsonKey(name: 'created_at') required DateTime createdAt,

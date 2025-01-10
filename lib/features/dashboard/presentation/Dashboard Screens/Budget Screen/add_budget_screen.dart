@@ -95,7 +95,7 @@ class _AddBudgetScreenState extends State<AddBudgetScreen> {
       body: UnfocusScreenWidget(
         child: Column(
           children: [
-            gap(value: 300),
+            gap(value: 100),
             enterAmount(context, _amountController),
             // enterAmount(context),
             gap(value: 16),
