@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:money_management_app/config/router/app_router.gr.dart';
 import 'package:money_management_app/features/auth/bloc/auth_bloc/auth_bloc.dart';
@@ -45,11 +46,11 @@ class _LoginWithGoogleWidgetState extends State<LoginWithGoogleWidget> {
   }
 
   Future<AuthResponse> _googleSignIn() async {
-    const webClientId =
-        '908964141678-i47g1shqat155lh1cg403ggi5t1d18i5.apps.googleusercontent.com';
+    String webClientId = dotenv.env['WEB_CLIENT_ID'] ?? "";
 
-    const iosClientId =
-        '908964141678-qgk9i8a6jbk1cbl6itge83i1j68u2ods.apps.googleusercontent.com';
+    String iosClientId = dotenv.env['IOS_CLIENT_ID'] ?? "";
+
+    log("iosClientId = $iosClientId");
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: iosClientId,
