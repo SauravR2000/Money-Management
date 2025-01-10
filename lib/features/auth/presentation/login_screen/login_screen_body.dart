@@ -73,16 +73,16 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
               gap(value: 40),
               loginButton(),
               gap(value: 33),
-              Center(
-                child: Text(
-                  AppStrings.forgotPassword,
-                  style: textTheme.headlineMedium!.copyWith(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              gap(value: 38),
+              // Center(
+              //   child: Text(
+              //     AppStrings.forgotPassword,
+              //     style: textTheme.headlineMedium!.copyWith(
+              //       color: AppColors.primaryColor,
+              //       fontWeight: FontWeight.w600,
+              //     ),
+              //   ),
+              // ),
+              // gap(value: 38),
               Center(
                 child: RichText(
                   text: TextSpan(
