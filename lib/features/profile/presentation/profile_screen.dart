@@ -10,7 +10,6 @@ import 'package:money_management_app/features/global_bloc/global_bloc.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/profile_image.dart';
-import 'package:money_management_app/shared_widgets/progress_bar.dart';
 import 'package:money_management_app/shared_widgets/screen_padding.dart';
 import 'package:money_management_app/utils/constants/colors.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
