@@ -144,6 +144,11 @@ class _TransactionScreenBodyState extends State<TransactionScreenBody> {
           );
 
           context.router.popForced();
+        } else if (state is TransactionError) {
+          showFlutterToast(
+            message: state.errorMessage,
+            isError: true,
+          );
         }
       },
       builder: (context, state) {
