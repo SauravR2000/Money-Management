@@ -12,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Initialize Notification
-  NotificationService().initNotification();
+  // NotificationService().initNotification();
 
   // Initialize env
   await dotenv.load(fileName: ".env");

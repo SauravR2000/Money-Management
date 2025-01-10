@@ -190,7 +190,7 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
 
   Widget budgetCards(
     String categoryTitle,
-    int budgetAmount,
+    double budgetAmount,
     double remainingAmount,
     String categoryId,
   ) {
@@ -270,7 +270,7 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
               Text(
                 remainingAmount < 0
                     ? 'Remaining Rs.0'
-                    : 'Remaining Rs.${remainingAmount.toStringAsFixed(0)}',
+                    : 'Remaining Rs.${remainingAmount.toStringAsFixed(1)}',
                 style: GoogleFonts.aBeeZee(
                   fontSize: 24,
                   color: Colors.black,
@@ -286,7 +286,7 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
               gap(value: 20),
               Text(
                 remainingAmount < 0
-                    ? 'Rs.${(remainingAmount.abs() + budgetAmount).toStringAsFixed(0)} of Rs.${budgetAmount.toString()}'
+                    ? 'Rs.${(remainingAmount.abs() + budgetAmount).toStringAsFixed(1)} of Rs.${budgetAmount.toStringAsFixed(1)}'
                     : 'Rs.${remainingAmount.toString()} of Rs.${budgetAmount.toString()}',
                 style: GoogleFonts.aBeeZee(
                   fontSize: 18,

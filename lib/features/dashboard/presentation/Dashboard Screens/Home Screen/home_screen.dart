@@ -73,26 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        // title: DropdownButton(
-        //   menuMaxHeight: 300,
-        //   value: dropDownValue,
-        //   items: items
-        //       .map(
-        //         (String item) => DropdownMenuItem(
-        //           value: item,
-        //           child:
-        //               Text(item, style: Theme.of(context).textTheme.bodyMedium),
-        //         ),
-        //       )
-        //       .toList(),
-        //   onChanged: (String? value) {
-        //     setState(
-        //       () {
-        //         dropDownValue = value!;
-        //       },
-        //     );
-        //   },
-        // ),
         backgroundColor: Color.fromARGB(255, 255, 246, 229),
         leading: IconButton(
           onPressed: () {
@@ -115,11 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              NotificationService().showScheduleNotification(
-                title: "gg ezz appp",
-                body: "bello hello",
-                schedulesTime: Duration(seconds: 10),
-              );
+              // NotificationService().showScheduleNotification(
+              //   title: "gg ezz appp",
+              //   body: "bello hello",
+              //   schedulesTime: Duration(seconds: 10),
+              // );
             },
             icon: Icon(
               Icons.notifications_rounded,
@@ -271,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 250,
+                height: 230,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -359,8 +339,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             maxLines: 3,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headlineLarge!
-                                                .copyWith(color: Colors.white),
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                           ),
                                         ],
                                       ),
@@ -415,8 +398,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             'Rs.$totalExpense',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headlineLarge!
-                                                .copyWith(color: Colors.white),
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                           ),
                                         ],
                                       ),

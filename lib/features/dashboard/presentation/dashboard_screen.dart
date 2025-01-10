@@ -56,7 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: BottomNavigationBar(
               elevation: 0,
               iconSize: 32,
-              backgroundColor: Colors.white,
+              backgroundColor: const Color.fromARGB(255, 245, 241, 252),
               currentIndex: _dashboardCubit.selectedIndex,
               type: BottomNavigationBarType.fixed,
               selectedItemColor: Theme.of(context).primaryColor,
