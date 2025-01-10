@@ -50,15 +50,16 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     GetUserDetail event,
     Emitter<GlobalState> emit,
   ) async {
-    var userData = await supabase.auth.getUser();
+    if (supabase.auth.currentUser != null) {
+      var userData = await supabase.auth.getUser();
 
-    String userId = supabase.auth.currentUser?.id ?? "";
-    userName = await _profileRepository.getUserName();
-    profileImage = userData.user?.userMetadata?['avatar_url'] ??
-        supabase.storage.from('profile_image').getPublicUrl(userId);
+      String userId = supabase.auth.currentUser?.id ?? "";
+      userName = await _profileRepository.getUserName();
+      profileImage = userData.user?.userMetadata?['avatar_url'] ??
+          supabase.storage.from('profile_image').getPublicUrl(userId);
 
-    log("get user detail = $profileImage");
-
+      log("get user detail = $profileImage");
+    }
     emit(UserDetailStateState());
   }
 }
