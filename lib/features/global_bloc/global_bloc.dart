@@ -51,7 +51,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     Emitter<GlobalState> emit,
   ) async {
     if (supabase.auth.currentUser != null) {
-      var userData = await supabase.auth.getUser();
+      var userData =  await supabase.auth.getUser();
 
       String userId = supabase.auth.currentUser?.id ?? "";
       userName = await _profileRepository.getUserName();

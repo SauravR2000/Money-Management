@@ -95,4 +95,10 @@ At Money Management, we value your privacy and are committed to protecting your 
 
   static String oldAndNewPasswordSameErrorMessage =
       "New password cannot be the same as the old password. Please choose a different password.";
+
+  static String noInternetConnection =
+      "No internet connection. Please check your network and try again.";
+
+  static String checkInternetConnectivity =
+      "Please check your ineternet connectivity";
 }
