@@ -2,6 +2,9 @@ String? validatePassword(String? value) {
   if (value == null || value.isEmpty) {
     return 'Password cannot be empty';
   }
+  if (value.contains(' ')) {
+    return 'Password cannot contain spaces';
+  }
   if (value.length < 8) {
     return 'Password must be at least 8 characters long';
   }

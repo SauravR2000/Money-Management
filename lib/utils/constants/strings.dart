@@ -85,4 +85,20 @@ class AppStrings {
   static String privacyPolicyMessage = """
 At Money Management, we value your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and safeguard the data you provide when using our money management mobile app. We may collect personal information such as your name, email, financial data (e.g., income and expenses), and device information to improve the app's features, offer personalized insights, and comply with legal requirements. Your data is securely stored, and we employ encryption and other security measures to prevent unauthorized access. We do not sell, trade, or rent your personal information to third parties, though we may share it with trusted service providers or as required by law. Our app may contain links to third-party platforms, but we are not responsible for their privacy practices. You have the right to access, correct, or delete your data and opt out of promotional communications. We may update this Privacy Policy periodically, and changes will be communicated within the app. For questions or concerns, please contact us at saurav.rajbhandari@ebpearls.com and pranav.nepal@ebpearls.com. By using our app, you agree to this Privacy Policy.
 """;
+
+  static String changePassword = "Change Password";
+
+  static String incorrectOldPassword =
+      "Incorrect old password. Please try again.";
+
+  static String passwordChangeSuccess = "Password chagned successfully";
+
+  static String oldAndNewPasswordSameErrorMessage =
+      "New password cannot be the same as the old password. Please choose a different password.";
+
+  static String noInternetConnection =
+      "No internet connection. Please check your network and try again.";
+
+  static String checkInternetConnectivity =
+      "Please check your ineternet connectivity";
 }

@@ -118,7 +118,8 @@ class _BudgetScreenUiState extends State<BudgetScreenUi> {
                                                   _budgetBloc
                                                       .budgetList[index].title,
                                                   _budgetBloc
-                                                      .budgetList[index].amount,
+                                                      .budgetList[index].amount
+                                                      .toDouble(),
                                                   _budgetBloc.budgetList[index]
                                                       .remainingAmount,
                                                   _budgetBloc

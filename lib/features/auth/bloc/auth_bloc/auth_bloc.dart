@@ -8,6 +8,8 @@ import 'package:money_management_app/core/network/auth_service.dart';
 import 'package:money_management_app/core/network/execute_api_call.dart';
 import 'package:money_management_app/core/storage/local_storage.dart';
 import 'package:money_management_app/core/storage/secure_local_storage.dart';
+import 'package:money_management_app/main.dart';
+import 'package:money_management_app/utils/constants/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_event.dart';
@@ -23,6 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignupEvent>(_signupEvent);
     on<LoginEvent>(_loginEvent);
     on<LogoutEvent>(_logoutEvent);
+    on<ChangePasswordEvent>(_changePasswordEvent);
   }
 
   final AuthService _authservice;
@@ -115,5 +118,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       key: _secureLocalStorage.token,
       value: response.session?.accessToken ?? "",
     );
+  }
+
+  FutureOr<void> _changePasswordEvent(
+      ChangePasswordEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+
+    final bool response = await supabase
+        .rpc('verify_user_password', params: {"password": event.oldPassword});
+
+    if (response) {
+      if (event.oldPassword == event.newPassword) {
+        emit(AuthInitial());
+        emit(AuthError(error: AppStrings.oldAndNewPasswordSameErrorMessage));
+
+        return;
+      }
+
+      supabase.auth.updateUser(UserAttributes(password: event.newPassword));
+      emit(AuthSuccess());
+    } else {
+      emit(AuthInitial());
+      emit(AuthError(error: AppStrings.incorrectOldPassword));
+    }
   }
 }

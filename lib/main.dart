@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:money_management_app/config/router/app_router.dart';
 import 'package:money_management_app/config/theme/app_theme.dart';
-import 'package:money_management_app/core/services/notification_service.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -66,7 +65,8 @@ class _MyAppState extends State<MyApp> {
     // return MaterialApp(
     //   debugShowCheckedModeBanner: false,
     //   theme: myTheme,
-    //   home: BudgetScreenUi(),
+    //   // home: CalendarScreen(),
+    //   home: Calendar(),
     // );
   }
 }

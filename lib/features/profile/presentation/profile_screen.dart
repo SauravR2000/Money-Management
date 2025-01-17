@@ -10,7 +10,6 @@ import 'package:money_management_app/features/global_bloc/global_bloc.dart';
 import 'package:money_management_app/injection/injection_container.dart';
 import 'package:money_management_app/shared_widgets/gap_widget.dart';
 import 'package:money_management_app/shared_widgets/profile_image.dart';
-import 'package:money_management_app/shared_widgets/progress_bar.dart';
 import 'package:money_management_app/shared_widgets/screen_padding.dart';
 import 'package:money_management_app/utils/constants/colors.dart';
 import 'package:money_management_app/utils/constants/strings.dart';
@@ -51,9 +50,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 gap(value: 40),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: logoutButton(authBloc, context),
+                  child: Column(
+                    children: [
+                      changePassword(context),
+                      gap(value: 15),
+                      logoutButton(authBloc, context),
+                    ],
+                  ),
                 ),
                 gap(value: 15),
+
                 // CustomProgressBar(
                 //   progressFraction: 1 / 2,
                 // ),
@@ -61,6 +67,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  GestureDetector changePassword(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.router.push(ChangePasswordRoute());
+      },
+      child: Row(
+        children: [
+          Image.asset("assets/images/setting_icon.png"),
+          gap(value: 15),
+          Text(
+            AppStrings.changePassword,
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge!
+                .copyWith(fontWeight: FontWeight.bold),
+          )
+        ],
       ),
     );
   }
