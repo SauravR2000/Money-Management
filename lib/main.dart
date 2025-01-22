@@ -9,10 +9,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final supabase = Supabase.instance.client;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
 
   /// Initialize Notification
   // NotificationService().initNotification();
+
+  // Initialize Notification
+  WidgetsFlutterBinding.ensureInitialized();
+  final NotificationService notificationService = NotificationService();
+  await notificationService.initNotification();
 
   // Initialize env
   await dotenv.load(fileName: ".env");
@@ -47,26 +52,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       theme: myTheme,
       debugShowCheckedModeBanner: false,
-      // home: TransactionDetailScreen(
-      //   transactionModel: TransactionModel(
-      //     userId: "2d90439c-4823-47ce-80e1-75d43afa9320",
-      //     category: "Salary",
-      //     description: "salary from december",
-      //     wallet: "Esewa",
-      //     attachment:
-      //         "attachment/2d90439c-4823-47ce-80e1-75d43afa9320/2024-12-19 09:29:59.687964",
-      //     isExpense: true,
-      //     amount: 55.0,
-      //     createdAt: DateTime.now(),
-      //   ),
-      // ),
       routerConfig: _appRouter.config(),
     );
-
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner: false,
-    //   theme: myTheme,
-    //   home: BudgetScreenUi(),
-    // );
   }
 }

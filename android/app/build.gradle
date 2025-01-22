@@ -7,13 +7,10 @@ plugins {
 
 android {
     namespace = "com.example.money_management_app"
-    // compileSdk = flutter.compileSdkVersion
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // compileSdk = 34
 
-    defaultConfig {
-        multiDexEnabled true
-    }
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -51,7 +48,13 @@ android {
 
 }
 
+// dependencies {
+//     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+// }
+
 dependencies {
+    implementation 'androidx.window:window:1.0.0'
+    implementation 'androidx.window:window-java:1.0.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
 }
 

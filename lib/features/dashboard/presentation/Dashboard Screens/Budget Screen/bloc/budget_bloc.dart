@@ -23,6 +23,21 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
 
   String getUserId() => supabase.auth.currentUser?.id ?? "";
 
+  /// Emits [BudgetLoadingState] and fetches all budgets for the user
+  /// associated with the [userId] from the 'budget' table in the database.
+  ///
+  /// It then filters the data locally by the [month] provided in the
+  /// [DataLoadedEvent] and updates the [budgetList].
+  ///
+  /// If there is an error while fetching the data, it emits an [ErrorState]
+  /// with a message indicating the error.
+  ///
+  /// If the user id is empty, it emits an [ErrorState] with a message
+  /// indicating that the user id is empty.
+  ///
+  /// If the user id is valid and there is no error while fetching the data, it
+  /// emits a [DataLoadedState] with the [budgetList] containing the budgets
+  /// for the user associated with the [userId].
   void _onDataLoaded(DataLoadedEvent event, Emitter<BudgetState> emit) async {
     emit(BudgetLoadingState());
 
@@ -68,6 +83,24 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
     }
   }
 
+  /// Handles the [PostDataEvent] and inserts a new budget data into the table.
+  ///
+  /// If the user id is empty, it emits an [ErrorState] with a message indicating
+  /// that the user id is empty.
+  ///
+  /// If the category already exists for the month, it emits an [ErrorState] with
+  /// a message indicating that the budget for the category already exists for the
+  /// selected month.
+  ///
+  /// If the amount is less than the total transaction, it inserts a new budget
+  /// data into the table and emits a [PostDataState].
+  ///
+  /// If the amount is not less than the total transaction, it emits an
+  /// [ErrorState] with a message indicating that the user does not have enough
+  /// balance.
+  ///
+  /// If there is an error while inserting the data, it emits an [ErrorState] with
+  /// the error message.
   void _onPostBudgetData(PostDataEvent event, Emitter<BudgetState> emit) async {
     final String userId = supabase.auth.currentUser?.id ?? "";
 

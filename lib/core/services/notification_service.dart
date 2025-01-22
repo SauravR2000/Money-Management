@@ -107,26 +107,86 @@
 //   }
 // }
 
+import 'dart:developer';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+void backgroundNotificationResponseHandler(
+    NotificationResponse notification) async {
+  log('Received background notification response: $notification');
+}
+
 class NotificationService {
-  static Future init() async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
-    final DarwinInitializationSettings initializationSettingsDarwin =
-        DarwinInitializationSettings();
-    final LinuxInitializationSettings initializationSettingsLinux =
-        LinuxInitializationSettings(defaultActionName: 'Open notification');
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: initializationSettingsDarwin,
-            macOS: initializationSettingsDarwin,
-            linux: initializationSettingsLinux);
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: (notificationResponse) async {});
+
+  // Make an object of flutter notification plugin
+  final FlutterLocalNotificationsPlugin notificationPlugin = FlutterLocalNotificationsPlugin();
+
+  /// Initialize the notification plugin.
+  ///
+  /// This function should be called once when the app starts. It initializes the
+  /// notification plugin and sets up the necessary settings for each platform.
+  ///
+  /// On Android, it sets the notification icon and sets the importance of the
+  /// notifications to maximum.
+  ///
+  /// On iOS, it requests permission for the app to display notifications and
+  /// sets the default presentation options.
+  ///
+  /// It also sets up a handler for when a notification is tapped while the app
+  /// is in the background.
+  ///
+  /// This function should be called before calling any other methods on the
+  /// plugin.
+  Future<void> initNotification() async {
+    const AndroidInitializationSettings initializationAndroidSettings = AndroidInitializationSettings('notification_icon');
+
+    final DarwinInitializationSettings initializationSettingIOS = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      defaultPresentSound: true,
+      defaultPresentAlert: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      // onDidReceiveLocalNotification: (id, title, body, payload) async {
+      //   log('Received local notification: $id, $title, $body, $payload');
+      // },
+    );
+    
+    final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationAndroidSettings,
+      iOS: initializationSettingIOS,
+    );
+
+    await notificationPlugin.initialize(
+      initializationSettings,
+      onDidReceiveBackgroundNotificationResponse: backgroundNotificationResponseHandler,
+    );
+  }
+
+  Future<void> showNotification({
+    int id = 0,
+    String? title,
+    String? body,
+    String? payload,
+  }) async {
+    log('Showing notification: $id, $title, $body, $payload');
+    await notificationPlugin.show(
+      id,
+      title,
+      body,
+      await notificationDetails(),
+      payload: payload,
+    );
+  }
+
+  Future<NotificationDetails> notificationDetails() async {
+    return const NotificationDetails(
+      iOS: DarwinNotificationDetails(),
+      android: AndroidNotificationDetails(
+        'channelId',
+        'channelName',
+        importance: Importance.max,
+        priority: Priority.high,
+      ),
+    );
   }
 }
