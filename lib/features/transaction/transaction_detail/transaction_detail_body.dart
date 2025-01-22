@@ -56,7 +56,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                 ],
               ),
               Positioned(
-                bottom: -5,
+                bottom: -10,
                 right: deviceWidth / 22.5,
                 child: transactionDetailContainer(deviceWidth, context),
               )
@@ -98,13 +98,10 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                   // widget.transaction.attachment.isEmpty
                   imageUrl == null
                       ? Text(AppStrings.noAttachmentFound)
-                      : SizedBox(
-                          height: 500,
-                          width: double.maxFinite,
-                          child: Image.network(
-                            imageUrl!,
-                            fit: BoxFit.cover,
-                          ),
+                      : Image.network(
+                          imageUrl!,
+                          fit: BoxFit.contain,
+                          alignment: Alignment.center,
                         ),
                 ],
               ),
