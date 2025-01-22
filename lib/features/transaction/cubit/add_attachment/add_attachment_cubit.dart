@@ -23,7 +23,10 @@ class AddAttachmentCubit extends Cubit<AddAttachmentState> {
         ? ImageSource.camera
         : ImageSource.gallery;
 
-    final XFile? selectedImage = await picker.pickImage(source: imageSource);
+    final XFile? selectedImage = await picker.pickImage(
+      source: imageSource,
+      // imageQuality: 50,
+    );
 
     image = selectedImage;
 

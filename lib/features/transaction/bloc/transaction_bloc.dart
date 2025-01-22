@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:money_management_app/features/transaction/data/model/transaction_model.dart';
 import 'package:money_management_app/features/transaction/domain/repositories/transaction_repository.dart';
+import 'package:money_management_app/helper/compress_file.dart';
 import 'package:money_management_app/helper/get_file_extension.dart';
 import 'package:money_management_app/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -36,8 +37,12 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
       //upload image if selected
       if (hasImage) {
-        final file = event.imageFile!;
-        final fileExtension = getFileExtension(xfile: file);
+        final xfile = event.imageFile!;
+        // final file = event.imageFile!;
+        final file = await compressFile(
+          File(event.imageFile!.path),
+        );
+        final fileExtension = getFileExtension(xfile: xfile);
         final imageBytes = await file.readAsBytes();
         final userId = supabase.auth.currentUser!.id;
         String response =
@@ -54,7 +59,8 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
         log("upload file response = $response");
       } else if (hasPdf) {
-        final file = event.pdfFile!;
+        // final file = event.pdfFile!;
+        final file = await compressFile(event.pdfFile!);
         final fileExtension = file.path.split('.').last.toLowerCase();
         final imageBytes = await file.readAsBytes();
         final userId = supabase.auth.currentUser!.id;
