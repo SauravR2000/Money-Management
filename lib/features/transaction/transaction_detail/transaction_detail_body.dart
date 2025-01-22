@@ -157,7 +157,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
       double deviceWidth, BuildContext context) {
     return Container(
       width: deviceWidth / 1.1,
-      height: 80,
+      height: 98,
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 26),
       decoration: BoxDecoration(
         color: Colors.white,
